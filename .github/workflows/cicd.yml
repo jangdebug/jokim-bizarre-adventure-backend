@@ -52,7 +52,7 @@ jobs:
 
       - name: Docker build & push to production
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/sivillage .
+          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/sivillage .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/sivillage
 
       - name: Get GitHub IP
