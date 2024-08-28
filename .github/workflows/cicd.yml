@@ -52,8 +52,8 @@ jobs:
 
       - name: Docker build & push to production
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/sivillage .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/sivillage
+          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app
 
       - name: Get GitHub IP
         id: ip
@@ -80,14 +80,14 @@ jobs:
           timeout: 60s
           script: |
             echo "Stopping existing application..."
-            sudo docker stop boot-prac-ci || true
-            sudo docker rm boot-prac-ci || true
+            sudo docker stop sivillage-app || true
+            sudo docker rm sivillage-app || true
 
             echo "Pulling latest image..."
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sivillage:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app:latest
 
             echo "Running new container..."
-            sudo docker run -d --name boot-prac-ci -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/sivillage:latest
+            sudo docker run -d --name sivillage-app -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app:latest
 
             echo "Cleaning up unused Docker images..."
             sudo docker image prune -f
