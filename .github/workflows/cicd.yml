@@ -64,11 +64,11 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Add GitHub IP to AWS Security Group
         run: |
-          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
       - name: Deploy to EC2 using PEM Key
         uses: appleboy/ssh-action@v0.1.6
@@ -76,22 +76,31 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          port: ${{ secrets.EC2_SSH_PORT }}
           timeout: 60s
           script: |
             echo "Stopping existing application..."
             sudo docker stop sivillage-app || true
             sudo docker rm sivillage-app || true
 
+            echo "Checking if MySQL container exists..."
+            if sudo docker ps -a --format '{{.Names}}' | grep -q '^sivillage-db$'; then
+              echo "MySQL container exists. Starting..."
+              sudo docker start sivillage-db || echo "MySQL container start failed."
+            else
+              echo "MySQL container does not exist. Creating and starting..."
+              sudo docker pull mysql
+              sudo docker run -d --name sivillage-db -e MYSQL_DATABASE=sivillage -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_PASSWORD }} -p ${{ secrets.EC2_MYSQL_PORT }}:${{ secrets.EC2_MYSQL_PORT }} mysql:latest
+            fi
+
             echo "Pulling latest image..."
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app:latest
 
             echo "Running new container..."
-            sudo docker run -d --name sivillage-app -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app:latest
+            sudo docker run -d --name sivillage-app -p ${{ secrets.EC2_APPLICATION_PORT }}:${{ secrets.EC2_APPLICATION_PORT }} ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app:latest
 
             echo "Cleaning up unused Docker images..."
             sudo docker image prune -f
 
       - name: Remove GitHub IP from AWS Security Group
         run: |
-          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
