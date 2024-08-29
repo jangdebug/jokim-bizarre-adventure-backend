@@ -82,15 +82,8 @@ jobs:
             sudo docker stop sivillage-app || true
             sudo docker rm sivillage-app || true
 
-            echo "Checking if MySQL container exists..."
-            if sudo docker ps -a --format '{{.Names}}' | grep -q '^sivillage-db$'; then
-              echo "MySQL container exists. Starting..."
-              sudo docker start sivillage-db || echo "MySQL container start failed."
-            else
-              echo "MySQL container does not exist. Creating and starting..."
-              sudo docker pull mysql
-              sudo docker run -d --name sivillage-db -e MYSQL_DATABASE=sivillage -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_PASSWORD }} -p ${{ secrets.EC2_MYSQL_PORT }}:${{ secrets.EC2_MYSQL_PORT }} mysql:latest
-            fi
+            echo "Running MySQL container..."
+            sudo docker start sivillage-db || echo "MySQL container start failed."
 
             echo "Pulling latest image..."
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app:latest

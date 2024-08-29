@@ -28,6 +28,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
+	// model mapper
+	implementation 'org.modelmapper:modelmapper:2.4.4'
+
 	// security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
