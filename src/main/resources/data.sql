@@ -23,3 +23,24 @@ VALUES
      1,
      "좋은 상품입니다",
      "쉐보레");
+
+
+
+
+INSERT INTO `sivillage`.`color`
+(`value`)
+VALUES ("실버");
+
+INSERT INTO `sivillage`.`size`
+(`value`)
+VALUES("FREE");
+
+INSERT INTO `sivillage`.`etc`
+(
+    `name`,
+    `value`)
+VALUES
+    ("소재",
+     "소가죽");
+
+

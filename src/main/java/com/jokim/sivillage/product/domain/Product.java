@@ -4,9 +4,13 @@ package com.jokim.sivillage.product.domain;
 import com.jokim.sivillage.brand.domain.Brand;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Getter
+@ToString
 public class Product {
 
     @Id
@@ -24,6 +28,10 @@ public class Product {
     private String detail;
     @Column(nullable = false)
     private Double price;
+    @OneToMany(mappedBy = "product")
+    private List<ProductOption> options;
+
+
 
 
 

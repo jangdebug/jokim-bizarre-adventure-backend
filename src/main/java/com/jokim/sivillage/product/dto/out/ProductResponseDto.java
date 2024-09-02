@@ -2,11 +2,13 @@ package com.jokim.sivillage.product.dto.out;
 
 import com.jokim.sivillage.brand.domain.Brand;
 import com.jokim.sivillage.product.vo.out.ProductResponseVo;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Setter
 @ToString
+@Getter
 public class ProductResponseDto {
 
     private Long productId;

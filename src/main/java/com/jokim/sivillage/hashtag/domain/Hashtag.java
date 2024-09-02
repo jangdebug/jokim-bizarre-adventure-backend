@@ -9,7 +9,7 @@ public class Hashtag {
 
     @Id
     private Long hashtagId;
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String value;
 
 }
