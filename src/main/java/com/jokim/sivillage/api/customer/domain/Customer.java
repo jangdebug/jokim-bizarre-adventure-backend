@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -51,15 +52,6 @@ public class Customer extends BaseEntity implements UserDetails{
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @OneToOne(mappedBy = "customer")
-    private Marketing marketing;
-
-    @OneToOne(mappedBy = "customer")
-    private Policy policy;
-
-    @OneToMany(mappedBy = "customer")
-    private List<DefaultAddress> defaultAddress;
-
     @Builder
     public  Customer(
             Long id,
@@ -90,31 +82,31 @@ public class Customer extends BaseEntity implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("user"));
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

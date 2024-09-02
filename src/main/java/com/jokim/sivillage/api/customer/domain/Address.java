@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@Entity
+@Entity(name = "address")
 @ToString
 @NoArgsConstructor
 public class Address {

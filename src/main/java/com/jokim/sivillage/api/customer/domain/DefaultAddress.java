@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@Entity
+@Entity(name = "default_address")
 @Builder
 @ToString
 @NoArgsConstructor
