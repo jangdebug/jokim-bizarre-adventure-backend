@@ -30,11 +30,11 @@ public class DefaultAddress {
 
     @Builder
     public DefaultAddress(
-            Long id,
-            Boolean isDefault,
-            Customer customer,
-            Address address
-    ){
+        Long id,
+        Boolean isDefault,
+        Customer customer,
+        Address address
+    ) {
         this.id = id;
         this.isDefault = isDefault;
         this.customer = customer;

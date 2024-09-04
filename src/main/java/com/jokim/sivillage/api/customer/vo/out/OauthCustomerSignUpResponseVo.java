@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.customer.vo;
+package com.jokim.sivillage.api.customer.vo.out;
 
 import lombok.*;
 
@@ -7,11 +7,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInResponseVo {
+
+public class OauthCustomerSignUpResponseVo {
 
     private String accessToken;
-    private String refreshToken;
-    private String name;
     private String uuid;
 
 }

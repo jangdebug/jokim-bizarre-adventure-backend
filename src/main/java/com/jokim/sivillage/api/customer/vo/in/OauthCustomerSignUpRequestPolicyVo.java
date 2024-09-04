@@ -1,20 +1,14 @@
-package com.jokim.sivillage.api.customer.vo;
+package com.jokim.sivillage.api.customer.vo.in;
 
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Date;
-
-//회원가입시에 받을 정보들
-@ToString
 @Getter
-public class CustomerSignUpRequestVo {
-    private String email;
-    private String password;
-    private String name;
-    private Date birth;
-    private String phone;
+@ToString
+public class OauthCustomerSignUpRequestPolicyVo {
 
+    private String accessToken;
+    private String uuid;
     private Boolean marketingSms;
     private Boolean marketingEmail;
     private Boolean marketingDm;
@@ -29,5 +23,4 @@ public class CustomerSignUpRequestVo {
     private String zipCode;
     private String address;
     private String addressDetail;
-
 }

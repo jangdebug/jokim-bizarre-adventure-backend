@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.customer.dto;
+package com.jokim.sivillage.api.customer.dto.in;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInRequestDto {
+public class OauthCustomerSignInRequestDto {
 
     private String email;
-    private String password;
-
+    private String provider;
 }

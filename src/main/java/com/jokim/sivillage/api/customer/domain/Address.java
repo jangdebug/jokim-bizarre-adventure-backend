@@ -28,15 +28,15 @@ public class Address {
 
     @Builder
     public Address(
-            Long id,
-            String addressName,
-            String recipient,
-            String phone,
-            String zipCode,
-            String address,
-            String addressDetail,
-            String message
-    ){
+        Long id,
+        String addressName,
+        String recipient,
+        String phone,
+        String zipCode,
+        String address,
+        String addressDetail,
+        String message
+    ) {
         this.id = id;
         this.addressName = addressName;
         this.recipient = recipient;

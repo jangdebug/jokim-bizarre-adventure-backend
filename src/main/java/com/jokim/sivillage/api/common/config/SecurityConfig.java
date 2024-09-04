@@ -43,27 +43,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        authorizeRequests -> authorizeRequests
-                                .requestMatchers(
-                                        "/api/v1/auth/**",
-                                        "/swagger-ui/**",
-                                        "/v3/api-docs/**",
-                                        "/api/v1/**",
-                                        "/error"
-                                )
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                )
-                .sessionManagement(
-                        sessionManagement -> sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilter(corsFilter());
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(
+                authorizeRequests -> authorizeRequests
+                    .requestMatchers(
+                        "/api/v1/auth/**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/api/v1/**",
+                        "/error"
+                    )
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+            )
+            .sessionManagement(
+                sessionManagement -> sessionManagement
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilter(corsFilter());
 
         return http.build();
     }

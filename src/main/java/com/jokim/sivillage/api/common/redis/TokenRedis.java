@@ -18,11 +18,11 @@ public class TokenRedis {
     @Id
     private String id;  // 일반적으로 username 또는 customer UUID를 사용
     private String accessToken;
-
+    private String customerUuid;
     private String refreshToken;
 
-    public TokenRedis(String uuid, String accessToken, String refreshToken) {
-        this.id = id;
+    public TokenRedis(String id, String accessToken, String refreshToken) {
+        this.customerUuid = id;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }

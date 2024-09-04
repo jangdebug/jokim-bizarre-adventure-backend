@@ -18,25 +18,30 @@ import java.util.List;
 @Entity
 @ToString
 @NoArgsConstructor
-public class Customer extends BaseEntity implements UserDetails{
+public class Customer extends BaseEntity implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Comment("소셜 제공자(kakao/google)")
+    @Column(length = 50)
+    private String provider;
 
     @Comment("회원 UUID")
     @Column(nullable = false, length = 36)
     private String customerUuid;
 
     @Comment("회원 이메일")
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String email;
 
     @Comment("회원 비밀번호")
-    @Column(nullable = false, length = 64)
+    @Column(length = 64)
     private String password;
 
     @Comment("회원 이름")
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String name;
 
     @Comment("회원 생년월일")
@@ -44,7 +49,7 @@ public class Customer extends BaseEntity implements UserDetails{
     private Date birth;
 
     @Comment("회원 전화번호")
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String phone;
 
     @Comment("회원상태")
@@ -53,17 +58,18 @@ public class Customer extends BaseEntity implements UserDetails{
     private State state;
 
     @Builder
-    public  Customer(
-            Long id,
-            String customerUuid,
-            String email,
-            String password,
-            String name,
-            Date birth,
-            String phone,
-            State state
+    public Customer(
+        Long id,
+        String customerUuid,
+        String email,
+        String password,
+        String name,
+        Date birth,
+        String phone,
+        State state,
+        String provider
 
-    ){
+    ) {
         this.id = id;
         this.customerUuid = customerUuid;
         this.email = email;
@@ -72,6 +78,7 @@ public class Customer extends BaseEntity implements UserDetails{
         this.birth = birth;
         this.phone = phone;
         this.state = state;
+        this.provider = provider;
     }
 
 

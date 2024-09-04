@@ -22,7 +22,7 @@ public enum State {
 
     @JsonCreator
     public static State fromString(String value) {
-        for (State state: State.values()) {
+        for (State state : State.values()) {
             if (state.state.equals(value)) {
                 return state;
             }

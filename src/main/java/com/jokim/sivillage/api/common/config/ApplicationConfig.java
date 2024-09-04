@@ -23,7 +23,7 @@ public class ApplicationConfig {
     public UserDetailsService userDetailsService() {
         return email -> {
             return customerRepository.findByEmail(email).orElseThrow(
-                    () -> new IllegalArgumentException("해당 이메일을 가진 회원이 없습니다.")
+                () -> new IllegalArgumentException("해당 이메일을 가진 회원이 없습니다.")
             );
         };
     }
@@ -37,7 +37,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+    public AuthenticationManager authenticationManager(
+        AuthenticationConfiguration authenticationConfiguration)
         throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }

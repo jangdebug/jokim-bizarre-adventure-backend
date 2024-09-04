@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.customer.vo;
+package com.jokim.sivillage.api.customer.vo.out;
 
 import com.jokim.sivillage.api.customer.domain.State;
 import lombok.*;
@@ -11,6 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class CustomerResponseVo {
+
     private Long id;
     private String customerUuid;
     private String email;

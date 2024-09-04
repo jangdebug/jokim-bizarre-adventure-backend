@@ -32,13 +32,13 @@ public class Policy {
 
     @Builder
     public Policy(
-            Long id,
-            Boolean essential1,
-            Boolean essential2,
-            Boolean essential3,
-            Boolean optional,
-            Customer customer
-    ){
+        Long id,
+        Boolean essential1,
+        Boolean essential2,
+        Boolean essential3,
+        Boolean optional,
+        Customer customer
+    ) {
         this.id = id;
         this.essential1 = essential1;
         this.essential2 = essential2;

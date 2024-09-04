@@ -12,6 +12,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class Marketing {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,13 +28,13 @@ public class Marketing {
 
     @Builder
     public Marketing(
-            Long id,
-            Boolean marketingSms,
-            Boolean marketingEmail,
-            Boolean marketingDm,
-            Boolean marketingCall,
-            Customer customer
-    ){
+        Long id,
+        Boolean marketingSms,
+        Boolean marketingEmail,
+        Boolean marketingDm,
+        Boolean marketingCall,
+        Customer customer
+    ) {
         this.id = id;
         this.marketingSms = marketingSms;
         this.marketingEmail = marketingEmail;
