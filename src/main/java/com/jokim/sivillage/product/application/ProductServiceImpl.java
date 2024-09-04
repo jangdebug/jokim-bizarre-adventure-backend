@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<DailyHotProductResponseDto> getDailyHotProduct() {
+    public List<DailyHotProductResponseDto> getDailyHotProducts() {
 
         return List.of();
     }

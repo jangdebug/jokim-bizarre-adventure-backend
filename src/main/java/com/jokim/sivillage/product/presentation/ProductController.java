@@ -23,7 +23,7 @@ public class ProductController {
 
     // 상품 데이터 보기
     @GetMapping("/products/{productId}")
-    public ResponseEntity<ProductResponseVo> getProductData(@PathVariable Long productId){
+    public ResponseEntity<ProductResponseVo> getProduct(@PathVariable Long productId) {
         log.info("productId : {}", productId);
         ProductResponseDto productResponseDto = productService.getProductById(productId);
         log.info("productResponseDto : {}", productResponseDto.toString());
@@ -33,10 +33,10 @@ public class ProductController {
 
     // 옵션 별  필터링 된 상품 보기
     @GetMapping("products/options")
-    public ResponseEntity<List<ProductResponseDto>> getFilteredProductData(
-            @RequestParam(value = "size-id") Long sizeId,
-            @RequestParam(value = "color-id") Long colorId,
-            @RequestParam(value = "etc-id") Long etcId) {
+    public ResponseEntity<List<ProductResponseDto>> getFilteredProduct(
+        @RequestParam(value = "size-id") Long sizeId,
+        @RequestParam(value = "color-id") Long colorId,
+        @RequestParam(value = "etc-id") Long etcId) {
         log.info("productSize : {}", sizeId);
         log.info("productColor : {}", colorId);
         log.info("productEtc : {}", etcId);
@@ -46,9 +46,10 @@ public class ProductController {
 
 
     // 랜덤 상품 리스트 보기
-    @GetMapping( "/main/random-product/")
-    public ResponseEntity<List<ProductResponseDto>> getRandomProductData(@RequestParam(name = "count", required = false) Integer count){
-        if (count == null){
+    @GetMapping("/main/random-product/")
+    public ResponseEntity<List<ProductResponseDto>> getRandomProduct(
+        @RequestParam(name = "count", required = false) Integer count) {
+        if (count == null) {
             count = 5;
         }
         log.info("count : {}", count);
@@ -57,11 +58,15 @@ public class ProductController {
     }
 
     // 정렬된 상품 보기
-
-
-
-
-
+//    @GetMapping("/products/sort?sort-type={sortType}")
+//    public ResponseEntity<List<ProductResponseDto>> getProductBySortType(
+//        @RequestParam(name = "sort-type", required = false, defaultValue = "인기상품") String sortType) {
+//        log.info("sortType : {}", sortType);
+////        if (sortType.equals("인기상품")){
+////            productService.
+////        }
+//
+//    }
 
 
 }

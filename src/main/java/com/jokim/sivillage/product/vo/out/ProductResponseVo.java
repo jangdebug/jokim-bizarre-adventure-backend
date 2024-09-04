@@ -10,6 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ProductResponseVo {
 
+
     private Long productId;
     private String imageUrl;
     private String brandName;
