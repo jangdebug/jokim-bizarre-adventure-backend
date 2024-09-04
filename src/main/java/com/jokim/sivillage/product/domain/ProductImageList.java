@@ -22,5 +22,4 @@ public class ProductImageList {
     private String isThumbnail;
 
 
-
 }

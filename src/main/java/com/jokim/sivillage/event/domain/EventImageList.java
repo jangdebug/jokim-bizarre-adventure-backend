@@ -9,6 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class EventImageList {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

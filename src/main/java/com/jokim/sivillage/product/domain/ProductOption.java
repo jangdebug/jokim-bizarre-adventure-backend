@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 public class ProductOption {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

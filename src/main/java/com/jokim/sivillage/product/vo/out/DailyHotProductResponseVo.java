@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DailyHotProductResponseVo {
+
     private Long productId;
     private String productName;
     private Brand brandName;

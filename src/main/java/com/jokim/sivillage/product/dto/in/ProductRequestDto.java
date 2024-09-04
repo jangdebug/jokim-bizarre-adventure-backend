@@ -6,7 +6,4 @@ import lombok.Getter;
 public class ProductRequestDto {
 
 
-
-
-
 }

@@ -21,18 +21,16 @@ public class DailyHotProductResponseDto {
 
     public DailyHotProductResponseVo toVo() {
         return DailyHotProductResponseVo.builder()
-                .productId(productId)
-                .productName(productName)
-                .brandName(brandName)
-                .imageUrl(imageUrl)
-                .rank(rank)
-                .price(price)
-                .discountRate(discountRate)
-                .isWishList(isWishList)
-                .build();
+            .productId(productId)
+            .productName(productName)
+            .brandName(brandName)
+            .imageUrl(imageUrl)
+            .rank(rank)
+            .price(price)
+            .discountRate(discountRate)
+            .isWishList(isWishList)
+            .build();
     }
-
-
 
 
 }

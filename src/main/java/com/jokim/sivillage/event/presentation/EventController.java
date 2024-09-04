@@ -16,7 +16,4 @@ public class EventController {
     private final EventService eventService;
 
 
-
-
-
 }

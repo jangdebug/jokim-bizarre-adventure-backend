@@ -12,8 +12,11 @@ import java.util.List;
 public interface ProductService {
 
     ProductResponseDto getProductById(long id);
+
     List<DailyHotProductResponseDto> getDailyHotProduct();
-    List<ProductResponseDto> getFilteredProducts(Long sizeId, Long colorId, Long etcId );
+
+    List<ProductResponseDto> getFilteredProducts(Long sizeId, Long colorId, Long etcId);
+
     List<ProductResponseDto> getRandomProducts(Integer count);
 }
 
