@@ -54,7 +54,6 @@ public class ProductController {
         log.info("count : {}", count);
 
         return ResponseEntity.ok(productService.getRandomProducts(count));
-
     }
 
 
