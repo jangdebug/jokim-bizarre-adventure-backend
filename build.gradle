@@ -13,12 +13,17 @@ java {
     }
 }
 
+jar {
+	enabled = false
+}
+
 repositories {
     mavenCentral()
 }
 
 
 dependencies {
+<<<<<<< HEAD
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -32,8 +37,34 @@ dependencies {
     // modelMapper
     implementation 'org.modelmapper:modelmapper:2.4.4'
 
+=======
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// model mapper
+	implementation 'org.modelmapper:modelmapper:2.4.4'
+
+	// security
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//	jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+>>>>>>> f4f6bdea7f031fe26ed8b0c053c94e2f4ba59806
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
