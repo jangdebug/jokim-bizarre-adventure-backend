@@ -1,6 +1,6 @@
 package com.jokim.sivillage.api.customer.domain;
 
-import com.jokim.sivillage.api.common.entity.BaseEntity;
+import com.jokim.sivillage.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;

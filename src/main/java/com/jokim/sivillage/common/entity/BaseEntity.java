@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.common.entity;
+package com.jokim.sivillage.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

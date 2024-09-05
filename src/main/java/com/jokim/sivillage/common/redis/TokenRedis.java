@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.common.redis;
+package com.jokim.sivillage.common.redis;
 
 
 import jakarta.persistence.Id;

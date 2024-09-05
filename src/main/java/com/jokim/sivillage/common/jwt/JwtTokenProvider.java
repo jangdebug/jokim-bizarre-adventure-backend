@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.common.jwt;
+package com.jokim.sivillage.common.jwt;
 
 import com.jokim.sivillage.api.customer.domain.Customer;
 import io.jsonwebtoken.Claims;

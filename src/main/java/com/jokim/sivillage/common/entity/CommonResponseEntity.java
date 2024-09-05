@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.common.entity;
+package com.jokim.sivillage.common.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

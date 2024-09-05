@@ -1,9 +1,9 @@
 package com.jokim.sivillage.api.customer.application;
 
 
-import com.jokim.sivillage.api.common.jwt.JwtTokenProvider;
-import com.jokim.sivillage.api.common.redis.TokenRedis;
-import com.jokim.sivillage.api.common.redis.TokenRedisRepository;
+import com.jokim.sivillage.common.jwt.JwtTokenProvider;
+import com.jokim.sivillage.common.redis.TokenRedis;
+import com.jokim.sivillage.common.redis.TokenRedisRepository;
 import com.jokim.sivillage.api.customer.domain.*;
 import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.dto.out.OauthSignUpResponseDto;

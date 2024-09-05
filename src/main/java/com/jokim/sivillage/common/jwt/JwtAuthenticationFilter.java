@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.common.jwt;
+package com.jokim.sivillage.common.jwt;
 
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;

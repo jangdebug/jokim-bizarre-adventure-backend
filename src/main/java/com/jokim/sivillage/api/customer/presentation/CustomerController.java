@@ -1,8 +1,8 @@
 package com.jokim.sivillage.api.customer.presentation;
 
 
-import com.jokim.sivillage.api.common.entity.CommonResponseEntity;
-import com.jokim.sivillage.api.common.jwt.JwtTokenProvider;
+import com.jokim.sivillage.common.entity.CommonResponseEntity;
+import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import com.jokim.sivillage.api.customer.application.CustomerService;
 import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.vo.in.*;

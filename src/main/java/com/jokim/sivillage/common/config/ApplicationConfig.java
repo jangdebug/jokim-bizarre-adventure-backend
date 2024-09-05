@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.common.config;
+package com.jokim.sivillage.common.config;
 
 
 import com.jokim.sivillage.api.customer.infrastructure.CustomerRepository;
