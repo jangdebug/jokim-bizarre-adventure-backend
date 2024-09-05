@@ -3,7 +3,6 @@ package com.jokim.sivillage.api.product.application;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
 import com.jokim.sivillage.api.product.dto.out.DailyHotProductResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
-
 import java.util.List;
 
 
@@ -15,7 +14,7 @@ public interface ProductService {
 
     ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto);
 
-    //void deleteProduct(Long id);
+    void deleteProduct(Long id);
 
     List<DailyHotProductResponseDto> getDailyHotProducts();
 

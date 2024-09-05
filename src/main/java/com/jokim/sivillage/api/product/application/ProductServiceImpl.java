@@ -52,10 +52,12 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-//    @Override
-//    public void deleteProduct(long id) {
-//        Product product = productRepository.findById(id).get();
-//    }
+    @Override
+    public void deleteProduct(long id) {
+        Product product = productRepository.findById(id).get();
+        
+
+    }
 
     @Override
     public List<DailyHotProductResponseDto> getDailyHotProducts() {
