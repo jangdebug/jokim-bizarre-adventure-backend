@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @ToString
-public class OauthCustomerSignUpDto {
+public class OauthSignUpDto {
 
     private Long id;
     private String accessToken;

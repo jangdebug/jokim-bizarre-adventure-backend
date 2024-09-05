@@ -64,10 +64,13 @@ public class JwtTokenProvider {
         Date expiration = new Date(
             now.getTime() + env.getProperty("jwt.refresh-expire-time", Long.class).longValue());
 
+        String customerUuid = extractCustomerUuid(authentication);
+
         return Jwts.builder()
+            .setClaims(claims)
             .signWith(getSignKey())
-            // .claim("email", claims.getSubject())
-            // .issuedAt(now)
+            .claim("uuid", customerUuid) // UUID를 클레임에 추가
+            .issuedAt(now)
             .expiration(expiration)
             .compact();
     }

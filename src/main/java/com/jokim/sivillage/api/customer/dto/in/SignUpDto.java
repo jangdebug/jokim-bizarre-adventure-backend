@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @ToString
-public class CustomerSignUpDto {
+public class SignUpDto {
 
     private Long id;
     private String customerUuid;

@@ -18,7 +18,6 @@ public class SignInResponseDto {
     public SignInResponseVo toResponseVo(){
         return SignInResponseVo.builder()
             .accessToken(accessToken)
-            .refreshToken(refreshToken)
             .build();
     }
 

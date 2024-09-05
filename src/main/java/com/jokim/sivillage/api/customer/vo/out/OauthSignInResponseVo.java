@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class OauthCustomerSignInResponseVo {
+public class OauthSignInResponseVo {
 
     private String accessToken;
     private String refreshToken;

@@ -8,7 +8,7 @@ import java.util.Date;
 //회원가입시에 받을 정보들
 @ToString
 @Getter
-public class CustomerSignUpRequestVo {
+public class SignUpRequestVo {
 
     private String email;
     private String password;

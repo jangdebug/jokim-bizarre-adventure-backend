@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class OauthCustomerSignUpResponseVo {
+public class OauthSignUpResponseVo {
 
     private String accessToken;
     private String uuid;

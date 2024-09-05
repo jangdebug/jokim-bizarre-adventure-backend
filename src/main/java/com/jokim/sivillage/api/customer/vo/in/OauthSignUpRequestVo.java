@@ -7,7 +7,7 @@ import java.util.Date;
 
 @ToString
 @Getter
-public class OauthCustomerSignUpRequestVo {
+public class OauthSignUpRequestVo {
 
     private String accessToken;
     private String provider; // OAuth 공급자 (예: "google", "facebook")

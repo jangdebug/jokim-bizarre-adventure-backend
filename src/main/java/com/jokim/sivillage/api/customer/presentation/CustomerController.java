@@ -6,8 +6,8 @@ import com.jokim.sivillage.api.common.jwt.JwtTokenProvider;
 import com.jokim.sivillage.api.customer.application.CustomerService;
 import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.vo.in.*;
-import com.jokim.sivillage.api.customer.vo.out.OauthCustomerSignInResponseVo;
-import com.jokim.sivillage.api.customer.vo.out.OauthCustomerSignUpResponseVo;
+import com.jokim.sivillage.api.customer.vo.out.OauthSignInResponseVo;
+import com.jokim.sivillage.api.customer.vo.out.OauthSignUpResponseVo;
 import com.jokim.sivillage.api.customer.vo.out.SignInResponseVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -28,68 +28,68 @@ public class CustomerController {
     @Operation(summary = "SignUp API", description = "SignUp API 입니다.", tags = {"Auth"})
     @PostMapping("auth/sign-up/simple")
     public CommonResponseEntity<Void> signUp(
-        @RequestBody CustomerSignUpRequestVo customerSignUpRequestVo) {
-        log.info("signUpRequestVo : {}", customerSignUpRequestVo);
+        @RequestBody SignUpRequestVo signUpRequestVo) {
+        log.info("signUpRequestVo : {}", signUpRequestVo);
         customerService.signUp(
-            new ModelMapper().map(customerSignUpRequestVo, CustomerSignUpDto.class));
+            new ModelMapper().map(signUpRequestVo, SignUpDto.class));
         return new CommonResponseEntity<>(HttpStatus.OK, "간편 회원가입에 성공하였습니다", null);
     }
 
     @Operation(summary = "OAuth SignUp API", description = "OAuth SignUp API 입니다.", tags = {"Auth"})
     @PostMapping("auth/sign-up/oauth")
-    public CommonResponseEntity<OauthCustomerSignUpResponseVo> oauthSignUp(
-        @RequestBody OauthCustomerSignUpRequestVo oauthCustomerSignUpRequestVo) {
+    public CommonResponseEntity<OauthSignUpResponseVo> oauthSignUp(
+        @RequestBody OauthSignUpRequestVo oauthSignUpRequestVo) {
 
         ModelMapper modelMapper = new ModelMapper();
-        OauthCustomerSignUpDto oauthCustomerSignUpDto = OauthCustomerSignUpDto.builder()
-            .email(oauthCustomerSignUpRequestVo.getEmail())
-            .accessToken(oauthCustomerSignUpRequestVo.getAccessToken())
-            .name(oauthCustomerSignUpRequestVo.getName())
-            .provider(oauthCustomerSignUpRequestVo.getProvider())
-            .birth((oauthCustomerSignUpRequestVo.getBirth()))
-            .phone(oauthCustomerSignUpRequestVo.getPhone())
+        OauthSignUpDto oauthSignUpDto = OauthSignUpDto.builder()
+            .email(oauthSignUpRequestVo.getEmail())
+            .accessToken(oauthSignUpRequestVo.getAccessToken())
+            .name(oauthSignUpRequestVo.getName())
+            .provider(oauthSignUpRequestVo.getProvider())
+            .birth((oauthSignUpRequestVo.getBirth()))
+            .phone(oauthSignUpRequestVo.getPhone())
             .build();
 
-        OauthCustomerSignUpResponseVo oauthCustomerSignUpResponseVo =
-            modelMapper.map(customerService.oauthSignUp(oauthCustomerSignUpDto),
-                OauthCustomerSignUpResponseVo.class);
+        OauthSignUpResponseVo oauthSignUpResponseVo =
+            modelMapper.map(customerService.oauthSignUp(oauthSignUpDto),
+                OauthSignUpResponseVo.class);
 
         return new CommonResponseEntity<>(
             HttpStatus.OK,
             "소셜 회원가입에 성공하였습니다.",
-            oauthCustomerSignUpResponseVo);
+            oauthSignUpResponseVo);
 
     }
 
     @Operation(summary = "OAuth SignUp Additional Info API", description = "OAuth SignUp 후 추가 정보를 입력하는 API입니다.", tags = {
         "Auth"})
     @PostMapping("auth/sign-up/oauth/policy")
-    public CommonResponseEntity<OauthCustomerSignInResponseVo> oauthSignUpAdditionalInfo(
-        @RequestBody OauthCustomerSignUpRequestPolicyVo oauthCustomerSignUpRequestPolicyVo) {
+    public CommonResponseEntity<OauthSignInResponseVo> oauthSignUpAdditionalInfo(
+        @RequestBody OauthSignUpRequestPolicyVo oauthSignUpRequestPolicyVo) {
 
         ModelMapper modelMapper = new ModelMapper();
-        OauthCustomerSignUpPolicyDto oauthCustomerSignUpPolicyDto = OauthCustomerSignUpPolicyDto.builder()
-            .accessToken(oauthCustomerSignUpRequestPolicyVo.getAccessToken())
-            .uuid(oauthCustomerSignUpRequestPolicyVo.getUuid())
-            .marketingSms(oauthCustomerSignUpRequestPolicyVo.getMarketingSms())
-            .marketingEmail(oauthCustomerSignUpRequestPolicyVo.getMarketingEmail())
-            .marketingDm(oauthCustomerSignUpRequestPolicyVo.getMarketingDm())
-            .marketingCall(oauthCustomerSignUpRequestPolicyVo.getMarketingCall())
-            .essential1(oauthCustomerSignUpRequestPolicyVo.getPolicyEssential1())
-            .essential2(oauthCustomerSignUpRequestPolicyVo.getPolicyEssential2())
-            .essential3(oauthCustomerSignUpRequestPolicyVo.getPolicyEssential3())
-            .optional(oauthCustomerSignUpRequestPolicyVo.getPolicyOptional())
-            .zipCode(oauthCustomerSignUpRequestPolicyVo.getZipCode())
-            .address(oauthCustomerSignUpRequestPolicyVo.getAddress())
-            .addressDetail(oauthCustomerSignUpRequestPolicyVo.getAddressDetail())
+        OauthSignUpPolicyDto oauthSignUpPolicyDto = OauthSignUpPolicyDto.builder()
+            .accessToken(oauthSignUpRequestPolicyVo.getAccessToken())
+            .uuid(oauthSignUpRequestPolicyVo.getUuid())
+            .marketingSms(oauthSignUpRequestPolicyVo.getMarketingSms())
+            .marketingEmail(oauthSignUpRequestPolicyVo.getMarketingEmail())
+            .marketingDm(oauthSignUpRequestPolicyVo.getMarketingDm())
+            .marketingCall(oauthSignUpRequestPolicyVo.getMarketingCall())
+            .essential1(oauthSignUpRequestPolicyVo.getPolicyEssential1())
+            .essential2(oauthSignUpRequestPolicyVo.getPolicyEssential2())
+            .essential3(oauthSignUpRequestPolicyVo.getPolicyEssential3())
+            .optional(oauthSignUpRequestPolicyVo.getPolicyOptional())
+            .zipCode(oauthSignUpRequestPolicyVo.getZipCode())
+            .address(oauthSignUpRequestPolicyVo.getAddress())
+            .addressDetail(oauthSignUpRequestPolicyVo.getAddressDetail())
             .build();
 
-        OauthCustomerSignInResponseVo oauthCustomerSignInResponseVo =
-            modelMapper.map(customerService.oauthpolicySignUp(oauthCustomerSignUpPolicyDto),
-                OauthCustomerSignInResponseVo.class);
+        OauthSignInResponseVo oauthSignInResponseVo =
+            modelMapper.map(customerService.oauthpolicySignUp(oauthSignUpPolicyDto),
+                OauthSignInResponseVo.class);
 
         return new CommonResponseEntity<>
-            (HttpStatus.OK, "추가 정보 저장에 성공하였습니다", oauthCustomerSignInResponseVo);
+            (HttpStatus.OK, "추가 정보 저장에 성공하였습니다", oauthSignInResponseVo);
     }
 
 
@@ -115,14 +115,14 @@ public class CustomerController {
     @Operation(summary = "OAuth SignIn API", description = "OAuth SignIn API 입니다.", tags = {"Auth"})
     @PostMapping("auth/sign-in/oauth")
     public CommonResponseEntity<SignInResponseVo> oauthSignIn(
-        @RequestBody OauthCustomerSignInRequestVo oauthCustomerSignUpRequestVo) {
+        @RequestBody OauthSignInRequestVo oauthCustomerSignUpRequestVo) {
         ModelMapper modelMapper = new ModelMapper();
-        OauthCustomerSignInRequestDto oauthCustomerSignInRequestDto = OauthCustomerSignInRequestDto.builder()
+        OauthSignInRequestDto oauthSignInRequestDto = OauthSignInRequestDto.builder()
             .email(oauthCustomerSignUpRequestVo.getEmail())
             .provider(oauthCustomerSignUpRequestVo.getProvider())
             .build();
         SignInResponseVo signInResponseVo = modelMapper.map(
-            customerService.oauthSignIn(oauthCustomerSignInRequestDto), SignInResponseVo.class);
+            customerService.oauthSignIn(oauthSignInRequestDto), SignInResponseVo.class);
         return new CommonResponseEntity<>(
             HttpStatus.OK,
             "소셜 로그인에 성공하였습니다.",

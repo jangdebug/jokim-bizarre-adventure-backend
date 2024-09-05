@@ -6,13 +6,12 @@ import com.jokim.sivillage.api.common.redis.TokenRedis;
 import com.jokim.sivillage.api.common.redis.TokenRedisRepository;
 import com.jokim.sivillage.api.customer.domain.*;
 import com.jokim.sivillage.api.customer.dto.in.*;
-import com.jokim.sivillage.api.customer.dto.out.OauthCustomerSignUpResponseDto;
+import com.jokim.sivillage.api.customer.dto.out.OauthSignUpResponseDto;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
 import com.jokim.sivillage.api.customer.infrastructure.*;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,12 +42,12 @@ public class CustomerServiceImpl implements CustomerService {
     private final TokenRedisRepository tokenRedisRepository;
 
     @Override
-    public void signUp(CustomerSignUpDto customerSignUpDto) {
+    public void signUp(SignUpDto signUpDto) {
         //UUID생성, 상태 저장
         String customerUuid = UUID.randomUUID().toString();
         State state = State.ACTIVATION;
 
-        Customer customer = customerRepository.findByEmail(customerSignUpDto.getEmail())
+        Customer customer = customerRepository.findByEmail(signUpDto.getEmail())
             .orElse(null);
 
         //이메일 중복체크
@@ -57,30 +56,30 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         //회원가입 시 address 입력 받았는지 확인
-        Customer newCustomer = customerSignUpDto.toEnity(customerUuid, state, passwordEncoder);
+        Customer newCustomer = signUpDto.toEnity(customerUuid, state, passwordEncoder);
         Customer savedCustomer = customerRepository.save(newCustomer);
 
-        Marketing marketing = customerSignUpDto.toMarketingEntity(savedCustomer);
+        Marketing marketing = signUpDto.toMarketingEntity(savedCustomer);
         customerMarketingRepository.save(marketing);
 
-        Policy policy = customerSignUpDto.toPolicyEntity(savedCustomer);
+        Policy policy = signUpDto.toPolicyEntity(savedCustomer);
         customerPolicyRepository.save(policy);
 
         //회원가입시에 zip_code가 null이면 defaultAddress와 address 저장 X
         Address savedAddress = null;
-        if (customerSignUpDto.getZipCode() != null && !customerSignUpDto.getZipCode().isEmpty()) {
-            Address address = customerSignUpDto.toAdressEntity();
+        if (signUpDto.getZipCode() != null && !signUpDto.getZipCode().isEmpty()) {
+            Address address = signUpDto.toAdressEntity();
             savedAddress = customerAdressRepository.save(address);
-            DefaultAddress defaultAddress = customerSignUpDto.toDefaultAddressEntity(savedCustomer,
+            DefaultAddress defaultAddress = signUpDto.toDefaultAddressEntity(savedCustomer,
                 savedAddress);
             customerDefaultAddresRepository.save(defaultAddress);
         }
     }
 
     @Override
-    public OauthCustomerSignUpResponseDto oauthSignUp(
-        OauthCustomerSignUpDto oauthCustomerSignUpDto) {
-        String email = oauthCustomerSignUpDto.getEmail();
+    public OauthSignUpResponseDto oauthSignUp(
+        OauthSignUpDto oauthSignUpDto) {
+        String email = oauthSignUpDto.getEmail();
         Customer customer = customerRepository.findByEmail(email).orElse(null);
 
         // 소셜아이디 중복체크
@@ -92,7 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
         // 새로운 사용자 등록
         String customerUuid = UUID.randomUUID().toString();
         State state = State.ACTIVATION;
-        Customer newCustomer = oauthCustomerSignUpDto.toEntity(customerUuid, state);
+        Customer newCustomer = oauthSignUpDto.toEntity(customerUuid, state);
         customerRepository.save(newCustomer);
 
         try {
@@ -104,7 +103,7 @@ public class CustomerServiceImpl implements CustomerService {
             );
             // JWT 토큰 생성
             String accessToken = jwtTokenProvider.generateAccessToken(authentication);
-            return OauthCustomerSignUpResponseDto.builder()
+            return OauthSignUpResponseDto.builder()
                 .accessToken(accessToken)
                 .uuid(customerUuid)
                 .build();
@@ -116,12 +115,12 @@ public class CustomerServiceImpl implements CustomerService {
     //소셜회원가입의 정책부분에 회원가입이 다 끝나면 바로 로그인이 되어야하기에 리턴을 signinResponseDto로 함
     @Override
     public SignInResponseDto oauthpolicySignUp(
-        OauthCustomerSignUpPolicyDto oauthCustomerSignUpPolicyDto) {
+        OauthSignUpPolicyDto oauthSignUpPolicyDto) {
         // 토큰에서 UUID 추출
         // String uuid = jwtTokenProvider.getUuidFromToken(oauthCustomerSignUpPolicyDto.getAccessToken());
 
         // UUID로 고객 정보 조회
-        String uuid = oauthCustomerSignUpPolicyDto.getUuid();
+        String uuid = oauthSignUpPolicyDto.getUuid();
         Customer customer = customerRepository.findByCustomerUuid(uuid).orElseThrow(
             () -> new IllegalArgumentException("해당 UUID를 가진 회원이 없습니다.")
         );
@@ -131,35 +130,35 @@ public class CustomerServiceImpl implements CustomerService {
         // 정책 및 마케팅 정보 저장이 안됨 이거 마저 하면 될듯
 
         Marketing marketing = Marketing.builder()
-            .marketingSms(oauthCustomerSignUpPolicyDto.getMarketingSms())
-            .marketingEmail(oauthCustomerSignUpPolicyDto.getMarketingEmail())
-            .marketingDm(oauthCustomerSignUpPolicyDto.getMarketingDm())
-            .marketingCall(oauthCustomerSignUpPolicyDto.getMarketingCall())
+            .marketingSms(oauthSignUpPolicyDto.getMarketingSms())
+            .marketingEmail(oauthSignUpPolicyDto.getMarketingEmail())
+            .marketingDm(oauthSignUpPolicyDto.getMarketingDm())
+            .marketingCall(oauthSignUpPolicyDto.getMarketingCall())
             .customer(customer)
             .build();
         customerMarketingRepository.save(marketing);
 
         Policy policy = Policy.builder()
-            .essential1(oauthCustomerSignUpPolicyDto.getEssential1())
-            .essential2(oauthCustomerSignUpPolicyDto.getEssential2())
-            .essential3(oauthCustomerSignUpPolicyDto.getEssential3())
-            .optional(oauthCustomerSignUpPolicyDto.getOptional())
+            .essential1(oauthSignUpPolicyDto.getEssential1())
+            .essential2(oauthSignUpPolicyDto.getEssential2())
+            .essential3(oauthSignUpPolicyDto.getEssential3())
+            .optional(oauthSignUpPolicyDto.getOptional())
             .customer(customer)
             .build();
         customerPolicyRepository.save(policy);
 
         // 주소 저장 (필수 사항이 아닐 경우 처리)
         Address savedAddress = null;
-        if (oauthCustomerSignUpPolicyDto.getZipCode() != null
-            && !oauthCustomerSignUpPolicyDto.getZipCode().isEmpty()) {
+        if (oauthSignUpPolicyDto.getZipCode() != null
+            && !oauthSignUpPolicyDto.getZipCode().isEmpty()) {
             Address address = Address.builder()
                 //.addressName(oauthCustomerSignUpPolicyDto.getAddressName())
                 //.recipient(oauthCustomerSignUpPolicyDto.getRecipient())
                 //.phone(oauthCustomerSignUpPolicyDto.getPhone())
-                .zipCode(oauthCustomerSignUpPolicyDto.getZipCode())
-                .address(oauthCustomerSignUpPolicyDto.getAddress())
-                .addressDetail(oauthCustomerSignUpPolicyDto.getAddressDetail())
-                .message(oauthCustomerSignUpPolicyDto.getMessage())
+                .zipCode(oauthSignUpPolicyDto.getZipCode())
+                .address(oauthSignUpPolicyDto.getAddress())
+                .addressDetail(oauthSignUpPolicyDto.getAddressDetail())
+                .message(oauthSignUpPolicyDto.getMessage())
                 .build();
             savedAddress = customerAdressRepository.save(address);
 
@@ -181,7 +180,7 @@ public class CustomerServiceImpl implements CustomerService {
         String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
         // Redis에 토큰 저장
-        TokenRedis tokenRedis = new TokenRedis(customer.getCustomerUuid(), newAccessToken,
+        TokenRedis tokenRedis = new TokenRedis(customer.getCustomerUuid(),
             refreshToken);
         tokenRedisRepository.save(tokenRedis);
 
@@ -194,9 +193,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public SignInResponseDto oauthSignIn(
-        OauthCustomerSignInRequestDto oauthCustomerSignInRequestDto) {
+        OauthSignInRequestDto oauthSignInRequestDto) {
         Customer customer = customerRepository.findByProvider(
-            oauthCustomerSignInRequestDto.getProvider()).orElseThrow(
+            oauthSignInRequestDto.getProvider()).orElseThrow(
             () -> new IllegalArgumentException("해당 이메일을 가진 회원과 소셜 경로가 맞지 않습니다")
         );
 
@@ -212,7 +211,7 @@ public class CustomerServiceImpl implements CustomerService {
             String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
             // Redis에 토큰 저장
-            TokenRedis tokenRedis = new TokenRedis(customer.getCustomerUuid(), accessToken,
+            TokenRedis tokenRedis = new TokenRedis(customer.getCustomerUuid(),
                 refreshToken);
             tokenRedisRepository.save(tokenRedis);
 
@@ -251,7 +250,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.info("Authentication: {}", authentication);
 
             // 토큰을 Redis에 저장
-            TokenRedis tokenRedis = new TokenRedis(customer.getCustomerUuid(), accessToken,
+            TokenRedis tokenRedis = new TokenRedis(customer.getCustomerUuid(),
                 refreshToken);
             tokenRedisRepository.save(tokenRedis);
 
@@ -262,6 +261,36 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (Exception e) {
             throw new IllegalArgumentException("로그인 실패", e);
         }
+    }
+
+    //리프레시 토큰을 확인하여 accessToken 재발급
+    @Override
+    public SignInResponseDto refreshAccessToken(String refreshToken) {
+        // Redis에서 refreshToken으로 사용자 정보 확인
+        TokenRedis tokenRedis = tokenRedisRepository.findByRefreshToken(refreshToken);
+
+        if (tokenRedis == null) {
+            throw new IllegalArgumentException("유효하지 않은 RefreshToken입니다.");
+        }
+
+        // refreshToken이 유효하다면 새로운 accessToken 생성
+        String customerUuid = tokenRedis.getId();
+
+        // Customer 객체를 principal로 사용하는 Authentication 생성
+        Customer customer = customerRepository.findByCustomerUuid(customerUuid)
+            .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자입니다."));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            customer, null, customer.getAuthorities());
+
+        // 새로운 AccessToken 생성
+        String newAccessToken = jwtTokenProvider.generateAccessToken(authentication);
+
+        // 새로운 AccessToken 반환
+        return SignInResponseDto.builder()
+            .accessToken(newAccessToken)
+            .refreshToken(refreshToken) // 기존 refreshToken 유지
+            .build();
     }
 
     @Override

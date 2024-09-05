@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class OauthCustomerSignUpRequestPolicyVo {
+public class OauthSignUpRequestPolicyVo {
 
     private String accessToken;
     private String uuid;
