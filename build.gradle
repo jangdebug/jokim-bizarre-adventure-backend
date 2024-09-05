@@ -1,14 +1,14 @@
-buildscript { // 이놈
-    ext {
-        queryDslVersion = "5.0.0"
-    }
-}
+//buildscript { // 이놈
+//    ext {
+//        queryDslVersion = "5.0.0"
+//    }
+//}
 
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.9'
     id 'io.spring.dependency-management' version '1.1.6'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.jokim'
@@ -38,36 +38,36 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
     // modelMapper
     implementation 'org.modelmapper:modelmapper:2.4.4'
-    // querydsl
-    implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
-    annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+//    // querydsl
+//    implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+//    annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
+//    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+//    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-//이놈
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl { //이놈
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
-
-sourceSets { //이놈
-    main.java.srcDir querydslDir
-}
-
-configurations { // 이놈
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-    querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl { // 이놈
-    options.annotationProcessorPath = configurations.querydsl
-}
+////이놈
+//def querydslDir = "$buildDir/generated/querydsl"
+//
+//querydsl { //이놈
+//    jpa = true
+//    querydslSourcesDir = querydslDir
+//}
+//
+//sourceSets { //이놈
+//    main.java.srcDir querydslDir
+//}
+//
+//configurations { // 이놈
+//    compileOnly {
+//        extendsFrom annotationProcessor
+//    }
+//    querydsl.extendsFrom compileClasspath
+//}
+//
+//compileQuerydsl { // 이놈
+//    options.annotationProcessorPath = configurations.querydsl
+//}

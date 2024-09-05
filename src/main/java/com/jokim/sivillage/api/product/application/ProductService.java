@@ -14,7 +14,7 @@ public interface ProductService {
 
     ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto);
 
-    void deleteProduct(Long id);
+//    void deleteProduct(Long id);
 
     List<DailyHotProductResponseDto> getDailyHotProducts();
 

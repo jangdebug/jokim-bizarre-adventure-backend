@@ -22,20 +22,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p ORDER BY RAND() LIMIT :count")
     List<Product> findRandomProducts(@Param("count") Integer count);
 
+//    List<Product> findProductByHit();
 
-    List<Product> findProductByHit();
+//    List<Product> findProductByNewProduct();
 
-    List<Product> findProductByNewProduct();
-
-    List<Product> findProductByReview();
-
-    List<Product> findProductBySalesVolume();
-
-    List<Product> findProductByDiscountRate();
-
-    List<Product> findProductByHighPrice();
-
-    List<Product> findProductByWish();
+//    List<Product> findProductByReview();
+//
+//    List<Product> findProductBySalesVolume();
+//
+//    List<Product> findProductByDiscountRate();
+//
+//    List<Product> findProductByHighPrice();
+//
+//    List<Product> findProductByWish();
 
 
 }
