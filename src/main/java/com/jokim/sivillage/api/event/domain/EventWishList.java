@@ -13,9 +13,13 @@ public class EventWishList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Event event;
-    @Column(length = 36)
+    @Column(nullable = false, length = 36)
+    private String eventCode;
+
+    @Column(nullable = false, length = 36)
     private String uuid;
+
+    @Column(nullable = false)
+    private Boolean isChecked;
 
 }

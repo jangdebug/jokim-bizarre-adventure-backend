@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.domain;
+package com.jokim.sivillage.api.hashtag.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,7 +8,8 @@ import jakarta.persistence.Id;
 public class Hashtag {
 
     @Id
-    private Long hashtagId;
+    private Long id;
+
     @Column(length = 20, nullable = false)
     private String value;
 

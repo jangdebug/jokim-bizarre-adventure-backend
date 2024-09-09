@@ -1,6 +1,6 @@
 package com.jokim.sivillage.api.product.domain;
 
-import com.jokim.sivillage.api.domain.Hashtag;
+import com.jokim.sivillage.api.hashtag.domain.Hashtag;
 import jakarta.persistence.*;
 
 @Entity

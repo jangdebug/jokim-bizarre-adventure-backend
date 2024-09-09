@@ -1,7 +1,7 @@
 package com.jokim.sivillage.api.product.vo.out;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jokim.sivillage.api.domain.Hashtag;
+import com.jokim.sivillage.api.hashtag.domain.Hashtag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

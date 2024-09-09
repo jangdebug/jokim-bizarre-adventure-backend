@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class EventResponseDto {
 
+    // 컬럼 수정 필요
     private Long id;
     private Long eventId;
     private String brandName;
@@ -14,6 +15,6 @@ public class EventResponseDto {
     private String title;
     private String subTitle;
     private String thumbnailUrl;
-
+    ///////////////////////////////////////
 
 }

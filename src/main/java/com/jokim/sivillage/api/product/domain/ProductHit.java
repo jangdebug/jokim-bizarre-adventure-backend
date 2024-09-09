@@ -10,7 +10,9 @@ public class ProductHit {
     @Id
     @Column(name = "product_hit_id")
     private Long productHitId;
+
     private Long productId;
+
     private Long hit;
 
 
