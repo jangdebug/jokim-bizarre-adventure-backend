@@ -1,6 +1,6 @@
 package com.jokim.sivillage.api.product.domain;
 
-import com.jokim.sivillage.api.image.Image;
+import com.jokim.sivillage.api.media.domain.Media;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +16,7 @@ public class ProductImageList {
 
     @ManyToOne
     @JoinColumn(name = "image_id")
-    private Image image;
+    private Media image;
 
     @Column(nullable = false)
     private String isThumbnail;
