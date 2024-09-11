@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.category.vo.request;
+package com.jokim.sivillage.api.category.vo.in;
 
 import lombok.Getter;
 import lombok.ToString;

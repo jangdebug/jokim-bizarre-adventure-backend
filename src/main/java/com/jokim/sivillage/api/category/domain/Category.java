@@ -22,15 +22,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = "name, parentCategoryCode")})
+@Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = "name, parentCategoryId")})
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 36)
-    private String parentCategoryCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_category_id")
+    private Category parentCategory;
 
     @Column(nullable = false, length = 36)
     private String categoryCode;
@@ -38,5 +39,4 @@ public class Category {
     @Column(nullable = false, length = 20)
     private String name;
 
-    
 }

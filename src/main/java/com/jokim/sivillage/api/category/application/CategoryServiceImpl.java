@@ -5,7 +5,9 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_DEL
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GENERATE_CATEGORY_CODE;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_INSERT_CATEGORY;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_UPDATE_CATEGORY;
-import static com.jokim.sivillage.common.entity.BaseResponseStatus.NO_EXIST_CATEGORY;
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_CATEGORY;
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_CHILD_CATEGORY;
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_PARENT_CATEGORY;
 
 import com.jokim.sivillage.api.category.domain.Category;
 import com.jokim.sivillage.api.category.dto.CategoryRequestDto;
@@ -32,8 +34,21 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void createCategory(CategoryRequestDto categoryRequestDto) {
 
+        String parentCategoryCode = categoryRequestDto.getParentCategoryCode();
+
+        // parentCategoryCode가 null이거나 존재해야 함
+        if(parentCategoryCode != null && !categoryRepository.existsByCategoryCode(parentCategoryCode)) {
+            log.info("Parent Category {} doesn't exist", parentCategoryCode);
+            throw new BaseException(NOT_EXIST_PARENT_CATEGORY);
+        }
+
+        // parentCategoryCode가 null이면 Category 객체 새로 생성
+        Category parentCategory = parentCategoryCode == null ? null :
+            categoryRepository.findByCategoryCode(parentCategoryCode).get();
+
+        
         // 같은 (이름, 부모 카테고리) 쌍은 중복이면 안 됨
-        if (categoryRepository.existsByNameAndParentCategoryCode(categoryRequestDto.getName(), categoryRequestDto.getParentCategoryCode())) {
+        if (categoryRepository.existsByNameAndParentCategory(categoryRequestDto.getName(), parentCategory)) {
             log.info("Category with name {} already exists", categoryRequestDto.getName());
             throw new BaseException(ALREADY_EXIST_CATEGORY);
         }
@@ -41,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         String categoryCode = generateUniqueCategoryCode();
 
         try {
-            categoryRepository.save(categoryRequestDto.toEntity(categoryCode));
+            categoryRepository.save(categoryRequestDto.toEntity(categoryCode, parentCategory));
         } catch (IllegalArgumentException e) {
             log.warn("Validation failed: {}", e.getMessage());
             throw e;  // rethrow the exception to be handled by the caller or a global exception handler
@@ -55,9 +70,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional(readOnly = true)
     @Override
     public List<CategoryResponseDto> getCategories(String parentCategoryCode) {
-        List<Category> categories = categoryRepository.findByParentCategoryCode(parentCategoryCode);
+        List<Category> categories = categoryRepository.findByParentCategoryCategoryCode(parentCategoryCode);
 
-        if(categories.isEmpty()) throw new BaseException(NO_EXIST_CATEGORY);
+        if(categories.isEmpty()) throw new BaseException(NOT_EXIST_CHILD_CATEGORY);
 
         return categories.stream().map(CategoryResponseDto::toDto).toList();
     }
@@ -66,16 +81,30 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void updateCategory(CategoryRequestDto categoryRequestDto) {
 
-        Long id = categoryRepository.findByCategoryCode(categoryRequestDto.getCategoryCode()).map(Category::getId)
-            .orElseThrow(() -> new BaseException(NO_EXIST_CATEGORY));
+        String parentCategoryCode = categoryRequestDto.getParentCategoryCode();
 
-        if (categoryRepository.existsByNameAndParentCategoryCode(categoryRequestDto.getName(), categoryRequestDto.getParentCategoryCode())) {
+        // parentCategoryCode가 null이거나 존재해야 함
+        if(parentCategoryCode != null && !categoryRepository.existsByCategoryCode(parentCategoryCode)) {
+            log.info("Parent Category {} doesn't exist", parentCategoryCode);
+            throw new BaseException(NOT_EXIST_PARENT_CATEGORY);
+        }
+
+        // parentCategoryCode가 null이면 Category 객체 새로 생성
+        Category parentCategory = parentCategoryCode == null ? null :
+            categoryRepository.findByCategoryCode(parentCategoryCode).get();
+
+        Long id = categoryRepository.findByCategoryCode(categoryRequestDto.getCategoryCode()).map(Category::getId)
+            .orElseThrow(() -> new BaseException(NOT_EXIST_CATEGORY));
+
+        if (categoryRepository.existsByNameAndParentCategory(categoryRequestDto.getName(), parentCategory)) {
             log.info("Category with name {} already exists", categoryRequestDto.getName());
             throw new BaseException(ALREADY_EXIST_CATEGORY);
         }
 
+        // 자신의 자식이 부모가 되지 않도록 체크 필요
+
         try {
-            categoryRepository.save(categoryRequestDto.toEntity(id));
+            categoryRepository.save(categoryRequestDto.toEntity(id, parentCategory));
         } catch (IllegalArgumentException e) {
             log.warn("Validation failed: {}", e.getMessage());
             throw e;  // rethrow the exception to be handled by the caller or a global exception handler
@@ -89,10 +118,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     @Override
     public void deleteCategory(String categoryCode) {
-        categoryRepository.findByCategoryCode(categoryCode)
-            .orElseThrow(() -> new BaseException(NO_EXIST_CATEGORY));
+        Category category = categoryRepository.findByCategoryCode(categoryCode)
+            .orElseThrow(() -> new BaseException(NOT_EXIST_CATEGORY));
 
-        if(categoryRepository.existsByParentCategoryCode(categoryCode)) throw new BaseException(FAILED_TO_DELETE_CATEGORY);
+        if(categoryRepository.existsByParentCategory(category)) throw new BaseException(FAILED_TO_DELETE_CATEGORY);
 
         categoryRepository.deleteByCategoryCode(categoryCode);
     }

@@ -1,7 +1,7 @@
 package com.jokim.sivillage.api.category.dto;
 
 import com.jokim.sivillage.api.category.domain.Category;
-import com.jokim.sivillage.api.category.vo.response.GetCategoryResponseVo;
+import com.jokim.sivillage.api.category.vo.out.GetCategoryResponseVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

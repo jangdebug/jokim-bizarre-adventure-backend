@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findByParentCategoryCode(String parentCategoryCode);
+    List<Category> findByParentCategoryCategoryCode(String parentCategoryCode);
     Optional<Category> findByCategoryCode(String categoryCode);
 
-    boolean existsByNameAndParentCategoryCode(String name, String parentCategoryCode);
-    boolean existsByParentCategoryCode(String parentCategoryCode);
+    boolean existsByNameAndParentCategory(String name, Category parentCategory);
+    boolean existsByParentCategory(Category parentCategory);
     boolean existsByCategoryCode(String categoryCode);
 
     void deleteByCategoryCode(String categoryCode);

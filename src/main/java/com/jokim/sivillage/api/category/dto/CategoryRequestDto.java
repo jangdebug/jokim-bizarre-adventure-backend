@@ -1,8 +1,8 @@
 package com.jokim.sivillage.api.category.dto;
 
 import com.jokim.sivillage.api.category.domain.Category;
-import com.jokim.sivillage.api.category.vo.request.CreateCategoryRequestVo;
-import com.jokim.sivillage.api.category.vo.request.UpdateCategoryRequestVo;
+import com.jokim.sivillage.api.category.vo.in.CreateCategoryRequestVo;
+import com.jokim.sivillage.api.category.vo.in.UpdateCategoryRequestVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,18 +33,18 @@ public class CategoryRequestDto {
             .build();
     }
 
-    public Category toEntity(String categoryCode) {     // create Entity
+    public Category toEntity(String categoryCode, Category parentCategory) {     // create Entity
         return Category.builder()
-            .parentCategoryCode(parentCategoryCode)
+            .parentCategory(parentCategory)
             .categoryCode(categoryCode)
             .name(name)
             .build();
     }
 
-    public Category toEntity(Long id) {    // update Entity
+    public Category toEntity(Long id, Category parentCategory) {    // update Entity
         return Category.builder()
                 .id(id)
-                .parentCategoryCode(parentCategoryCode)
+                .parentCategory(parentCategory)
                 .categoryCode(categoryCode)
                 .name(name)
                 .build();

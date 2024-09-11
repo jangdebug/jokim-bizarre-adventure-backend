@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.category.vo.response;
+package com.jokim.sivillage.api.category.vo.out;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
