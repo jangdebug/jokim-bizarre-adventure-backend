@@ -52,13 +52,11 @@ public enum BaseResponseStatus {
 
     // Category
     NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, false, 2401, "존재하지 않는 카테고리입니다."),
-    NOT_EXIST_PARENT_CATEGORY(HttpStatus.BAD_REQUEST, false, 2402, "존재하지 않는 상위 카테고리입니다."),
-    NOT_EXIST_CHILD_CATEGORY(HttpStatus.BAD_REQUEST, false, 2403, "해당 카테고리의 하위 카테고리가 존재하지 않습니다."),
-    ALREADY_EXIST_CATEGORY(HttpStatus.CONFLICT, false, 2404, "이미 존재하는 카테고리명입니다."),
-    FAILED_TO_GENERATE_CATEGORY_CODE(HttpStatus.CONFLICT, false, 2405, "고유한 카테고리 코드를 생성하는 데 실패했습니다."),
-    FAILED_TO_INSERT_CATEGORY(HttpStatus.CONFLICT, false, 2406, "카테고리 생성 중 오류가 발생했습니다."),
-    FAILED_TO_UPDATE_CATEGORY(HttpStatus.CONFLICT, false, 2407, "카테고리 업데이트 중 오류가 발생했습니다."),
-    FAILED_TO_DELETE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2408, "하위 카테고리가 있어서 삭제할 수 없습니다."),
+    ALREADY_EXIST_CATEGORY_NAME(HttpStatus.BAD_REQUEST, false, 2402, "이미 존재하는 카테고리명입니다."),
+    NOT_EXIST_PARENT_CATEGORY(HttpStatus.BAD_REQUEST, false, 2403, "존재하지 않는 상위 카테고리입니다."),
+    FAILED_TO_GENERATE_CATEGORY_CODE(HttpStatus.CONFLICT, false, 2404, "고유한 카테고리 코드를 생성하는 데 실패했습니다."),
+    FAILED_TO_UPDATE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2405, "부모 카테고리를 업데이트 할 수 없습니다."),
+    FAILED_TO_DELETE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2406, "하위 카테고리가 있어서 삭제할 수 없습니다."),
 
 
     // Interest

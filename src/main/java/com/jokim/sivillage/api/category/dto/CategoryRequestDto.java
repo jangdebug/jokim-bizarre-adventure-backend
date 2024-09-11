@@ -27,7 +27,6 @@ public class CategoryRequestDto {
 
     public static CategoryRequestDto toDto(UpdateCategoryRequestVo updateCategoryRequestVo) {
         return CategoryRequestDto.builder()
-            .parentCategoryCode(updateCategoryRequestVo.getParentCategoryCode())
             .categoryCode(updateCategoryRequestVo.getCategoryCode())
             .name(updateCategoryRequestVo.getName())
             .build();

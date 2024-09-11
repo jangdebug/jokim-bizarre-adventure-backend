@@ -2,6 +2,7 @@ package com.jokim.sivillage.common.entity;
 
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.SUCCESS;
 
+import com.jokim.sivillage.common.exception.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
@@ -36,6 +37,15 @@ public record BaseResponse<T>(HttpStatusCode httpStatus, Boolean isSuccess, Stri
      */
     public BaseResponse(BaseResponseStatus status) {
         this(status.getHttpStatusCode(), false, status.getMessage(), status.getCode(), null);
+    }
+
+    /**
+     * 4. 요청에 실패한 경우 (error message 같이 던짐)
+     * @param status, exception
+     */
+
+    public BaseResponse(BaseResponseStatus status, RuntimeException e) {
+        this(status.getHttpStatusCode(), false, e.getMessage(), status.getCode(), null);
     }
 
 }

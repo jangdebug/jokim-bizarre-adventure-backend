@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = "name, parentCategoryId")})
 public class Category {
 
     @Id

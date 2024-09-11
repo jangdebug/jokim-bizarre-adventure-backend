@@ -24,6 +24,7 @@ public class BaseExceptionHandler {
         return new ResponseEntity<>(response, response.httpStatus());
     }
 
+
     /**
      * security 인증 에러
      * 아이디가 없거나 비밀번호가 틀린 경우 AuthenticationManager 에서 발생
@@ -40,7 +41,7 @@ public class BaseExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<BaseResponse<Void>> RuntimeError(RuntimeException e) {
-        BaseResponse<Void> response = new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        BaseResponse<Void> response = new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR, e);
         log.error("RuntimeException: ", e);
 
         return new ResponseEntity<>(response, response.httpStatus());

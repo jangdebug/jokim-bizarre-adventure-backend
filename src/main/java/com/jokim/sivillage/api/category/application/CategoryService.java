@@ -11,5 +11,4 @@ public interface CategoryService {
     void updateCategory(CategoryRequestDto categoryRequestDto);
     void deleteCategory(String categoryCode);
 
-
 }

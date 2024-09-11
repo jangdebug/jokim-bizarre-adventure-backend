@@ -7,7 +7,6 @@ import lombok.ToString;
 @ToString
 public class UpdateCategoryRequestVo {
 
-    private String parentCategoryCode;
     private String categoryCode;
     private String name;
 
