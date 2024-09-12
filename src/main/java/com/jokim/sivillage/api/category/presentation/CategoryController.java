@@ -7,7 +7,7 @@ import com.jokim.sivillage.api.category.dto.CategoryResponseDto;
 import com.jokim.sivillage.api.category.vo.in.CreateCategoryRequestVo;
 import com.jokim.sivillage.api.category.vo.in.UpdateCategoryRequestVo;
 import com.jokim.sivillage.api.category.vo.out.GetCategoryResponseVo;
-import com.jokim.sivillage.common.entity.CommonResponseEntity;
+import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.entity.CommonResponseMessage;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -32,55 +32,41 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public CommonResponseEntity<Void> addCategory(@RequestBody CreateCategoryRequestVo createCategoryRequestVo) {
+    public BaseResponse<Void> createCategory(@RequestBody CreateCategoryRequestVo createCategoryRequestVo) {
 
         log.info("categoryRequestVo: {}", createCategoryRequestVo);
         categoryService.createCategory(CategoryRequestDto.toDto(createCategoryRequestVo));
 
-        return new CommonResponseEntity<>(
-            HttpStatus.OK,
-            CommonResponseMessage.SUCCESS.getMessage(),
-            null
-        );
+        return new BaseResponse<>();
     }
 
     @GetMapping
-    public CommonResponseEntity<List<GetCategoryResponseVo>> getCategories(
+    public BaseResponse<List<GetCategoryResponseVo>> getCategories(
         @RequestParam(value = "parentCategoryCode", required = false) String parentCategoryCode) {
 
         log.info("parentCategoryCode : {}", parentCategoryCode);
 
-        return new CommonResponseEntity<>(
-            HttpStatus.OK,
-            CommonResponseMessage.SUCCESS.getMessage(),
+        return new BaseResponse<>(
             categoryService.getCategories(parentCategoryCode).stream().map(CategoryResponseDto::toVo)
                 .toList());
     }
 
     @PutMapping
-    public CommonResponseEntity<Void> updateCategory(@RequestBody UpdateCategoryRequestVo updateCategoryRequestVo) {
+    public BaseResponse<Void> updateCategory(@RequestBody UpdateCategoryRequestVo updateCategoryRequestVo) {
 
         log.info("categoryRequestVo: {}", updateCategoryRequestVo);
         categoryService.updateCategory(CategoryRequestDto.toDto(updateCategoryRequestVo));
 
-        return new CommonResponseEntity<>(
-            HttpStatus.OK,
-            CommonResponseMessage.SUCCESS.getMessage(),
-            null
-        );
+        return new BaseResponse<>();
     }
 
     @DeleteMapping("/{categoryCode}")
-    public CommonResponseEntity<Void> deleteCategory(@PathVariable("categoryCode") String categoryCode) {
+    public BaseResponse<Void> deleteCategory(@PathVariable("categoryCode") String categoryCode) {
 
         log.info("categoryCode: {}", categoryCode);
         categoryService.deleteCategory(categoryCode);
 
-        return new CommonResponseEntity<>(
-            HttpStatus.OK,
-            CommonResponseMessage.SUCCESS.getMessage(),
-            null
-        );
+        return new BaseResponse<>();
     }
 
 
