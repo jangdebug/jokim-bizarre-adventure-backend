@@ -2,13 +2,13 @@
 ### 📅 (날짜 -  YYYY.MM.DD)
 
 ### 🌵 Branch
-(branch)  → (branch)
+( branch ) → ( branch )
 
 ### 📢 Description
 (변경사항 설명을 적어주세요)
 
 ### 💬 Issue Number
-[#(number)] - (keyword)
+[ #(number) ] - (keyword)
 
 ### 🛠️ Type
 - [ ] 새로운 기능 추가
