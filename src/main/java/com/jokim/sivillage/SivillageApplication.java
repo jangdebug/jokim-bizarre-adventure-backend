@@ -8,6 +8,8 @@ public class SivillageApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SivillageApplication.class, args);
+
+
 	}
 
 }

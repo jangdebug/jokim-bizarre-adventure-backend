@@ -2,9 +2,10 @@ name: CI/CD
 
 on:
   push:
-    branches: [ release ]
+    branches: [ develop, release ]
   pull_request:
-    branches: [ release ]
+    types: [ closed ]
+    branches: [ develop, release ]
 
 jobs:
   build:
@@ -28,7 +29,8 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-  
+            ${{ runner.os }}-gradle-
+        if: github.ref == 'refs/heads/release'
 
       - name: Make application.yaml
         run: |
@@ -49,15 +51,18 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        if: github.ref == 'refs/heads/release'
 
       - name: Docker build & push to production
         run: |
           docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/sivillage-app
+        if: github.ref == 'refs/heads/release'
 
       - name: Get GitHub IP
         id: ip
         uses: haythem/public-ip@v1.2
+        if: github.ref == 'refs/heads/release'
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -65,10 +70,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+        if: github.ref == 'refs/heads/release'
 
       - name: Add GitHub IP to AWS Security Group
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        if: github.ref == 'refs/heads/release'
 
       - name: Deploy to EC2 using PEM Key
         uses: appleboy/ssh-action@v0.1.6
@@ -93,7 +100,9 @@ jobs:
 
             echo "Cleaning up unused Docker images..."
             sudo docker image prune -f
+        if: github.ref == 'refs/heads/release'
 
       - name: Remove GitHub IP from AWS Security Group
         run: |
           aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port ${{ secrets.EC2_SSH_PORT }} --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        if: github.ref == 'refs/heads/release'
