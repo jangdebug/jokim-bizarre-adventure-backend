@@ -15,20 +15,18 @@ public class SignUpRequestVo {
     private String name;
     private Date birth;
     private String phone;
+    private String CustomerAddress;
 
-    private Boolean marketingSms;
-    private Boolean marketingEmail;
-    private Boolean marketingDm;
-    private Boolean marketingCall;
+    private Boolean smsAgreement;
+    private Boolean emailAgreement;
+    private Boolean dmAgreement;
+    private Boolean callAgreement;
 
-    private Boolean policyEssential1;
-    private Boolean policyEssential2;
-    private Boolean policyEssential3;
-    private Boolean policyEssential4;
-    private Boolean policyOptional;
+    private Boolean webUsageRight;
+    private Boolean integratedMemberRight;
+    private Boolean infoUsageRight;
+    private Boolean tomboyInfoUsageRight;
 
-    private String zipCode;
     private String address;
-    private String addressDetail;
 
 }

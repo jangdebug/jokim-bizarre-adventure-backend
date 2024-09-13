@@ -2,6 +2,7 @@ package com.jokim.sivillage.api.customer.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity
@@ -9,25 +10,20 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Policy {
+public class SocialCustomer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false,length = 50)
+    private String oauthProviderId;
+
+    @Comment("회원 UUID")
     @Column(nullable = false, length = 36)
     private String uuid;
 
-    @Column(nullable = false)
-    private Boolean webUsageRight;
-
-    @Column(nullable = false)
-    private Boolean integratedMemberRight;
-
-    @Column(nullable = false)
-    private Boolean infoUsageRight;
-
-    @Column(nullable = false)
-    private Boolean tomboyInfoUsageRight;
+    @Column(nullable = false,length = 50)
+    private String name;
 
 }

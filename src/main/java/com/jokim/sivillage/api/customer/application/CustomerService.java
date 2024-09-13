@@ -1,24 +1,31 @@
 package com.jokim.sivillage.api.customer.application;
 
-import com.jokim.sivillage.api.customer.dto.in.*;
-import com.jokim.sivillage.api.customer.dto.out.OauthSignUpResponseDto;
+import com.jokim.sivillage.api.customer.domain.Customer;
+import com.jokim.sivillage.api.customer.dto.DuplicateEmailDto;
+import com.jokim.sivillage.api.customer.dto.RefreshTokenRequestDto;
+import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
+import com.jokim.sivillage.api.customer.dto.in.OauthSignInRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.SignInRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.SignUpRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.UpdateRequestDto;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
+
+import java.util.Optional;
 
 public interface CustomerService {
 
-    void signUp(SignUpDto signUpDto);
+    void signUp(SignUpRequestDto signUpRequestDto);
+
+    void update(UpdateRequestDto updateRequestDto);
 
     SignInResponseDto signIn(SignInRequestDto signInRequestDto);
 
-    OauthSignUpResponseDto oauthSignUp(OauthSignUpDto oauthSignUpDto);
-
-    SignInResponseDto oauthpolicySignUp(OauthSignUpPolicyDto oauthSignUpPolicyDto);
-
     SignInResponseDto oauthSignIn(OauthSignInRequestDto oauthSignInRequestDto);
 
-    SignInResponseDto refreshAccessToken(String refreshToken);
-
-    void logout(String accessToken);
+    RefreshTokenResponseDto refreshAccessToken(RefreshTokenRequestDto refreshTokenRequestDto);
 
 
+    Optional<Customer> findUserByEmail(String email);
+
+    void duplicateEmail(DuplicateEmailDto duplicateEmailDto);
 }

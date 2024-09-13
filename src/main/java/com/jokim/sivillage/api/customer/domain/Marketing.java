@@ -1,46 +1,34 @@
 package com.jokim.sivillage.api.customer.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
-@Entity(name = "marketing")
-@Builder
+@Entity
 @ToString
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Marketing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean marketingSms;
-    private Boolean marketingEmail;
-    private Boolean marketingDm;
-    private Boolean marketingCall;
+    @Column(nullable = false, length = 36)
+    private String uuid;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @Column(nullable = false)
+    private Boolean smsAgreement;
 
-    @Builder
-    public Marketing(
-        Long id,
-        Boolean marketingSms,
-        Boolean marketingEmail,
-        Boolean marketingDm,
-        Boolean marketingCall,
-        Customer customer
-    ) {
-        this.id = id;
-        this.marketingSms = marketingSms;
-        this.marketingEmail = marketingEmail;
-        this.marketingDm = marketingDm;
-        this.marketingCall = marketingCall;
-        this.customer = customer;
-    }
+    @Column(nullable = false)
+    private Boolean emailAgreement;
+
+    @Column(nullable = false)
+    private Boolean dmAgreement;
+
+    @Column(nullable = false)
+    private Boolean callAgreement;
+
 
 }

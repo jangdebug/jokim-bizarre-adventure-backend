@@ -15,11 +15,19 @@ public class SignInResponseDto {
     private String accessToken;
     private String refreshToken;
 
-    public SignInResponseVo toResponseVo(){
-        return SignInResponseVo.builder()
+
+    public static SignInResponseDto toDto(String accessToken, String refreshToken){
+        return SignInResponseDto.builder()
             .accessToken(accessToken)
+            .refreshToken(refreshToken)
             .build();
     }
 
+    public SignInResponseVo toVo(){
+        return SignInResponseVo.builder()
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .build();
+    }
 
 }

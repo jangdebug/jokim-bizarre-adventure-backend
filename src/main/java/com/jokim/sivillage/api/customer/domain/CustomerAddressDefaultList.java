@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Policy {
+public class CustomerAddressDefaultList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,16 +18,6 @@ public class Policy {
     @Column(nullable = false, length = 36)
     private String uuid;
 
-    @Column(nullable = false)
-    private Boolean webUsageRight;
-
-    @Column(nullable = false)
-    private Boolean integratedMemberRight;
-
-    @Column(nullable = false)
-    private Boolean infoUsageRight;
-
-    @Column(nullable = false)
-    private Boolean tomboyInfoUsageRight;
-
+    @Column(nullable = false, length = 36)
+    private String addressCode;
 }

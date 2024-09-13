@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
