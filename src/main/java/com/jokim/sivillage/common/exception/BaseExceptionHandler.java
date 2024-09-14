@@ -30,13 +30,13 @@ public class BaseExceptionHandler {
      *
      * @return FAILED_TO_LOGIN 에러 response
      */
-//    @ExceptionHandler(BadCredentialsException.class)
-//    protected ResponseEntity<BaseResponse<Void>> handleBadCredentialsException(BadCredentialsException e) {
-//        BaseResponse<Void> response = new BaseResponse<>(BaseResponseStatus.FAILED_TO_LOGIN);
-//        log.error("BadCredentialsException: ", e);
-//
-//        return new ResponseEntity<>(response, response.httpStatus());
-//    }
+    @ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<BaseResponse<Void>> handleBadCredentialsException(BadCredentialsException e) {
+        BaseResponse<Void> response = new BaseResponse<>(BaseResponseStatus.FAILED_TO_LOGIN);
+        log.error("BadCredentialsException: ", e);
+
+        return new ResponseEntity<>(response, response.httpStatus());
+    }
 
     @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<BaseResponse<Void>> RuntimeError(RuntimeException e) {
