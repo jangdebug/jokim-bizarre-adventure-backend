@@ -1,49 +1,33 @@
 package com.jokim.sivillage.api.customer.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
-@Entity(name = "policy")
-@Builder
+@Entity
 @ToString
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Policy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Boolean essential1;
-    @Column(nullable = false)
-    private Boolean essential2;
-    @Column(nullable = false)
-    private Boolean essential3;
+    @Column(nullable = false, length = 36)
+    private String uuid;
 
-    private Boolean optional;
+    @Column(nullable = false ,columnDefinition = "boolean default false")
+    private Boolean webUsageRight;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @Column(nullable = false ,columnDefinition = "boolean default false")
+    private Boolean integratedMemberRight;
 
-    @Builder
-    public Policy(
-        Long id,
-        Boolean essential1,
-        Boolean essential2,
-        Boolean essential3,
-        Boolean optional,
-        Customer customer
-    ) {
-        this.id = id;
-        this.essential1 = essential1;
-        this.essential2 = essential2;
-        this.essential3 = essential3;
-        this.optional = optional;
-        this.customer = customer;
-    }
+    @Column(nullable = false ,columnDefinition = "boolean default false")
+    private Boolean infoUsageRight;
+
+    @Column(nullable = false ,columnDefinition = "boolean default false")
+    private Boolean tomboyInfoUsageRight;
+
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class OauthSignInRequestVo {
 
+    private String oauthSocialId;
     private String email;
-    private String provider;
+    private String name;
 }

@@ -1,11 +1,10 @@
 package com.jokim.sivillage.common.redis;
 
 
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @Getter
@@ -15,11 +14,11 @@ import org.springframework.data.redis.core.RedisHash;
 public class TokenRedis {
 
     @Id
-    private String id;  // 이 필드를 Redis 키로 사용
+    private String id;
     private String refreshToken;
 
     public TokenRedis(String customerUuid, String refreshToken) {
-        this.id = customerUuid; // UUID가 Redis 키로 사용됨
+        this.id = customerUuid; // UUID
         this.refreshToken = refreshToken;
     }
 }

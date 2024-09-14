@@ -1,6 +1,7 @@
 package com.jokim.sivillage.common.config;
 
 
+import com.jokim.sivillage.api.customer.application.AuthCustomerDetailService;
 import com.jokim.sivillage.api.customer.infrastructure.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,29 +18,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfig {
 
-    private final CustomerRepository customerRepository;
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return email -> {
-            return customerRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("해당 이메일을 가진 회원이 없습니다.")
-            );
-        };
-    }
+    private final AuthCustomerDetailService authUserDetailService;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+        daoAuthenticationProvider.setUserDetailsService(authUserDetailService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-        AuthenticationConfiguration authenticationConfiguration)
-        throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
