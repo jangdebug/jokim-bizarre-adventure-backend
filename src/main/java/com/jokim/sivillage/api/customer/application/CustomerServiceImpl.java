@@ -1,16 +1,11 @@
 package com.jokim.sivillage.api.customer.application;
 
 
-import com.jokim.sivillage.api.customer.domain.Customer;
-import com.jokim.sivillage.api.customer.domain.SocialCustomer;
-import com.jokim.sivillage.api.customer.domain.State;
+import com.jokim.sivillage.api.customer.domain.*;
 import com.jokim.sivillage.api.customer.dto.DuplicateEmailDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenRequestDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
-import com.jokim.sivillage.api.customer.dto.in.OauthSignInRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.SignInRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.SignUpRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.UpdateRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
 import com.jokim.sivillage.api.customer.entity.AuthUserDetail;
 import com.jokim.sivillage.api.customer.infrastructure.*;
@@ -56,6 +51,9 @@ public class CustomerServiceImpl implements CustomerService {
     private final TokenRedisRepository tokenRedisRepository;
     private final TokenBlacklistRepository tokenBlacklistRepository;
 
+    //마이페이지
+    private final CustomerSizeRepository customerSizeRepository;
+
 
     //이메일 중복 체크
     @Override
@@ -95,8 +93,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public void update(UpdateRequestDto updateRequestDto) {
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(updateRequestDto.getAccessToken());
+    public void updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(updatePasswordRequestDto.getAccessToken());
         Customer customer = customerRepository.findByUuid(uuid).orElse(null);
         if (customer == null) {
             throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
@@ -104,7 +102,55 @@ public class CustomerServiceImpl implements CustomerService {
 
         try {
             // 기존 customer 엔티티 수정 후 저장
-            customerRepository.save(updateRequestDto.updateEntity(customer, passwordEncoder));
+            customerRepository.save(updatePasswordRequestDto.updateEntity(customer, passwordEncoder));
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public void updateInfo(UpdateInfoRequestDto updateInfoRequestDto) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(updateInfoRequestDto.getAccessToken());
+        Customer customer = customerRepository.findByUuid(uuid).orElse(null);
+        Marketing marketing = customerMarketingRepository.findByUuid(uuid).orElse(null);
+        Policy policy = customerPolicyRepository.findByUuid(uuid).orElse(null);
+        if (customer == null || marketing == null || policy == null) {
+            throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
+        }
+
+        try {
+            // 기존 customer 엔티티 수정 후 저장
+            customerRepository.save(updateInfoRequestDto.updateEntity(customer));
+            customerMarketingRepository.save(updateInfoRequestDto.updateEntity(marketing));
+            customerPolicyRepository.save(updateInfoRequestDto.updateEntity(policy));
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public void createCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
+
+        try{
+            customerSizeRepository.save(customerSizeRequestDto.toEntity(uuid));
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public void updateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
+        CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
+
+        if (customerSize == null) {
+            throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
+        }
+        log.info("customerSize 값 가져와짐? {}",customerSize);
+
+        try{
+            customerSizeRepository.save(customerSizeRequestDto.updateToEntity(customerSize));
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         }

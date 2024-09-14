@@ -4,10 +4,7 @@ import com.jokim.sivillage.api.customer.domain.Customer;
 import com.jokim.sivillage.api.customer.dto.DuplicateEmailDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenRequestDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
-import com.jokim.sivillage.api.customer.dto.in.OauthSignInRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.SignInRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.SignUpRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.UpdateRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
 
 import java.util.Optional;
@@ -16,7 +13,13 @@ public interface CustomerService {
 
     void signUp(SignUpRequestDto signUpRequestDto);
 
-    void update(UpdateRequestDto updateRequestDto);
+    void updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto);
+
+    void updateInfo(UpdateInfoRequestDto updateInfoRequestDto);
+
+    void createCustomerSize(CustomerSizeRequestDto customerSizeRequestDto);
+
+    void updateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto);
 
     SignInResponseDto signIn(SignInRequestDto signInRequestDto);
 
