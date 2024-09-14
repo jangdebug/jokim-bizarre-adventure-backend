@@ -18,16 +18,16 @@ public class Marketing {
     @Column(nullable = false, length = 36)
     private String uuid;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean smsAgreement;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean emailAgreement;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean dmAgreement;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean callAgreement;
 
 

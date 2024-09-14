@@ -24,7 +24,7 @@ public class SignUpRequestDto {
     private String name;
     private Date birth;
     private String phone;
-    private String customerAddress;
+    private String address;
     private State state;
 
     private Long marketingId;
@@ -46,7 +46,7 @@ public class SignUpRequestDto {
             .name(signUpRequestVo.getName())
             .birth(signUpRequestVo.getBirth())
             .phone(signUpRequestVo.getPhone())
-            .customerAddress(signUpRequestVo.getCustomerAddress())
+            .address(signUpRequestVo.getAddress())
             .smsAgreement(signUpRequestVo.getSmsAgreement())
             .emailAgreement(signUpRequestVo.getEmailAgreement())
             .dmAgreement(signUpRequestVo.getDmAgreement())
@@ -67,7 +67,7 @@ public class SignUpRequestDto {
             .name(name)
             .birth(birth)
             .phone(phone)
-            .address(customerAddress)
+            .address(address)
             .state(state)
             .build();
     }

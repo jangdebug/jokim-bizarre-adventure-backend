@@ -18,16 +18,16 @@ public class Policy {
     @Column(nullable = false, length = 36)
     private String uuid;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean webUsageRight;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean integratedMemberRight;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean infoUsageRight;
 
-    @Column(nullable = false)
+    @Column(nullable = false ,columnDefinition = "boolean default false")
     private Boolean tomboyInfoUsageRight;
 
 }

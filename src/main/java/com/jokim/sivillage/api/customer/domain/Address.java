@@ -33,6 +33,7 @@ public class Address {
     @Column(nullable = false,length = 255)
     private String address;
 
+    @Column(length = 255)
     private String addressDetail;
 
     @Column(length = 100)

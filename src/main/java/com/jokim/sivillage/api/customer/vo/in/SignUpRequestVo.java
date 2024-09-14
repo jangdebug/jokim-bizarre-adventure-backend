@@ -15,7 +15,7 @@ public class SignUpRequestVo {
     private String name;
     private Date birth;
     private String phone;
-    private String CustomerAddress;
+    private String address;
 
     private Boolean smsAgreement;
     private Boolean emailAgreement;
@@ -26,7 +26,5 @@ public class SignUpRequestVo {
     private Boolean integratedMemberRight;
     private Boolean infoUsageRight;
     private Boolean tomboyInfoUsageRight;
-
-    private String address;
 
 }
