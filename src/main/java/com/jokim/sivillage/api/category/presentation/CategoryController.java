@@ -8,13 +8,11 @@ import com.jokim.sivillage.api.category.vo.in.CreateCategoryRequestVo;
 import com.jokim.sivillage.api.category.vo.in.UpdateCategoryRequestVo;
 import com.jokim.sivillage.api.category.vo.out.GetCategoryResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
-import com.jokim.sivillage.common.entity.CommonResponseMessage;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
