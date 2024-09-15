@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "Product")
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 @RestController
 @RequiredArgsConstructor
 @Slf4j

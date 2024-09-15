@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.customer.vo.out;
+package com.jokim.sivillage.api.customer.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInResponseVo {
-
+public class RefreshTokenResponseVo {
     private String accessToken;
-    private String refreshToken;
-
 }
