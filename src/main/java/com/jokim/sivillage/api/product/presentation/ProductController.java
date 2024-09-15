@@ -5,6 +5,8 @@ import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import java.util.Collections;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Product")
 @RequestMapping("/v1")
 @RestController
 @RequiredArgsConstructor
