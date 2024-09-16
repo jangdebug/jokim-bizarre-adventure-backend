@@ -94,7 +94,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private String generateUniqueCategoryCode() {
         for (int i = 0; i < MAX_CODE_TRIES; i++) {
-            String categoryCode = CodeGenerator.generateCode();
+            String categoryCode = CodeGenerator.generateCode("CTG");
 
             if (!categoryRepository.existsByCategoryCode(categoryCode)) return categoryCode;
         }
