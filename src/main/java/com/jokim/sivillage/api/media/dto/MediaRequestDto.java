@@ -3,6 +3,7 @@ package com.jokim.sivillage.api.media.dto;
 import com.jokim.sivillage.api.media.domain.Media;
 import com.jokim.sivillage.api.media.domain.MediaType;
 import com.jokim.sivillage.api.media.vo.in.AddMediaRequestVo;
+import com.jokim.sivillage.api.media.vo.in.UpdateMediaRequestVo;
 import com.jokim.sivillage.common.exception.BaseException;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.INVALID_MEDIA
 @Builder
 public class MediaRequestDto {
 
+    private String mediaCode;
     private String url;
     private String name;
     private String type;
@@ -22,6 +24,15 @@ public class MediaRequestDto {
                 .url(addMediaRequestVo.getUrl())
                 .name(addMediaRequestVo.getName())
                 .type(addMediaRequestVo.getType())
+                .build();
+    }
+
+    public static MediaRequestDto toDto(UpdateMediaRequestVo updateMediaRequestVo) {
+        return MediaRequestDto.builder()
+                .mediaCode(updateMediaRequestVo.getMediaCode())
+                .url(updateMediaRequestVo.getUrl())
+                .name(updateMediaRequestVo.getName())
+                .type(updateMediaRequestVo.getType())
                 .build();
     }
 
@@ -38,5 +49,21 @@ public class MediaRequestDto {
         }
 
     }
+
+    public Media toEntity(Long id) {
+        try{
+            return Media.builder()
+                    .id(id)
+                    .mediaCode(mediaCode)
+                    .url(url)
+                    .name(name)
+                    .type(MediaType.valueOf(type.toUpperCase()))  // enum type
+                    .build();
+        } catch(RuntimeException e) {
+            throw new BaseException(INVALID_MEDIA_TYPE);
+        }
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.jokim.sivillage.api.media.application;
 
+import com.jokim.sivillage.api.media.domain.Media;
 import com.jokim.sivillage.api.media.dto.MediaRequestDto;
 import com.jokim.sivillage.api.media.dto.MediaResponseDto;
 import com.jokim.sivillage.api.media.infrastructure.MediaRepository;
@@ -34,6 +35,15 @@ public class MeidaServiceImpl implements MediaService {
     public MediaResponseDto getMedia(String mediaCode) {
         return MediaResponseDto.toDto(mediaRepository.findByMediaCode(mediaCode)
                 .orElseThrow(() -> new BaseException(NOT_EXIST_MEDIA)));
+    }
+
+    @Transactional
+    @Override
+    public void updateMedia(MediaRequestDto mediaRequestDto) {
+        Media media = mediaRepository.findByMediaCode(mediaRequestDto.getMediaCode())
+                .orElseThrow(() -> new BaseException(NOT_EXIST_MEDIA));
+
+        mediaRepository.save(mediaRequestDto.toEntity(media.getId()));
     }
 
     @Transactional
