@@ -1,7 +1,15 @@
 package com.jokim.sivillage.api.media.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Media {
 
@@ -9,8 +17,17 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 36)
+    private String mediaCode;
+
+    @Column(nullable = false, length = 2083)
     private String url;
 
-    // type 컬럼 ENUM 타입으로 추가 필요
+    @Column(length = 255)
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MediaType type = MediaType.IMAGE;
+
 }
