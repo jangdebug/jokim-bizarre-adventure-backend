@@ -5,9 +5,9 @@ import com.jokim.sivillage.api.bridge.dto.ProductCategoryListResponseDto;
 import com.jokim.sivillage.api.bridge.infrastructure.ProductCategoryListRepository;
 import com.jokim.sivillage.api.bridge.infrastructure.ProductCategoryListRepositoryCustom;
 import com.jokim.sivillage.common.utils.CursorPage;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +22,7 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
         productCategoryListRepository.save(productCategoryListRequestDto.toEntity());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CursorPage<ProductCategoryListResponseDto> getProductCategoryListByCategories(
             String mainCategoryCode, String secondaryCategoryCode,
