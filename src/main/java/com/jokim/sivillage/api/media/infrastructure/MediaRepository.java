@@ -11,4 +11,6 @@ public interface MediaRepository extends JpaRepository<Media, Long> {
 
     boolean existsByMediaCode(String mediaCode);
 
+    void deleteByMediaCode(String mediaCode);
+
 }

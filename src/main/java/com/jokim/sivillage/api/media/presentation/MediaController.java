@@ -23,14 +23,22 @@ public class MediaController {
     public BaseResponse<Void> addMedia(@RequestBody AddMediaRequestVo addMediaRequestVo) {
 
         mediaService.addMedia(MediaRequestDto.toDto(addMediaRequestVo));
-
         return new BaseResponse<>();
     }
 
     @Operation(summary = "Media 조회 API")
     @GetMapping("/{mediaCode}")
     public BaseResponse<GetMediaResponseVo> getMedia(@PathVariable String mediaCode) {
+
         return new BaseResponse<>(mediaService.getMedia(mediaCode).toVo());
+    }
+
+    @Operation(summary = "Media 삭제 API")
+    @DeleteMapping("/{mediaCode}")
+    public BaseResponse<Void> deleteMedia(@PathVariable String mediaCode) {
+
+        mediaService.deleteMedia(mediaCode);
+        return new BaseResponse<>();
     }
 
 }

@@ -9,4 +9,6 @@ public interface MediaService {
 
     MediaResponseDto getMedia(String mediaCode);
 
+    void deleteMedia(String mediaCode);
+
 }

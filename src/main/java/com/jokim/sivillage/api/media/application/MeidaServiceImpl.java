@@ -36,6 +36,14 @@ public class MeidaServiceImpl implements MediaService {
                 .orElseThrow(() -> new BaseException(NOT_EXIST_MEDIA)));
     }
 
+    @Transactional
+    @Override
+    public void deleteMedia(String mediaCode) {
+        mediaRepository.deleteByMediaCode(mediaCode);
+
+        // TODO: media 중계 테이블 데이터들도 찾아서 삭제
+    }
+
     private String generateUniqueMediaCode() {
         for (int i = 0; i < MAX_CODE_TRIES; i++) {
             String mediaCode = CodeGenerator.generateCode("MD");
