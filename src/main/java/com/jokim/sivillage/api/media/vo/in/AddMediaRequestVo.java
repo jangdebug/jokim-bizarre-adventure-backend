@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.media.vo;
+package com.jokim.sivillage.api.media.vo.in;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

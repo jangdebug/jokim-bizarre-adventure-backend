@@ -2,15 +2,13 @@ package com.jokim.sivillage.api.media.presentation;
 
 import com.jokim.sivillage.api.media.application.MediaService;
 import com.jokim.sivillage.api.media.dto.MediaRequestDto;
-import com.jokim.sivillage.api.media.vo.AddMediaRequestVo;
+import com.jokim.sivillage.api.media.vo.in.AddMediaRequestVo;
+import com.jokim.sivillage.api.media.vo.out.GetMediaResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Media")
 @RequiredArgsConstructor
@@ -27,6 +25,12 @@ public class MediaController {
         mediaService.addMedia(MediaRequestDto.toDto(addMediaRequestVo));
 
         return new BaseResponse<>();
+    }
+
+    @Operation(summary = "Media 조회 API")
+    @GetMapping("/{mediaCode}")
+    public BaseResponse<GetMediaResponseVo> getMedia(@PathVariable String mediaCode) {
+        return new BaseResponse<>(mediaService.getMedia(mediaCode).toVo());
     }
 
 }

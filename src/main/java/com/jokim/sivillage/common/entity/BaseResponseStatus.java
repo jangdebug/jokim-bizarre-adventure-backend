@@ -51,8 +51,9 @@ public enum BaseResponseStatus {
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 이메일입니다."),
 
     // Media
+    NOT_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 2101, "존재하지 않는 미디어입니다."),
     FAILED_TO_GENERATE_MEDIA_CODE(HttpStatus.CONFLICT, false, 2104, "고유한 미디어 코드를 생성하는 데 실패했습니다."),
-    NOT_EXIST_MEDIA_TYPE(HttpStatus.BAD_REQUEST, false, 2107, "미디어 타입을 다시 확인해주세요."),
+    INVALID_MEDIA_TYPE(HttpStatus.BAD_REQUEST, false, 2107, "미디어 타입을 다시 확인해주세요."),
 
     // Category
     NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, false, 2401, "존재하지 않는 카테고리입니다."),

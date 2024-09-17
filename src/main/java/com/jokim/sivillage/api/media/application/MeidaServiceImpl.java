@@ -1,14 +1,16 @@
 package com.jokim.sivillage.api.media.application;
 
 import com.jokim.sivillage.api.media.dto.MediaRequestDto;
+import com.jokim.sivillage.api.media.dto.MediaResponseDto;
 import com.jokim.sivillage.api.media.infrastructure.MediaRepository;
 import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.utils.CodeGenerator;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GENERATE_MEDIA_CODE;
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_MEDIA;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +27,13 @@ public class MeidaServiceImpl implements MediaService {
         String mediaCode = generateUniqueMediaCode();
 
         mediaRepository.save(mediaRequestDto.toEntity(mediaCode));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public MediaResponseDto getMedia(String mediaCode) {
+        return MediaResponseDto.toDto(mediaRepository.findByMediaCode(mediaCode)
+                .orElseThrow(() -> new BaseException(NOT_EXIST_MEDIA)));
     }
 
     private String generateUniqueMediaCode() {
