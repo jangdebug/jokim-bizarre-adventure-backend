@@ -11,6 +11,12 @@ import com.jokim.sivillage.api.customer.vo.DuplicateEmailVo;
 import com.jokim.sivillage.api.customer.vo.RefreshTokenResponseVo;
 import com.jokim.sivillage.api.customer.vo.in.*;
 import com.jokim.sivillage.api.customer.vo.out.SignInResponseVo;
+import com.jokim.sivillage.api.customer.dto.in.CustomerSizeRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.UpdateInfoRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.UpdatePasswordRequestDto;
+import com.jokim.sivillage.api.customer.vo.in.CustomerSizeRequestVo;
+import com.jokim.sivillage.api.customer.vo.in.UpdateInfoRequestVo;
+import com.jokim.sivillage.api.customer.vo.in.UpdatePasswordRequestVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
 import com.jokim.sivillage.common.exception.BaseException;
@@ -136,6 +142,34 @@ public class CustomerController {
 
     }
 
+//    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 API 입니다.", tags = {"MyPage"})
+//    @PostMapping("/mypage/size")
+//    public BaseResponse<Void> createCustomerSize(
+//            @RequestHeader("Authorization") String authorizationHeader,
+//            @RequestBody CustomerSizeRequestVo customerSizeRequestVo
+//    ) {
+//        // Authorization 헤더에서 accessToken 추출
+//        String accessToken = authorizationHeader.replace("Bearer ", "");
+//        customerService.createCustomerSize(CustomerSizeRequestDto.toDto(accessToken, customerSizeRequestVo));
+//
+//        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+//
+//    }
+//
+//    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 API 입니다.", tags = {"MyPage"})
+//    @PutMapping("/mypage/size")
+//    public BaseResponse<Void> updateCustomerSize(
+//            @RequestHeader("Authorization") String authorizationHeader,
+//            @RequestBody CustomerSizeRequestVo customerSizeRequestVo
+//    ) {
+//        // Authorization 헤더에서 accessToken 추출
+//        String accessToken = authorizationHeader.replace("Bearer ", "");
+//        customerService.updateCustomerSize(CustomerSizeRequestDto.toDto(accessToken, customerSizeRequestVo));
+//
+//        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+//
+//    }
+
     @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 API 입니다.", tags = {"MyPage"})
     @PostMapping("/mypage/size")
     public BaseResponse<Void> createCustomerSize(
@@ -144,21 +178,35 @@ public class CustomerController {
     ) {
         // Authorization 헤더에서 accessToken 추출
         String accessToken = authorizationHeader.replace("Bearer ", "");
-        customerService.createCustomerSize(CustomerSizeRequestDto.toDto(accessToken, customerSizeRequestVo));
+        customerService.saveOrUpdateCustomerSize(CustomerSizeRequestDto.toDto(accessToken, customerSizeRequestVo));
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 
     }
 
-    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 API 입니다.", tags = {"MyPage"})
-    @PutMapping("/mypage/size")
-    public BaseResponse<Void> updateCustomerSize(
+    @Operation(summary = "Delevery API", description = "사용자 배달 API 입니다.", tags = {"MyPage"})
+    @PostMapping("/mypage/add-delivery-info")
+    public BaseResponse<Void> CreateAddress(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody CustomerSizeRequestVo customerSizeRequestVo
+            @RequestBody CustomerCreateAddressRequestVo customerCreateAddressRequestVo
     ) {
         // Authorization 헤더에서 accessToken 추출
         String accessToken = authorizationHeader.replace("Bearer ", "");
-        customerService.updateCustomerSize(CustomerSizeRequestDto.toDto(accessToken, customerSizeRequestVo));
+        customerService.createAddress(CustomerCreateAddressRequestDto.toDto(accessToken, customerCreateAddressRequestVo));
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "Delevery API", description = "사용자 배달 API 입니다.", tags = {"MyPage"})
+    @PostMapping("/mypage/delete-delivery-info?address-id={addressId}")
+    public BaseResponse<Void> DeleteAddress(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable("addressId") Long addressId
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 

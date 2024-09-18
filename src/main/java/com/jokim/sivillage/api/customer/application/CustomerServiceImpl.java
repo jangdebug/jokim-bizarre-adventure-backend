@@ -9,6 +9,9 @@ import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
 import com.jokim.sivillage.api.customer.entity.AuthUserDetail;
 import com.jokim.sivillage.api.customer.infrastructure.*;
+import com.jokim.sivillage.api.customer.dto.in.CustomerSizeRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.UpdateInfoRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.UpdatePasswordRequestDto;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
 import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
@@ -38,8 +41,8 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerMarketingRepository customerMarketingRepository;
     private final CustomerPolicyRepository customerPolicyRepository;
-    private final CustomerAdressRepository customerAdressRepository;
-    private final CustomerDefaultAddresRepository customerDefaultAddresRepository;
+    private final CustomerAddressRepository customerAddressRepository;
+    private final CustomerAddressDefaultListRepository customerAddressDefaultListRepository;
     private final SocialCustomerRepository socialCustomerRepository;
 
     //로그인 시 필요한 repository
@@ -129,28 +132,67 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void createCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
-
+    public void createAddress(CustomerCreateAddressRequestDto customerCreateAddressRequestDto) {
+        //todo 처음 생성시 defaultAddresslistRepo에 값 추가하기
+        
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerCreateAddressRequestDto.getAccessToken());
         try{
-            customerSizeRepository.save(customerSizeRequestDto.toEntity(uuid));
+            customerAddressRepository.save(customerCreateAddressRequestDto.toEntity(uuid));
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public void updateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
+    public void deleteAddress(String addressCode) {
+        //todo 삭제시 defaultAddressList라면 삭제 안되게 막기
+        customerAddressRepository.deleteByAddressCode(addressCode);
+    }
+
+//    @Override
+//    public void createCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
+//        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
+//
+//        try{
+//            customerSizeRepository.save(customerSizeRequestDto.toEntity(uuid));
+//        } catch (Exception e) {
+//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    @Override
+//    public void updateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
+//        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
+//        CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
+//
+//        if (customerSize == null) {
+//            throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
+//        }
+//        log.info("customerSize 값 가져와짐? {}",customerSize);
+//
+//        try{
+//            customerSizeRepository.save(customerSizeRequestDto.updateToEntity(customerSize));
+//        } catch (Exception e) {
+//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+    @Override
+    public void saveOrUpdateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
+        // accessToken에서 uuid 추출
         String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
-        CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
 
-        if (customerSize == null) {
-            throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
-        }
-        log.info("customerSize 값 가져와짐? {}",customerSize);
+        // uuid로 기존 엔티티가 있는지 확인
+        CustomerSize existingCustomerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
 
-        try{
-            customerSizeRepository.save(customerSizeRequestDto.updateToEntity(customerSize));
+        // 기존 엔티티가 있으면 업데이트, 없으면 새로 생성
+        CustomerSize customerSize = (existingCustomerSize == null)
+                ? customerSizeRequestDto.toEntity(uuid)  // 새 엔티티 생성
+                : customerSizeRequestDto.updateToEntity(existingCustomerSize);  // 기존 엔티티 업데이트
+
+        // 엔티티 저장
+        try {
+            customerSizeRepository.save(customerSize);
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         }
