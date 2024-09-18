@@ -3,7 +3,6 @@ package com.jokim.sivillage.api.category.application;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.ALREADY_EXIST_CATEGORY_NAME;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_DELETE_CATEGORY;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GENERATE_CATEGORY_CODE;
-import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_UPDATE_CATEGORY;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_CATEGORY;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_PARENT_CATEGORY;
 
@@ -15,11 +14,9 @@ import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.utils.CodeGenerator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService {
