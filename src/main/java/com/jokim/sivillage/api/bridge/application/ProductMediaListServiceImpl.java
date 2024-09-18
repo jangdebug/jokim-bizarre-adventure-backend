@@ -18,8 +18,11 @@ public class ProductMediaListServiceImpl implements ProductMediaListService {
 
     @Transactional
     @Override
-    public void addProductByMedia(ProductMediaListRequestDto productMediaListRequestDto) {
-        productMediaListRepository.save(productMediaListRequestDto.toEntity());
+    public void addProductMediaList(ProductMediaListRequestDto productMediaListRequestDto) {
+        boolean isFirstMedia = !productMediaListRepository.existsByProductCode(
+                productMediaListRequestDto.getProductCode());
+
+        productMediaListRepository.save(productMediaListRequestDto.toEntity(isFirstMedia));
     }
 
     @Transactional(readOnly = true)

@@ -9,4 +9,6 @@ public interface ProductMediaListRepository extends JpaRepository<ProductMediaLi
 
     List<ProductMediaList> findByProductCode(String productCode);
 
+    boolean existsByProductCode(String productCode);
+
 }

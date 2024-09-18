@@ -7,6 +7,5 @@ public class AddProductMediaListRequestVo {
 
     private String productCode;
     private String mediaCode;
-    private Boolean isThumbnail;
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductMediaListService {
 
-    void addProductByMedia(ProductMediaListRequestDto productMediaListRequestDto);
+    void addProductMediaList(ProductMediaListRequestDto productMediaListRequestDto);
 
     List<ProductMediaListResponseDto> getProductMediaList(String productCode);
 

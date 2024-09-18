@@ -11,7 +11,6 @@ public class ProductMediaListRequestDto {
 
     private String productCode;
     private String mediaCode;
-    private Boolean isThumbnail;
 
     public static ProductMediaListRequestDto toDto(
             AddProductMediaListRequestVo addProductMediaListRequestVo) {
@@ -19,15 +18,14 @@ public class ProductMediaListRequestDto {
         return ProductMediaListRequestDto.builder()
                 .productCode(addProductMediaListRequestVo.getProductCode())
                 .mediaCode(addProductMediaListRequestVo.getMediaCode())
-                .isThumbnail(addProductMediaListRequestVo.getIsThumbnail())
                 .build();
     }
 
-    public ProductMediaList toEntity() {
+    public ProductMediaList toEntity(Boolean isThumbnail) {
         return ProductMediaList.builder()
                 .productCode(productCode)
                 .mediaCode(mediaCode)
-                .isThumbnail(isThumbnail == null ? false : isThumbnail)
+                .isThumbnail(isThumbnail)
                 .build();
     }
 

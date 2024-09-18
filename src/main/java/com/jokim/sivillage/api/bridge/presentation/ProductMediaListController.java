@@ -23,10 +23,10 @@ public class ProductMediaListController {
 
     @Operation(summary = "Product-Media-List 생성 API")
     @PostMapping
-    public BaseResponse<Void> addProductByMedia(
+    public BaseResponse<Void> addProductMediaList(
             @RequestBody AddProductMediaListRequestVo addProductMediaListRequestVo) {
 
-        productMediaListService.addProductByMedia(ProductMediaListRequestDto.toDto(addProductMediaListRequestVo));
+        productMediaListService.addProductMediaList(ProductMediaListRequestDto.toDto(addProductMediaListRequestVo));
         return new BaseResponse<>();
     }
 
