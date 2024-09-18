@@ -11,4 +11,6 @@ public interface ProductMediaListService {
 
     List<ProductMediaListResponseDto> getProductMediaList(String productCode);
 
+    void updateProductMediaList(ProductMediaListRequestDto productMediaListRequestDto);
+
 }
