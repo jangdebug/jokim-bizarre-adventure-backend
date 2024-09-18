@@ -8,16 +8,19 @@ import lombok.Builder;
 public class ProductMediaListResponseDto {
 
     private String mediaCode;
+    private Boolean isThumbnail;
 
     public static ProductMediaListResponseDto toDto(ProductMediaList productMediaList) {
         return ProductMediaListResponseDto.builder()
                 .mediaCode(productMediaList.getMediaCode())
+                .isThumbnail(productMediaList.getIsThumbnail())
                 .build();
     }
 
     public GetProductMediaListResponseVo toVo() {
         return GetProductMediaListResponseVo.builder()
                 .mediaCode(mediaCode)
+                .isThumbnail(isThumbnail)
                 .build();
     }
 
