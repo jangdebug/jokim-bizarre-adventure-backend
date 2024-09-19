@@ -6,6 +6,7 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GEN
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_CATEGORY;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_PARENT_CATEGORY;
 
+import com.jokim.sivillage.api.bridge.productcategorylist.infrastructure.ProductCategoryListRepository;
 import com.jokim.sivillage.api.category.domain.Category;
 import com.jokim.sivillage.api.category.dto.CategoryRequestDto;
 import com.jokim.sivillage.api.category.dto.CategoryResponseDto;
@@ -32,12 +33,12 @@ public class CategoryServiceImpl implements CategoryService {
         String parentCategoryCode = categoryRequestDto.getParentCategoryCode();
 
         Category parentCategory = parentCategoryCode == null ? null :
-            categoryRepository.findByCategoryCode(parentCategoryCode).orElseThrow(
-                () -> new BaseException(NOT_EXIST_PARENT_CATEGORY));
+            categoryRepository.findByCategoryCode(parentCategoryCode)
+                .orElseThrow(() -> new BaseException(NOT_EXIST_PARENT_CATEGORY));
 
         // 유니크 제약조건으로 체크하면 parent_category_id가 null일 때 중복 이름을 허용하게 되므로 별도의 exception 처리
-        if(categoryRepository.existsByNameAndParentCategory(categoryRequestDto.getName(), parentCategory))
-            throw new BaseException(ALREADY_EXIST_CATEGORY_NAME);
+        if(categoryRepository.existsByNameAndParentCategory(categoryRequestDto.getName(),
+            parentCategory)) throw new BaseException(ALREADY_EXIST_CATEGORY_NAME);
 
         String categoryCode = generateUniqueCategoryCode();
 
@@ -47,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<CategoryResponseDto> getCategories(String parentCategoryCode) {
+    public List<CategoryResponseDto> getSubcategories(String parentCategoryCode) {
 
         // null을 제외한 해당 부모 카테고리 코드가 테이블에 없을 경우
         if(parentCategoryCode != null && !categoryRepository.existsByCategoryCode(parentCategoryCode))
@@ -82,9 +83,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         // 하위 카테고리 존재하면 삭제 불가
         if (categoryRepository.existsByParentCategory(category)) throw new BaseException(FAILED_TO_DELETE_CATEGORY);
-
-
-        // TODO: 해당 카테고리의 상품이 존재하면 삭제 불가
 
         categoryRepository.deleteByCategoryCode(categoryCode);
     }
