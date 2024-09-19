@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.bridge.infrastructure;
+package com.jokim.sivillage.api.bridge.productcategorylist.infrastructure;
 
 import com.jokim.sivillage.common.utils.CursorPage;
 import org.springframework.stereotype.Repository;

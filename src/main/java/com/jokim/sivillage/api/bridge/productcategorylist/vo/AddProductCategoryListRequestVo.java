@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.bridge.vo;
+package com.jokim.sivillage.api.bridge.productcategorylist.vo;
 
 import lombok.Getter;
 

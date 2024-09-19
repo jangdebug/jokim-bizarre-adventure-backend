@@ -1,10 +1,10 @@
-package com.jokim.sivillage.api.bridge.presentation;
+package com.jokim.sivillage.api.bridge.productcategorylist.presentation;
 
-import com.jokim.sivillage.api.bridge.application.ProductCategoryListService;
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListRequestDto;
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListResponseDto;
-import com.jokim.sivillage.api.bridge.vo.AddProductCategoryListRequestVo;
-import com.jokim.sivillage.api.bridge.vo.GetProductCategoryListResponseVo;
+import com.jokim.sivillage.api.bridge.productcategorylist.application.ProductCategoryListService;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListResponseDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.vo.AddProductCategoryListRequestVo;
+import com.jokim.sivillage.api.bridge.productcategorylist.vo.GetProductCategoryListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;

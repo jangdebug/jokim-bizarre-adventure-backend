@@ -1,7 +1,7 @@
-package com.jokim.sivillage.api.bridge.infrastructure;
+package com.jokim.sivillage.api.bridge.productcategorylist.infrastructure;
 
-import com.jokim.sivillage.api.bridge.domain.ProductCategoryList;
-import com.jokim.sivillage.api.bridge.domain.QProductCategoryList;
+import com.jokim.sivillage.api.bridge.productcategorylist.domain.ProductCategoryList;
+import com.jokim.sivillage.api.bridge.productcategorylist.domain.QProductCategoryList;
 import com.jokim.sivillage.common.utils.CursorPage;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;

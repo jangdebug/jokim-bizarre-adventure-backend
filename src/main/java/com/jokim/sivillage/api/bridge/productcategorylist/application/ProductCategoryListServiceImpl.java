@@ -1,9 +1,9 @@
-package com.jokim.sivillage.api.bridge.application;
+package com.jokim.sivillage.api.bridge.productcategorylist.application;
 
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListRequestDto;
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListResponseDto;
-import com.jokim.sivillage.api.bridge.infrastructure.ProductCategoryListRepository;
-import com.jokim.sivillage.api.bridge.infrastructure.ProductCategoryListRepositoryCustom;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListResponseDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.infrastructure.ProductCategoryListRepository;
+import com.jokim.sivillage.api.bridge.productcategorylist.infrastructure.ProductCategoryListRepositoryCustom;
 import com.jokim.sivillage.common.utils.CursorPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

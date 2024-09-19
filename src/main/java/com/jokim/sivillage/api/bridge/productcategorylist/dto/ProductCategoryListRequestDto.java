@@ -1,7 +1,7 @@
-package com.jokim.sivillage.api.bridge.dto;
+package com.jokim.sivillage.api.bridge.productcategorylist.dto;
 
-import com.jokim.sivillage.api.bridge.domain.ProductCategoryList;
-import com.jokim.sivillage.api.bridge.vo.AddProductCategoryListRequestVo;
+import com.jokim.sivillage.api.bridge.productcategorylist.domain.ProductCategoryList;
+import com.jokim.sivillage.api.bridge.productcategorylist.vo.AddProductCategoryListRequestVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
