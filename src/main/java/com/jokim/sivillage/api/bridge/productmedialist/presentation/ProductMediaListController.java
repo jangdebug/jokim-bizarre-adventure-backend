@@ -17,7 +17,7 @@ import java.util.List;
 @Tag(name = "Bridge")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/bridge/product-media-list")
+@RequestMapping("/v1/product-media")
 public class ProductMediaListController {
 
     private final ProductMediaListService productMediaListService;

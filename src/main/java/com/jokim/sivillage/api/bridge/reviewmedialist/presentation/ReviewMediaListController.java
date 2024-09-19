@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Bridge")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/bridge/review-media-list")
+@RequestMapping("/v1/review-media")
 public class ReviewMediaListController {
 
     private final ReviewMediaListService reviewMediaListService;
