@@ -18,23 +18,24 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
 
     @Transactional
     @Override
-    public void addProductByCategories(ProductCategoryListRequestDto productCategoryListRequestDto) {
+    public void addProductByCategories(
+        ProductCategoryListRequestDto productCategoryListRequestDto) {
         productCategoryListRepository.save(productCategoryListRequestDto.toEntity());
     }
 
     @Transactional(readOnly = true)
     @Override
     public CursorPage<ProductCategoryListResponseDto> getProductCategoryListByCategories(
-            String mainCategoryCode, String secondaryCategoryCode,
-            String tertiaryCategoryCode, String quaternaryCategoryCode,
-            Long lastId, Integer pageSize, Integer pageNo) {
+        String mainCategoryCode, String secondaryCategoryCode,
+        String tertiaryCategoryCode, String quaternaryCategoryCode,
+        Long lastId, Integer pageSize, Integer pageNo) {
 
-        CursorPage<String> cursor = productCategoryListRepositoryCustom.getProductCategoryListByCategories(
-                mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
-                lastId, pageSize, pageNo);
+        CursorPage<String> cursorPage = productCategoryListRepositoryCustom.getProductCategoryListByCategories(
+            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+            lastId, pageSize, pageNo);
 
-        return new CursorPage<>(cursor.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList(),
-                cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo());
+        return CursorPage.toCursorPage(cursorPage,
+            cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList());
     }
 
 }

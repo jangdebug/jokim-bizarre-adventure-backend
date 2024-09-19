@@ -25,7 +25,8 @@ public class ProductCategoryListController {
     public BaseResponse<Void> addProductByCategories(
             @RequestBody AddProductCategoryListRequestVo addProductCategoryListRequestVo) {
 
-        productCategoryListService.addProductByCategories(ProductCategoryListRequestDto.toDto(addProductCategoryListRequestVo));
+        productCategoryListService.addProductByCategories(ProductCategoryListRequestDto.toDto(
+            addProductCategoryListRequestVo));
 
         return new BaseResponse<>();
     }
@@ -41,13 +42,12 @@ public class ProductCategoryListController {
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
-        CursorPage<ProductCategoryListResponseDto> cursor = productCategoryListService.getProductCategoryListByCategories(
-                mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
-                lastId, pageSize, pageNo);
+        CursorPage<ProductCategoryListResponseDto> cursorPage = productCategoryListService.
+            getProductCategoryListByCategories(mainCategoryCode, secondaryCategoryCode,
+                tertiaryCategoryCode, quaternaryCategoryCode, lastId, pageSize, pageNo);
 
-        return new BaseResponse<>(
-                new CursorPage<>(cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList(),
-                        cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo()));
+        return new BaseResponse<>(CursorPage.toCursorPage(cursorPage,
+            cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList()));
     }
 
 }
