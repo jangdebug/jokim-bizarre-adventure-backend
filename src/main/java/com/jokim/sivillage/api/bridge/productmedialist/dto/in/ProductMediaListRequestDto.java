@@ -1,8 +1,8 @@
-package com.jokim.sivillage.api.bridge.dto.in;
+package com.jokim.sivillage.api.bridge.productmedialist.dto.in;
 
-import com.jokim.sivillage.api.bridge.domain.ProductMediaList;
-import com.jokim.sivillage.api.bridge.vo.in.AddProductMediaListRequestVo;
-import com.jokim.sivillage.api.bridge.vo.in.UpdateProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.productmedialist.domain.ProductMediaList;
+import com.jokim.sivillage.api.bridge.productmedialist.vo.in.AddProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.productmedialist.vo.in.UpdateProductMediaListRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 

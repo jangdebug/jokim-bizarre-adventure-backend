@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.bridge.domain;
+package com.jokim.sivillage.api.bridge.productmedialist.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

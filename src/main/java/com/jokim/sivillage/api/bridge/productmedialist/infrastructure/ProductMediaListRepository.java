@@ -1,6 +1,6 @@
-package com.jokim.sivillage.api.bridge.infrastructure;
+package com.jokim.sivillage.api.bridge.productmedialist.infrastructure;
 
-import com.jokim.sivillage.api.bridge.domain.ProductMediaList;
+import com.jokim.sivillage.api.bridge.productmedialist.domain.ProductMediaList;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

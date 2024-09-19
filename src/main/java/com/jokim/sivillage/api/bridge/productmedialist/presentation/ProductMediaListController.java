@@ -1,11 +1,11 @@
-package com.jokim.sivillage.api.bridge.presentation;
+package com.jokim.sivillage.api.bridge.productmedialist.presentation;
 
-import com.jokim.sivillage.api.bridge.application.ProductMediaListService;
-import com.jokim.sivillage.api.bridge.dto.in.ProductMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.dto.out.ProductMediaListResponseDto;
-import com.jokim.sivillage.api.bridge.vo.in.AddProductMediaListRequestVo;
-import com.jokim.sivillage.api.bridge.vo.in.UpdateProductMediaListRequestVo;
-import com.jokim.sivillage.api.bridge.vo.out.GetProductMediaListResponseVo;
+import com.jokim.sivillage.api.bridge.productmedialist.application.ProductMediaListService;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.in.ProductMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ProductMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.vo.in.AddProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.productmedialist.vo.in.UpdateProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.productmedialist.vo.out.GetProductMediaListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

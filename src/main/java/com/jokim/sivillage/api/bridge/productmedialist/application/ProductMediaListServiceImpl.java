@@ -1,9 +1,9 @@
-package com.jokim.sivillage.api.bridge.application;
+package com.jokim.sivillage.api.bridge.productmedialist.application;
 
-import com.jokim.sivillage.api.bridge.domain.ProductMediaList;
-import com.jokim.sivillage.api.bridge.dto.in.ProductMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.dto.out.ProductMediaListResponseDto;
-import com.jokim.sivillage.api.bridge.infrastructure.ProductMediaListRepository;
+import com.jokim.sivillage.api.bridge.productmedialist.domain.ProductMediaList;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.in.ProductMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ProductMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.infrastructure.ProductMediaListRepository;
 import com.jokim.sivillage.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
