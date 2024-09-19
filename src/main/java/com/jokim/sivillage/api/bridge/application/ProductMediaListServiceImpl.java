@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.ALREADY_EXIST_THUMBNAIL;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_MEDIA;
 
 @RequiredArgsConstructor
@@ -22,10 +23,12 @@ public class ProductMediaListServiceImpl implements ProductMediaListService {
     @Transactional
     @Override
     public void addProductMediaList(ProductMediaListRequestDto productMediaListRequestDto) {
-        boolean isFirstMedia = !productMediaListRepository.existsByProductCode(
-                productMediaListRequestDto.getProductCode());
+        if(productMediaListRequestDto.getIsThumbnail() &&
+            productMediaListRepository.existsByProductCodeAndIsThumbnail(
+            productMediaListRequestDto.getProductCode(), true))
+            throw new BaseException(ALREADY_EXIST_THUMBNAIL);
 
-        productMediaListRepository.save(productMediaListRequestDto.toEntity(isFirstMedia));
+        productMediaListRepository.save(productMediaListRequestDto.toEntity());
     }
 
     @Transactional(readOnly = true)

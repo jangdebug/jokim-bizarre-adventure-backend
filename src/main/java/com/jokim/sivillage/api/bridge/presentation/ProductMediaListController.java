@@ -3,7 +3,8 @@ package com.jokim.sivillage.api.bridge.presentation;
 import com.jokim.sivillage.api.bridge.application.ProductMediaListService;
 import com.jokim.sivillage.api.bridge.dto.in.ProductMediaListRequestDto;
 import com.jokim.sivillage.api.bridge.dto.out.ProductMediaListResponseDto;
-import com.jokim.sivillage.api.bridge.vo.in.ProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.vo.in.AddProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.vo.in.UpdateProductMediaListRequestVo;
 import com.jokim.sivillage.api.bridge.vo.out.GetProductMediaListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +25,10 @@ public class ProductMediaListController {
     @Operation(summary = "Product-Media-List 생성 API")
     @PostMapping
     public BaseResponse<Void> addProductMediaList(
-            @RequestBody ProductMediaListRequestVo productMediaListRequestVo) {
+            @RequestBody AddProductMediaListRequestVo addProductMediaListRequestVo) {
 
-        productMediaListService.addProductMediaList(ProductMediaListRequestDto.toDto(productMediaListRequestVo));
+        productMediaListService.addProductMediaList(ProductMediaListRequestDto.toDto(
+            addProductMediaListRequestVo));
         return new BaseResponse<>();
     }
 
@@ -42,9 +44,10 @@ public class ProductMediaListController {
     @Operation(summary = "Product-Media-List 썸네일 수정 API")
     @PutMapping
     public BaseResponse<Void> updateProductMediaList(
-            @RequestBody ProductMediaListRequestVo productMediaListRequestVo) {
+            @RequestBody UpdateProductMediaListRequestVo updateProductMediaListRequestVo) {
 
-        productMediaListService.updateProductMediaList(ProductMediaListRequestDto.toDto(productMediaListRequestVo));
+        productMediaListService.updateProductMediaList(ProductMediaListRequestDto.toDto(
+            updateProductMediaListRequestVo));
         return new BaseResponse<>();
     }
 

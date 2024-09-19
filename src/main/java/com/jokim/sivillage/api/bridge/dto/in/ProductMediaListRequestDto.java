@@ -1,7 +1,8 @@
 package com.jokim.sivillage.api.bridge.dto.in;
 
 import com.jokim.sivillage.api.bridge.domain.ProductMediaList;
-import com.jokim.sivillage.api.bridge.vo.in.ProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.vo.in.AddProductMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.vo.in.UpdateProductMediaListRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,17 +12,28 @@ public class ProductMediaListRequestDto {
 
     private String productCode;
     private String mediaCode;
+    private Boolean isThumbnail;
 
     public static ProductMediaListRequestDto toDto(
-            ProductMediaListRequestVo productMediaListRequestVo) {
+        AddProductMediaListRequestVo addProductMediaListRequestVo) {
 
         return ProductMediaListRequestDto.builder()
-                .productCode(productMediaListRequestVo.getProductCode())
-                .mediaCode(productMediaListRequestVo.getMediaCode())
+            .productCode(addProductMediaListRequestVo.getProductCode())
+            .mediaCode(addProductMediaListRequestVo.getMediaCode())
+            .isThumbnail(addProductMediaListRequestVo.getIsThumbnail())
+            .build();
+    }
+
+    public static ProductMediaListRequestDto toDto(
+            UpdateProductMediaListRequestVo updateProductMediaListRequestVo) {
+
+        return ProductMediaListRequestDto.builder()
+                .productCode(updateProductMediaListRequestVo.getProductCode())
+                .mediaCode(updateProductMediaListRequestVo.getMediaCode())
                 .build();
     }
 
-    public ProductMediaList toEntity(Boolean isThumbnail) { // add ProductMediaList
+    public ProductMediaList toEntity() { // add ProductMediaList
         return ProductMediaList.builder()
                 .productCode(productCode)
                 .mediaCode(mediaCode)

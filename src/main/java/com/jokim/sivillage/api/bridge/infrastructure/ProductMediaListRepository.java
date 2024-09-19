@@ -13,6 +13,6 @@ public interface ProductMediaListRepository extends JpaRepository<ProductMediaLi
     List<ProductMediaList> findByProductCodeAndIsThumbnail(String productCode, Boolean isThumbnail);
     List<ProductMediaList> findByProductCode(String productCode);
 
-    boolean existsByProductCode(String productCode);
+    boolean existsByProductCodeAndIsThumbnail(String productCode, Boolean isThumbnail);
 
 }
