@@ -3,8 +3,10 @@ package com.jokim.sivillage.api.bridge.eventmedialist.application;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.ALREADY_EXIST_THUMBNAIL;
 
 import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.infrastructure.EventMediaListRepository;
 import com.jokim.sivillage.common.exception.BaseException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,5 +26,12 @@ public class EventMediaListServiceImpl implements EventMediaListService {
             throw new BaseException(ALREADY_EXIST_THUMBNAIL);
 
         eventMediaListRepository.save(eventMediaListRequestDto.toEntity());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<EventMediaListResponseDto> getEventMediaList(String eventCode) {
+        return eventMediaListRepository.findByEventCode(eventCode)
+            .stream().map(EventMediaListResponseDto::toDto).toList();
     }
 }
