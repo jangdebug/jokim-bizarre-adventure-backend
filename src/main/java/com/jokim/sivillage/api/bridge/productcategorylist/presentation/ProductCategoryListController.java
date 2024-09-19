@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Bridge")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/bridge/product-category-list")
+@RequestMapping("/v1/product-category")
 public class ProductCategoryListController {
 
     private final ProductCategoryListService productCategoryListService;

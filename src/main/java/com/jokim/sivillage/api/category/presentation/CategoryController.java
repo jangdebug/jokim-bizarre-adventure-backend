@@ -42,7 +42,7 @@ public class CategoryController {
     }
 
     @Operation(summary = "자식 Category List 조회 API")
-    @GetMapping("/categories")
+    @GetMapping("/subcategories")
     public BaseResponse<List<GetCategoryResponseVo>> getCategories(
             @RequestParam(value = "parentCategoryCode", required = false) String parentCategoryCode) {
 
