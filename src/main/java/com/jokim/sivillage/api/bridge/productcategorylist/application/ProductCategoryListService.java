@@ -1,7 +1,7 @@
-package com.jokim.sivillage.api.bridge.application;
+package com.jokim.sivillage.api.bridge.productcategorylist.application;
 
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListRequestDto;
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListResponseDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListResponseDto;
 import com.jokim.sivillage.common.utils.CursorPage;
 
 public interface ProductCategoryListService {

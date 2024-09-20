@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.bridge.vo;
+package com.jokim.sivillage.api.bridge.productcategorylist.vo;
 
 import lombok.Getter;
 
@@ -10,5 +10,6 @@ public class AddProductCategoryListRequestVo {
     private String secondaryCategoyCode;
     private String tertiaryCategoyCode;
     private String quaternaryCategoyCode;
+    private Boolean isOnSale;
 
 }

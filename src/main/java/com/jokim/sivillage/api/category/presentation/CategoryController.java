@@ -34,7 +34,8 @@ public class CategoryController {
 
     @Operation(summary = "Category 생성 API")
     @PostMapping
-    public BaseResponse<Void> createCategory(@RequestBody CreateCategoryRequestVo createCategoryRequestVo) {
+    public BaseResponse<Void> createCategory(
+        @RequestBody CreateCategoryRequestVo createCategoryRequestVo) {
 
         categoryService.createCategory(CategoryRequestDto.toDto(createCategoryRequestVo));
 
@@ -42,18 +43,19 @@ public class CategoryController {
     }
 
     @Operation(summary = "자식 Category List 조회 API")
-    @GetMapping("/categories")
-    public BaseResponse<List<GetCategoryResponseVo>> getCategories(
-            @RequestParam(value = "parentCategoryCode", required = false) String parentCategoryCode) {
+    @GetMapping("/subcategories")
+    public BaseResponse<List<GetCategoryResponseVo>> getSubcategories(
+        @RequestParam(value = "parentCategoryCode", required = false) String parentCategoryCode) {
 
         return new BaseResponse<>(
-                categoryService.getCategories(parentCategoryCode).stream().map(CategoryResponseDto::toVo)
-                        .toList());
+            categoryService.getSubcategories(parentCategoryCode).stream()
+                .map(CategoryResponseDto::toVo).toList());
     }
 
     @Operation(summary = "Category 이름 수정 API")
     @PutMapping
-    public BaseResponse<Void> updateCategory(@RequestBody UpdateCategoryRequestVo updateCategoryRequestVo) {
+    public BaseResponse<Void> updateCategory(
+        @RequestBody UpdateCategoryRequestVo updateCategoryRequestVo) {
 
         categoryService.updateCategory(CategoryRequestDto.toDto(updateCategoryRequestVo));
 

@@ -1,6 +1,6 @@
-package com.jokim.sivillage.api.bridge.dto;
+package com.jokim.sivillage.api.bridge.productcategorylist.dto;
 
-import com.jokim.sivillage.api.bridge.vo.GetProductCategoryListResponseVo;
+import com.jokim.sivillage.api.bridge.productcategorylist.vo.GetProductCategoryListResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 

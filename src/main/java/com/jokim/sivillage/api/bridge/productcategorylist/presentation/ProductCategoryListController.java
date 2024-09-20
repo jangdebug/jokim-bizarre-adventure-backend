@@ -1,10 +1,10 @@
-package com.jokim.sivillage.api.bridge.presentation;
+package com.jokim.sivillage.api.bridge.productcategorylist.presentation;
 
-import com.jokim.sivillage.api.bridge.application.ProductCategoryListService;
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListRequestDto;
-import com.jokim.sivillage.api.bridge.dto.ProductCategoryListResponseDto;
-import com.jokim.sivillage.api.bridge.vo.AddProductCategoryListRequestVo;
-import com.jokim.sivillage.api.bridge.vo.GetProductCategoryListResponseVo;
+import com.jokim.sivillage.api.bridge.productcategorylist.application.ProductCategoryListService;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListResponseDto;
+import com.jokim.sivillage.api.bridge.productcategorylist.vo.AddProductCategoryListRequestVo;
+import com.jokim.sivillage.api.bridge.productcategorylist.vo.GetProductCategoryListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Bridge")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/bridge/product-category-list")
+@RequestMapping("/v1/product-category")
 public class ProductCategoryListController {
 
     private final ProductCategoryListService productCategoryListService;
@@ -25,7 +25,8 @@ public class ProductCategoryListController {
     public BaseResponse<Void> addProductByCategories(
             @RequestBody AddProductCategoryListRequestVo addProductCategoryListRequestVo) {
 
-        productCategoryListService.addProductByCategories(ProductCategoryListRequestDto.toDto(addProductCategoryListRequestVo));
+        productCategoryListService.addProductByCategories(ProductCategoryListRequestDto.toDto(
+            addProductCategoryListRequestVo));
 
         return new BaseResponse<>();
     }
@@ -41,13 +42,12 @@ public class ProductCategoryListController {
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
-        CursorPage<ProductCategoryListResponseDto> cursor = productCategoryListService.getProductCategoryListByCategories(
-                mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
-                lastId, pageSize, pageNo);
+        CursorPage<ProductCategoryListResponseDto> cursorPage = productCategoryListService.
+            getProductCategoryListByCategories(mainCategoryCode, secondaryCategoryCode,
+                tertiaryCategoryCode, quaternaryCategoryCode, lastId, pageSize, pageNo);
 
-        return new BaseResponse<>(
-                new CursorPage<>(cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList(),
-                        cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo()));
+        return new BaseResponse<>(CursorPage.toCursorPage(cursorPage,
+            cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList()));
     }
 
 }

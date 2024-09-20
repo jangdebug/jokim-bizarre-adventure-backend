@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.bridge.domain;
+package com.jokim.sivillage.api.bridge.productcategorylist.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,5 +31,8 @@ public class ProductCategoryList {
 
     @Column(length = 36)
     private String quaternaryCategoyCode;
+
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean isOnSale;
 
 }
