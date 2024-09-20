@@ -195,7 +195,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public void deleteAddress(String addressCode) {
-        //todo delete 구현할거면 지워지기전에 DefaultAddress라면 지워지지않게 설정해줘야함.
+        CustomerAddressDefaultList customerAddressDefaultList =
+            customerAddressDefaultListRepository.findByAddressCode(addressCode).orElseThrow(()
+                -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
+
+        if(customerAddressDefaultList.getIsDefault()){
+            throw new BaseException(BaseResponseStatus.NOT_DELETE_DEFAULTADDRESS);
+        }
+        customerAddressDefaultListRepository.deleteByAddressCode(addressCode);
         customerAddressRepository.deleteByAddressCode(addressCode);
     }
 

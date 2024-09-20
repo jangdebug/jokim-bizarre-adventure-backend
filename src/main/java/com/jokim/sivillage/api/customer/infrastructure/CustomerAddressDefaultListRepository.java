@@ -10,5 +10,5 @@ public interface CustomerAddressDefaultListRepository extends JpaRepository<Cust
     List<CustomerAddressDefaultList> findByUuid(String uuid);
     Optional<CustomerAddressDefaultList> findByAddressCode(String addressCode);
     Optional<CustomerAddressDefaultList> findByUuidAndIsDefault(String uuid, Boolean isDefault);
-
+    void deleteByAddressCode(String addressCode);
 }
