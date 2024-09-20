@@ -11,7 +11,7 @@ public enum State {
 
     ACTIVATION("활동"),
     SLEEP("휴면"),
-    AWAITDELETION("탈퇴 대기");
+    AWAITDELETION("탈퇴대기");
 
     private final String state;
 

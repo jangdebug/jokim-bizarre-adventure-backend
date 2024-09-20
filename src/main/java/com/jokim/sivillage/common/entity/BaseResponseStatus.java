@@ -48,6 +48,13 @@ public enum BaseResponseStatus {
     DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2010, "이미 사용중인 닉네임입니다."),
     SAME_NICKNAME(HttpStatus.CONFLICT, false, 2011, "현재 사용중인 닉네임입니다."),
     INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2012, "이메일을 다시 확인해주세요."),
+    DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 이메일입니다."),
+
+    // Media
+    NOT_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 2101, "존재하지 않는 미디어입니다."),
+    ALREADY_EXIST_THUMBNAIL(HttpStatus.BAD_REQUEST, false, 2102, "썸네일이 이미 존재하는 컨텐츠입니다."),
+    FAILED_TO_GENERATE_MEDIA_CODE(HttpStatus.CONFLICT, false, 2104, "고유한 미디어 코드를 생성하는 데 실패했습니다."),
+    INVALID_MEDIA_TYPE(HttpStatus.BAD_REQUEST, false, 2107, "미디어 타입을 다시 확인해주세요."),
 
 
     // Category
@@ -58,7 +65,9 @@ public enum BaseResponseStatus {
     FAILED_TO_UPDATE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2405, "부모 카테고리를 업데이트 할 수 없습니다."),
     FAILED_TO_DELETE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2406, "하위 카테고리가 있어서 삭제할 수 없습니다."),
 
-
+    // Address
+    NOT_DELETE_DEFAULTADDRESS(HttpStatus.BAD_REQUEST, false, 2410, "기본배송지는 삭제할 수 없습니다."),
+    NOT_FOUND_ADDRESS(HttpStatus.BAD_REQUEST, false, 2411, "배송지를 찾을 수 없습니다."),
     // Interest
     NO_EXIST_INTEREST(HttpStatus.NOT_FOUND, false, 2501, "존재하지 않는 관심사입니다."),
 
