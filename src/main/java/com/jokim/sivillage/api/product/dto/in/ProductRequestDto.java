@@ -22,7 +22,6 @@ public class ProductRequestDto {
         return Product.builder().
             productCode(productCode).
             productName(productName).
-            isOnSale(isOnSale).
             detail(detail).
             standardPrice(standardPrice).
             discountPrice(discountPrice).
@@ -34,7 +33,6 @@ public class ProductRequestDto {
             id(productId).
             productCode(productCode).
             productName(productName).
-            isOnSale(isOnSale).
             detail(detail).
             standardPrice(standardPrice).
             discountPrice(discountPrice).

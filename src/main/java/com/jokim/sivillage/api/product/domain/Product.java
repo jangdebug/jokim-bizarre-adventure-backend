@@ -27,8 +27,6 @@ public class Product {
     private String productCode;
     @Column(nullable = false, length = 255)
     private String productName;
-    @Column(nullable = true, columnDefinition = "boolean default true")
-    private boolean isOnSale;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String detail;
     @Column(nullable = false)
