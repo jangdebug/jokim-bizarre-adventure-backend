@@ -1,16 +1,17 @@
 package com.jokim.sivillage.api.customer.vo.in;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 
 @Getter
-public class CustomerCreateAddressRequestVo {
+public class CustomerAddressRequestVo {
 
     private String addressName;
     private String recipient;
+    private String dispCellNo;
     private String phone;
     private String zipCode;
-    private String address;
+    private String addressRoad;
+    private String addressJibeon;
     private String addressDetail;
-    private String message;
+    private Boolean deliveryPolicy;
 }

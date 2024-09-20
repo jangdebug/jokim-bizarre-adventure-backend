@@ -6,6 +6,7 @@ import com.jokim.sivillage.api.customer.dto.DuplicateEmailDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenRequestDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
 import com.jokim.sivillage.api.customer.dto.in.*;
+import com.jokim.sivillage.api.customer.dto.out.AddressResponseDto;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
 import com.jokim.sivillage.api.customer.entity.AuthUserDetail;
 import com.jokim.sivillage.api.customer.infrastructure.*;
@@ -19,6 +20,8 @@ import com.jokim.sivillage.common.redis.TokenBlacklistRepository;
 import com.jokim.sivillage.common.redis.TokenRedis;
 import com.jokim.sivillage.common.redis.TokenRedisRepository;
 import jakarta.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -111,6 +114,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    @Transactional
     @Override
     public void updateInfo(UpdateInfoRequestDto updateInfoRequestDto) {
         String uuid = jwtTokenProvider.validateAndGetUserUuid(updateInfoRequestDto.getAccessToken());
@@ -131,51 +135,69 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    @Transactional
     @Override
-    public void createAddress(CustomerCreateAddressRequestDto customerCreateAddressRequestDto) {
-        //todo 처음 생성시 defaultAddresslistRepo에 값 추가하기
-        
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerCreateAddressRequestDto.getAccessToken());
+    public void createAddress(CustomerAddressRequestDto customerAddressRequestDto) { //체크필요
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerAddressRequestDto.getAccessToken());
+        List<CustomerAddressDefaultList> customerAddressDefaultList =
+            customerAddressDefaultListRepository.findByUuid(uuid);
+
         try{
-            customerAddressRepository.save(customerCreateAddressRequestDto.toEntity(uuid));
+            Address savedAddress = customerAddressRepository.save(customerAddressRequestDto.toEntity(uuid));
+            if(customerAddressDefaultList.isEmpty()){
+                customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toFirstEntity(uuid,
+                    savedAddress.getAddressCode()));
+            }else{
+                customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toEntity(uuid,
+                    savedAddress.getAddressCode()));
+            }
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @Transactional
     @Override
-    public void deleteAddress(String addressCode) {
-        //todo 삭제시 defaultAddressList라면 삭제 안되게 막기
-        customerAddressRepository.deleteByAddressCode(addressCode);
+    public void updateAddress(CustomerAddressRequestDto customerAddressRequestDto) { //체크필요
+        Address address = customerAddressRepository.findByAddressCode(
+            customerAddressRequestDto.getAddressCode()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS
+        ));
+        try{
+            customerAddressRepository.save(customerAddressRequestDto.updateEntity(address));
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Transactional
+    @Override
+    public void setDefaultAddress(CustomerAddressDefaultListDto customerAddressDefaultListDto) {
+        // JWT를 통해 유저 UUID를 검증하고 가져옴
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerAddressDefaultListDto.getAccessToken());
+        String addressCode = customerAddressDefaultListDto.getAddressCode();
+
+        // 기존에 default 주소가 설정된 항목을 찾아서 false로 변경
+        CustomerAddressDefaultList customerAddressDefaultList =
+            customerAddressDefaultListRepository.findByUuidAndIsDefault(uuid, true)
+                .orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
+
+        customerAddressDefaultListRepository.save(
+            customerAddressDefaultListDto.toOldDefaultAddressListEntity(customerAddressDefaultList));
+
+        // 새로 설정하려는 주소 코드를 가진 항목을 찾아서 default로 설정
+        CustomerAddressDefaultList newDefaultAddress =
+            customerAddressDefaultListRepository.findByAddressCode(addressCode)
+                .orElseThrow(()->new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
+
+        customerAddressDefaultListRepository.save(
+            customerAddressDefaultListDto.toNewDefaultAddressListEntity(newDefaultAddress));
     }
 
-//    @Override
-//    public void createCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
-//        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
-//
-//        try{
-//            customerSizeRepository.save(customerSizeRequestDto.toEntity(uuid));
-//        } catch (Exception e) {
-//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    @Override
-//    public void updateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
-//        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
-//        CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
-//
-//        if (customerSize == null) {
-//            throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
-//        }
-//        log.info("customerSize 값 가져와짐? {}",customerSize);
-//
-//        try{
-//            customerSizeRepository.save(customerSizeRequestDto.updateToEntity(customerSize));
-//        } catch (Exception e) {
-//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @Transactional
+    @Override
+    public void deleteAddress(String addressCode) {
+        //todo delete 구현할거면 지워지기전에 DefaultAddress라면 지워지지않게 설정해줘야함.
+        customerAddressRepository.deleteByAddressCode(addressCode);
+    }
 
     @Override
     public void saveOrUpdateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
@@ -286,6 +308,30 @@ public class CustomerServiceImpl implements CustomerService {
         return RefreshTokenResponseDto.toDto(newAccessToken);
     }
 
+    @Override
+    public List<AddressResponseDto> getAddress(String accessToken) {
+        // UUID를 통해 사용자 식별
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(accessToken);
+
+        // UUID로 모든 주소 목록을 가져옴
+        List<Address> addresses = customerAddressRepository.findByUuid(uuid);
+
+        // 주소 목록이 비어있지 않다면
+        if (!addresses.isEmpty()) {
+            // 주소 목록을 순회하며 AddressResponseDto로 변환
+            return addresses.stream().map(address -> {
+                // 각 주소의 addressCode를 통해 기본 배송지 여부 확인
+                Boolean isDefault = customerAddressDefaultListRepository.findByAddressCode(address.getAddressCode())
+                    .map(CustomerAddressDefaultList::getIsDefault)
+                    .orElse(false); // 기본 배송지가 없으면 false로 설정
+
+                // Address와 isDefault 값을 사용해 AddressResponseDto로 변환
+                return AddressResponseDto.toDto(address, isDefault);
+            }).toList();
+        }
+        // 주소가 없을 경우 빈 리스트 반환
+        return List.of();
+    }
 
 
     private Authentication authenticate(Customer customer, String inputPassword) {
