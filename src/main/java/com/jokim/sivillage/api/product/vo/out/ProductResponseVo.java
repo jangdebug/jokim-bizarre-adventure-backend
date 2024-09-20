@@ -14,7 +14,6 @@ import lombok.ToString;
 public class ProductResponseVo {
 
     private String productCode;
-    private String brandName;
     private String productName;
     private Integer discountRate;
     private Double amount;

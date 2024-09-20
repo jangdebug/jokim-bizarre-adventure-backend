@@ -111,11 +111,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         List<ProductResponseDto> productResponseDtoList = jpaQueryFactory
             .select(
-                Projections.bean(ProductResponseDto.class,
+                Projections.fields(ProductResponseDto.class,
                     product.productCode.as("productCode"),
-                    Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100) ",
-                        product.discountPrice,
-                        product.standardPrice).as("discountRate"),
+                    Expressions.cases()
+                        .when(product.standardPrice.eq(0.0))
+                        .then(-1)  // standardPrice가 0이면 0을 반환
+                        .otherwise(
+                            Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
+                                product.discountPrice,
+                                product.standardPrice)
+                        ).as("discountRate"),  // 드물겠지만 standardPrice가
                     product.productName.as("productName"),
 //                product.isOnSale.as("isOnSale"),
                     product.standardPrice.as("price"),
@@ -126,11 +131,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .where(product.productCode.eq(productCode))
             .fetch();
 
+        log.info("productResponseDtoList in repoImpl {}", productResponseDtoList);
         if (productResponseDtoList.isEmpty()) {
             throw new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT);
         }
 
         ProductResponseDto productResponseDto = productResponseDtoList.get(0);
+        log.info("productResponseDto in repoiImpl{}", productResponseDto);
 
 //        // Hashtag 리스트 쿼리
 //        List<HashtagResponseDto> hashtagResponseDtoList = jpaQueryFactory

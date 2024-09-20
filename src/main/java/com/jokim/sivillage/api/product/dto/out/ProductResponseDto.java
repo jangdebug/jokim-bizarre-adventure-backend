@@ -16,7 +16,6 @@ import lombok.ToString;
 public class ProductResponseDto {
 
     private String productCode;
-    private String brandName;
     private String productName;
     private Integer discountRate;
     private Double amount;
@@ -27,7 +26,6 @@ public class ProductResponseDto {
     public ProductResponseVo toResponseVo() {
         return ProductResponseVo.builder()
             .productCode(productCode)
-            .brandName(brandName)
             .productName(productName)
             .discountRate(discountRate)
             .amount(amount)
@@ -36,7 +34,7 @@ public class ProductResponseDto {
             .build();
     }
 
-    public void onSearchChangeBrandName(String brandName) {
-        this.brandName = brandName;
-    }
+//    public void onSearchChangeBrandName(String brandName) {
+//        this.brandName = brandName;
+//    }
 }
