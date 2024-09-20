@@ -20,7 +20,11 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
     @Override
     public void addProductByCategories(
         ProductCategoryListRequestDto productCategoryListRequestDto) {
-        productCategoryListRepository.save(productCategoryListRequestDto.toEntity());
+
+        Boolean isOnSale = productCategoryListRequestDto.getIsOnSale();
+
+        productCategoryListRepository.save(productCategoryListRequestDto.toEntity(
+            isOnSale == null || isOnSale));     // isOnSale == null ? true : isOnSale
     }
 
     @Transactional(readOnly = true)

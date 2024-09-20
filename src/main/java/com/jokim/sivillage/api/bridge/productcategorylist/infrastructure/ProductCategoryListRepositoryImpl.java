@@ -43,6 +43,9 @@ public class ProductCategoryListRepositoryImpl implements ProductCategoryListRep
         Optional.ofNullable(quaternaryCategoryCode)
             .ifPresent(code -> builder.and(productCategoryList.quaternaryCategoyCode.eq(code)));
 
+        // 판매 중인가
+        builder.and(productCategoryList.isOnSale.eq(true));
+
         // 마지막 ID 커서 적용
         Optional.ofNullable(lastId)
             .ifPresent(id -> builder.and(productCategoryList.id.lt(id)));

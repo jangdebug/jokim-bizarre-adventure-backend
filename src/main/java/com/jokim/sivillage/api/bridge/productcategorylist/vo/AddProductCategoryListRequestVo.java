@@ -10,5 +10,6 @@ public class AddProductCategoryListRequestVo {
     private String secondaryCategoyCode;
     private String tertiaryCategoyCode;
     private String quaternaryCategoyCode;
+    private Boolean isOnSale;
 
 }
