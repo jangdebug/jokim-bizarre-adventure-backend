@@ -5,25 +5,32 @@ import com.jokim.sivillage.api.customer.application.CustomerService;
 import com.jokim.sivillage.api.customer.dto.DuplicateEmailDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenRequestDto;
 import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
-import com.jokim.sivillage.api.customer.dto.in.OauthSignInRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.SignInRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.SignUpRequestDto;
-import com.jokim.sivillage.api.customer.dto.in.UpdateRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.*;
+import com.jokim.sivillage.api.customer.dto.out.AddressResponseDto;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
 import com.jokim.sivillage.api.customer.vo.DuplicateEmailVo;
 import com.jokim.sivillage.api.customer.vo.RefreshTokenResponseVo;
-import com.jokim.sivillage.api.customer.vo.in.OauthSignInRequestVo;
-import com.jokim.sivillage.api.customer.vo.in.SignInRequestVo;
-import com.jokim.sivillage.api.customer.vo.in.SignUpRequestVo;
-import com.jokim.sivillage.api.customer.vo.in.UpdateRequestVo;
+import com.jokim.sivillage.api.customer.vo.in.*;
+import com.jokim.sivillage.api.customer.vo.out.AddressResponseVo;
 import com.jokim.sivillage.api.customer.vo.out.SignInResponseVo;
+import com.jokim.sivillage.api.customer.dto.in.CustomerSizeRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.UpdateInfoRequestDto;
+import com.jokim.sivillage.api.customer.dto.in.UpdatePasswordRequestDto;
+import com.jokim.sivillage.api.customer.vo.in.CustomerSizeRequestVo;
+import com.jokim.sivillage.api.customer.vo.in.UpdateInfoRequestVo;
+import com.jokim.sivillage.api.customer.vo.in.UpdatePasswordRequestVo;
+import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
+import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
 import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.websocket.server.PathParam;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -94,20 +101,6 @@ public class CustomerController {
 
     }
 
-    @Operation(summary = "Update API", description = "사용자 비밀번호 업데이트 API 입니다.", tags = {"Auth"})
-    @PostMapping("auth/update")
-    public BaseResponse<Void> update(
-        @RequestHeader("Authorization") String authorizationHeader,
-        @RequestBody UpdateRequestVo updateRequestVo
-    ) {
-        // Authorization 헤더에서 accessToken 추출
-        String accessToken = authorizationHeader.replace("Bearer ", "");
-        customerService.update(UpdateRequestDto.toDto(accessToken,updateRequestVo));
-
-        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
-
-    }
-
     @Operation(summary = "Refresh AccessToken API", description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 재발급합니다.", tags = {"Auth"})
     @PostMapping("auth/refresh")
     public BaseResponse<RefreshTokenResponseVo> refreshAccessToken(
@@ -126,6 +119,120 @@ public class CustomerController {
             log.error("리프레시 토큰 재발급 오류: ", e);
             return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Operation(summary = "UpdatePassword API", description = "사용자 비밀번호 업데이트 API 입니다.", tags = {"MyPage"})
+    @PutMapping("/mypage/init-info/change-pwd")
+    public BaseResponse<Void> updatePassword(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody UpdatePasswordRequestVo updatePasswordRequestVo
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.updatePassword(UpdatePasswordRequestDto.toDto(accessToken, updatePasswordRequestVo));
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "UpdateInfo API", description = "사용자 정보/정책 업데이트 API 입니다.", tags = {"MyPage"})
+    @PutMapping("/mypage/info")
+    public BaseResponse<Void> updateInfo(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody UpdateInfoRequestVo updateInfoRequestVo
+            ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.updateInfo(UpdateInfoRequestDto.toDto(accessToken, updateInfoRequestVo));
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 API 입니다.", tags = {"MyPage"})
+    @PostMapping("/mypage/size")
+    public BaseResponse<Void> createCustomerSize(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody CustomerSizeRequestVo customerSizeRequestVo
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.saveOrUpdateCustomerSize(CustomerSizeRequestDto.toDto(accessToken, customerSizeRequestVo));
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "Delivery API", description = "사용자 배송지 조회 API 입니다.", tags = {"MyPage"})
+    @GetMapping("/mypage/delivery-info")
+    public ResponseEntity<List<AddressResponseVo>> getAddress(
+        @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+
+        // AddressResponseDto 리스트를 받아옴
+        List<AddressResponseDto> addressResponseDtos = customerService.getAddress(accessToken);
+
+        // AddressResponseDto 리스트를 AddressResponseVo 리스트로 변환
+        List<AddressResponseVo> addressResponseVos = addressResponseDtos.stream()
+            .map(AddressResponseDto::toVo)
+            .toList(); // Dto -> Vo로 변환
+
+        // 결과를 ResponseEntity로 반환
+        return ResponseEntity.ok(addressResponseVos);
+    }
+
+    @Operation(summary = "Delevery API", description = "사용자 배송지 생성 API 입니다.", tags = {"MyPage"})
+    @PostMapping("/mypage/delivery-info")
+    public BaseResponse<Void> CreateAddress(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody CustomerAddressRequestVo customerAddressRequestVo
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.createAddress(
+            CustomerAddressRequestDto.toDto(accessToken, customerAddressRequestVo));
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "Delevery API", description = "사용자 배송지 삭제 API 입니다.", tags = {"MyPage"})
+    @DeleteMapping("/mypage/delivery-info/{addressCode}")
+    public BaseResponse<Void> DeleteAddress(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable("addressCode") String addressCode
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        customerService.deleteAddress(addressCode);
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "Delevery API", description = "사용자 배송지 수정 API 입니다.", tags = {"MyPage"})
+    @PutMapping("/mypage/delivery-info")
+    public BaseResponse<Void> UpdateAddress(
+        @RequestHeader("Authorization") String authorizationHeader,
+        @RequestBody CustomerAddressUpdateVo customerAddressUpdateVo
+    ) {
+        customerService.updateAddress(CustomerAddressRequestDto.toUpdateDto(customerAddressUpdateVo));
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "Delevery API", description = "사용자 기본배송지 설정 API 입니다.", tags = {"MyPage"})
+    @PutMapping("/mypage/delivery/default-address/{addressCode}")
+    public BaseResponse<Void> setDefaultAddress(
+        @RequestHeader("Authorization") String authorizationHeader,
+        @PathVariable("addressCode") String addressCode
+    ) {
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.setDefaultAddress(CustomerAddressDefaultListDto.toSetDefaultAddress(addressCode, accessToken));
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
     }
 
 

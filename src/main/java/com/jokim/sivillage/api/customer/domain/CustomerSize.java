@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerAddressDefaultList {
+public class CustomerSize {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +18,19 @@ public class CustomerAddressDefaultList {
     @Column(nullable = false, length = 36)
     private String uuid;
 
-    @Column(nullable = false, length = 36)
-    private String addressCode;
+    @Column(nullable = false)
+    private Integer weight;
 
     @Column(nullable = false)
-    private Boolean isDefault;
+    private Integer height;
+
+    @Column(nullable = false, length = 10)
+    private String topSize;
+
+    @Column(nullable = false, length = 10)
+    private String bottomSize;
+
+    @Column(nullable = false, length = 10)
+    private String footSize;
+
 }

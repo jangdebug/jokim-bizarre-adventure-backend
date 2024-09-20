@@ -1,7 +1,7 @@
 package com.jokim.sivillage.api.customer.dto.in;
 
 import com.jokim.sivillage.api.customer.domain.Customer;
-import com.jokim.sivillage.api.customer.vo.in.UpdateRequestVo;
+import com.jokim.sivillage.api.customer.vo.in.UpdatePasswordRequestVo;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -10,14 +10,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UpdateRequestDto {
+public class UpdatePasswordRequestDto {
     private String accessToken;
     private String password;
 
-    public static UpdateRequestDto toDto(String accessToken, UpdateRequestVo updateRequestVo) {
-        return UpdateRequestDto.builder()
+    public static UpdatePasswordRequestDto toDto(String accessToken, UpdatePasswordRequestVo updatePasswordRequestVo) {
+        return UpdatePasswordRequestDto.builder()
             .accessToken(accessToken)
-            .password(updateRequestVo.getPassword())
+            .password(updatePasswordRequestVo.getPassword())
             .build();
     }
 
