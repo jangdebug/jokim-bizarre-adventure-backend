@@ -1,6 +1,5 @@
 package com.jokim.sivillage.api.product.dto.in;
 
-import com.jokim.sivillage.api.brand.Brand;
 import com.jokim.sivillage.api.product.domain.Product;
 import lombok.Getter;
 
@@ -8,7 +7,6 @@ import lombok.Getter;
 public class ProductRequestDto {
 
     private Long id;
-    private Brand brand;
     private String productName;
     private boolean isOnSale;
     private String detail;
@@ -17,7 +15,6 @@ public class ProductRequestDto {
     public Product toEntity() {
         return Product.builder().
             id(id).
-            brand(brand).
             productName(productName).
             isOnSale(isOnSale).
             detail(detail).

@@ -1,6 +1,5 @@
 package com.jokim.sivillage.api.product.dto.out;
 
-import com.jokim.sivillage.api.brand.Brand;
 import com.jokim.sivillage.api.product.vo.out.DailyHotProductResponseVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +10,6 @@ public class DailyHotProductResponseDto {
 
     private Long productId;
     private String productName;
-    private Brand brandName;
     private String imageUrl;
     private Integer rank;
     private Double price;
@@ -22,7 +20,6 @@ public class DailyHotProductResponseDto {
         return DailyHotProductResponseVo.builder()
             .productId(productId)
             .productName(productName)
-            .brandName(brandName)
             .imageUrl(imageUrl)
             .rank(rank)
             .price(price)

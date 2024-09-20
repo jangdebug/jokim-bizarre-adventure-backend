@@ -1,6 +1,5 @@
 package com.jokim.sivillage.api.product.vo.out;
 
-import com.jokim.sivillage.api.brand.Brand;
 import lombok.*;
 
 @Builder
@@ -11,7 +10,6 @@ public class DailyHotProductResponseVo {
 
     private Long productId;
     private String productName;
-    private Brand brandName;
     private String imageUrl;
     private Integer rank;
     private Double price;

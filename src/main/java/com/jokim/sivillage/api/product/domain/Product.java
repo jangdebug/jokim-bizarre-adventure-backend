@@ -1,7 +1,5 @@
 package com.jokim.sivillage.api.product.domain;
 
-
-import com.jokim.sivillage.api.brand.Brand;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,10 +20,6 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "brand_id")
-    private Brand brand;
 
     @Column(length = 255, nullable = false)
     private String productName;

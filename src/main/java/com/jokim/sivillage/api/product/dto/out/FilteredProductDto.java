@@ -1,6 +1,5 @@
 package com.jokim.sivillage.api.product.dto.out;
 
-import com.jokim.sivillage.api.brand.Brand;
 
 public class FilteredProductDto {
 
@@ -10,7 +9,6 @@ public class FilteredProductDto {
     private String imageUrl;
     private Double price;
     private Integer discountRate;
-    private Brand brandName;
     private Boolean productWishListId;
 
 }
