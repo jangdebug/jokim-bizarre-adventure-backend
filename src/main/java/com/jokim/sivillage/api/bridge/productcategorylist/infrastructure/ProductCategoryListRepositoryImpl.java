@@ -35,13 +35,13 @@ public class ProductCategoryListRepositoryImpl implements ProductCategoryListRep
             .ifPresent(code -> builder.and(productCategoryList.mainCategoryCode.eq(code)));
 
         Optional.ofNullable(secondaryCategoryCode)
-            .ifPresent(code -> builder.and(productCategoryList.secondaryCategoyCode.eq(code)));
+            .ifPresent(code -> builder.and(productCategoryList.secondaryCategoryCode.eq(code)));
 
         Optional.ofNullable(tertiaryCategoryCode)
-            .ifPresent(code -> builder.and(productCategoryList.tertiaryCategoyCode.eq(code)));
+            .ifPresent(code -> builder.and(productCategoryList.tertiaryCategoryCode.eq(code)));
 
         Optional.ofNullable(quaternaryCategoryCode)
-            .ifPresent(code -> builder.and(productCategoryList.quaternaryCategoyCode.eq(code)));
+            .ifPresent(code -> builder.and(productCategoryList.quaternaryCategoryCode.eq(code)));
 
         // 판매 중인가
         builder.and(productCategoryList.isOnSale.eq(true));

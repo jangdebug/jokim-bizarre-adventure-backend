@@ -6,10 +6,10 @@ import lombok.Getter;
 public class AddProductCategoryListRequestVo {
 
     private String productCode;
-    private String mainCategoyCode;
-    private String secondaryCategoyCode;
-    private String tertiaryCategoyCode;
-    private String quaternaryCategoyCode;
+    private String mainCategoryCode;
+    private String secondaryCategoryCode;
+    private String tertiaryCategoryCode;
+    private String quaternaryCategoryCode;
     private Boolean isOnSale;
 
 }
