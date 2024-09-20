@@ -1,32 +1,42 @@
 package com.jokim.sivillage.api.product.dto.out;
 
-import com.jokim.sivillage.api.brand.Brand;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Setter
+
 @ToString
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ProductResponseDto {
 
-    private Long productId;
-    private Brand brand;
+    private String productCode;
+    private String brandName;
     private String productName;
-    private boolean isOnSale;
-    private String detail;
+    private Integer discountRate;
+    private Double amount;
     private Double price;
+    private String detail;
+
 
     public ProductResponseVo toResponseVo() {
         return ProductResponseVo.builder()
-            .id(productId)
-            .brandName(brand.getMainName())
-            .productName(productName) // TODO .discountRate() 필요없을 시
-            .detail(detail)
+            .productCode(productCode)
+            .brandName(brandName)
+            .productName(productName)
+            .discountRate(discountRate)
+            .amount(amount)
             .price(price)
+            .detail(detail)
             .build();
     }
 
-
+    public void onSearchChangeBrandName(String brandName) {
+        this.brandName = brandName;
+    }
 }

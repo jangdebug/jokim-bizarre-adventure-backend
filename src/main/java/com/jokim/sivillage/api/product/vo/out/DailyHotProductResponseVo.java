@@ -1,6 +1,6 @@
 package com.jokim.sivillage.api.product.vo.out;
 
-import com.jokim.sivillage.api.brand.Brand;
+import com.jokim.sivillage.api.brand.domain.Brand;
 import lombok.*;
 
 @Builder

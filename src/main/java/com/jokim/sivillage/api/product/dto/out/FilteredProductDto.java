@@ -1,6 +1,6 @@
 package com.jokim.sivillage.api.product.dto.out;
 
-import com.jokim.sivillage.api.brand.Brand;
+import com.jokim.sivillage.api.brand.domain.Brand;
 
 public class FilteredProductDto {
 
