@@ -6,7 +6,6 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GEN
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_CATEGORY;
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_PARENT_CATEGORY;
 
-import com.jokim.sivillage.api.bridge.productcategorylist.infrastructure.ProductCategoryListRepository;
 import com.jokim.sivillage.api.category.domain.Category;
 import com.jokim.sivillage.api.category.dto.CategoryRequestDto;
 import com.jokim.sivillage.api.category.dto.CategoryResponseDto;
@@ -49,10 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional(readOnly = true)
     @Override
     public List<CategoryResponseDto> getSubcategories(String parentCategoryCode) {
-
-        // null을 제외한 해당 부모 카테고리 코드가 테이블에 없을 경우
-        if(parentCategoryCode != null && !categoryRepository.existsByCategoryCode(parentCategoryCode))
-            throw new BaseException(NOT_EXIST_PARENT_CATEGORY);
 
         List<Category> categories = categoryRepository.findByParentCategoryCategoryCode(
             parentCategoryCode);
