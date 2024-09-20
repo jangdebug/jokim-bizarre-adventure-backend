@@ -10,4 +10,6 @@ public interface EventMediaListService {
 
     List<EventMediaListResponseDto> getEventMediaList(String eventCode);
 
+    void updateEventMediaList(EventMediaListRequestDto eventMediaListRequestDto);
+
 }

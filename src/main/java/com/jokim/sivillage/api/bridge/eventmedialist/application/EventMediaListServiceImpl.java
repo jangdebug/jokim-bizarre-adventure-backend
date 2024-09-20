@@ -1,7 +1,9 @@
 package com.jokim.sivillage.api.bridge.eventmedialist.application;
 
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.ALREADY_EXIST_THUMBNAIL;
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_MEDIA;
 
+import com.jokim.sivillage.api.bridge.eventmedialist.domain.EventMediaList;
 import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListRequestDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.infrastructure.EventMediaListRepository;
@@ -34,4 +36,26 @@ public class EventMediaListServiceImpl implements EventMediaListService {
         return eventMediaListRepository.findByEventCode(eventCode)
             .stream().map(EventMediaListResponseDto::toDto).toList();
     }
+
+    @Transactional
+    @Override
+    public void updateEventMediaList(EventMediaListRequestDto eventMediaListRequestDto) {
+
+        Long newThumbnailMediaId = eventMediaListRepository.findByEventCodeAndMediaCode(
+            eventMediaListRequestDto.getEventCode(), eventMediaListRequestDto.getMediaCode())
+            .orElseThrow(() -> new BaseException(NOT_EXIST_MEDIA)).getId();
+
+        List<EventMediaList> oldThumbnailMediaList = eventMediaListRepository.findByEventCodeAndIsThumbnail(
+            eventMediaListRequestDto.getEventCode(), true);
+
+        for(EventMediaList oldThumbnailMedia : oldThumbnailMediaList) {
+            eventMediaListRepository.save(
+                eventMediaListRequestDto.toEntity(
+                    oldThumbnailMedia.getId(), oldThumbnailMedia.getMediaCode(), false));
+        }
+
+        eventMediaListRepository.save(
+            eventMediaListRequestDto.toEntity(newThumbnailMediaId, true));
+    }
+
 }
