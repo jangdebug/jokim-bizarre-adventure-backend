@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewMediaListRepository extends JpaRepository<ReviewMediaList, Long> {
-
+    List<ReviewMediaList> findByReviewCodeIn(List<String> reviewCodes);
     List<ReviewMediaList> findByReviewCode(String reviewCode);
 
 }

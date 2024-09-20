@@ -76,6 +76,7 @@ public enum BaseResponseStatus {
     // Shorts
     NO_EXIST_PRODUCT(HttpStatus.NOT_FOUND, false, 3001, "존재하지 않는 상품입니다"),
     NO_EXIST_OPTION(HttpStatus.NOT_FOUND, false, 3002, "존재하지 않는 옵션입니다"),
+    NO_EXIST_REVIEW(HttpStatus.NOT_FOUND, false, 3003, "리뷰가 존재하지 않습니다."),
 
     /**
      * 4000: comment service error
