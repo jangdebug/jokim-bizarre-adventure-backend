@@ -34,7 +34,7 @@ public class ProductMediaListServiceImpl implements ProductMediaListService {
     @Transactional(readOnly = true)
     @Override
     public List<ProductMediaListResponseDto> getProductMediaList(String productCode) {
-        return productMediaListRepository.findByProductCode(productCode)
+        return productMediaListRepository.findByProductCodeOrderById(productCode)
                 .stream().map(ProductMediaListResponseDto::toDto).toList();
     }
 
