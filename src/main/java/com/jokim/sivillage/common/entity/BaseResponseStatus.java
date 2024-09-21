@@ -61,7 +61,8 @@ public enum BaseResponseStatus {
     NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, false, 2401, "존재하지 않는 카테고리입니다."),
     ALREADY_EXIST_CATEGORY_NAME(HttpStatus.BAD_REQUEST, false, 2402, "이미 존재하는 카테고리명입니다."),
     NOT_EXIST_PARENT_CATEGORY(HttpStatus.BAD_REQUEST, false, 2403, "존재하지 않는 상위 카테고리입니다."),
-    FAILED_TO_GENERATE_CATEGORY_CODE(HttpStatus.CONFLICT, false, 2404, "고유한 카테고리 코드를 생성하는 데 실패했습니다."),
+    FAILED_TO_GENERATE_CATEGORY_CODE(HttpStatus.CONFLICT, false, 2404,
+        "고유한 카테고리 코드를 생성하는 데 실패했습니다."),
     FAILED_TO_UPDATE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2405, "부모 카테고리를 업데이트 할 수 없습니다."),
     FAILED_TO_DELETE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2406, "하위 카테고리가 있어서 삭제할 수 없습니다."),
 
@@ -78,6 +79,7 @@ public enum BaseResponseStatus {
     // Shorts
     NO_EXIST_PRODUCT(HttpStatus.NOT_FOUND, false, 3001, "존재하지 않는 상품입니다"),
     NO_EXIST_OPTION(HttpStatus.NOT_FOUND, false, 3002, "존재하지 않는 옵션입니다"),
+    ALREADY_EXIST_PRODUCT_CODE(HttpStatus.NOT_FOUND, false, 3003, "이미 존재하는 상품코드입니다."),
 
     /**
      * 4000: comment service error
