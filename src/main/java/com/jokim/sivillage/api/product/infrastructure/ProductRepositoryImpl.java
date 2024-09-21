@@ -1,10 +1,14 @@
 package com.jokim.sivillage.api.product.infrastructure;
 
+import static com.jokim.sivillage.api.bridge.productmedialist.domain.QProductMediaList.productMediaList;
+import static com.jokim.sivillage.api.media.domain.QMedia.media;
 import static com.jokim.sivillage.api.product.domain.QProduct.product;
 
+import com.jokim.sivillage.api.media.domain.MediaType;
 import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.domain.QProduct;
 import com.jokim.sivillage.api.product.domain.QProductOption;
+import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
@@ -167,5 +171,25 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public List<ProductListResponseDto> getRandomProducts(Integer count) {
         // 피드백 후 진행
         return List.of();
+    }
+
+    @Override
+    public List<ProductImageResponseDto> getProductImagesByProductCode(String productCode) {
+        List<ProductImageResponseDto> productResponseDtoList = jpaQueryFactory
+            .select(
+                Projections.fields(ProductImageResponseDto.class,
+                    media.url.as("imageUrl")
+                ))
+            .from(media)
+            .leftJoin(productMediaList).on(media.mediaCode.eq(productMediaList.mediaCode))
+            .where(productMediaList.productCode.eq(productCode),
+                media.type.eq(MediaType.valueOf("IMAGE"))
+            )  // image 들만 반환
+            .orderBy(media.id.desc())   // 순서 일정하게 보장
+            .fetch();
+
+        log.info("productResponseDtoList in ProductRepoImpl {}", productResponseDtoList.toString());
+
+        return productResponseDtoList;
     }
 }

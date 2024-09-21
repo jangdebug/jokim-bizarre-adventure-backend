@@ -2,9 +2,11 @@ package com.jokim.sivillage.api.product.presentation;
 
 import com.jokim.sivillage.api.product.application.ProductService;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
+import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.vo.in.ProductRequestVo;
+import com.jokim.sivillage.api.product.vo.out.ProductImageResponseVo;
 import com.jokim.sivillage.api.product.vo.out.ProductListResponseVo;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
@@ -34,14 +36,30 @@ public class ProductController {
 
 
     // 상품 데이터 보기
-    @Operation(summary = "상품 데이터 보기", description = "상품코드로 상품 데이터를 조회한다.")
+    @Operation(summary = "상품 데이터 보기(상품관련)", description = "상품코드로 상품 관련 데이터를 조회한다.")
     @GetMapping("/products/{productCode}")
     public BaseResponse<ProductResponseVo> getProduct(@PathVariable String productCode) {
         log.info("productCoded : {}", productCode);
         ProductResponseDto productResponseDto = productService.getProductByProductCode(productCode);
         log.info("productResponseDto : {}", productResponseDto.toString());
         ProductResponseVo productResponseVo = productResponseDto.toResponseVo();
-        return new BaseResponse(productResponseVo);
+        return new BaseResponse<>(productResponseVo);
+    }
+
+    // 상품 이미지 데이터 보기
+    @Operation(summary = "상품 데이터 보기(이미지관련)", description = "상품코드로 이미지 관련 데이터를 조회한다.")
+    @GetMapping("/product-image/{productCode}")
+    public List<ProductImageResponseVo> getProductImage(
+        @PathVariable String productCode) {
+        log.info("productCoded : {}", productCode);
+        List<ProductImageResponseDto> productImageResponseDtoList = productService.getProductImageByProductCode(
+            productCode);
+        log.info("productImageResponseDtoList in ProductController {}",
+            productImageResponseDtoList.toString());
+        List<ProductImageResponseVo> productImageResponseVoList = productImageResponseDtoList.stream()
+            .map(ProductImageResponseDto::toVo).toList();
+        log.info("productImageResponseVoList {}", productImageResponseVoList.toString());
+        return productImageResponseVoList;
     }
 
     // 상품 데이터 입력

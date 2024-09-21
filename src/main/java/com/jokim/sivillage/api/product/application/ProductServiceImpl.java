@@ -6,6 +6,7 @@ import com.jokim.sivillage.api.bridge.brandproductlist.repository.BrandProductLi
 import com.jokim.sivillage.api.hashtag.infrastructure.ProductHashtagRepository;
 import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
+import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepository;
@@ -73,6 +74,11 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(product.getId());
     }
 
+    @Override
+    public List<ProductImageResponseDto> getProductImageByProductCode(String productCode) {
+        
+        return productRepositoryCustom.getProductImagesByProductCode(productCode);
+    }
     // 옵션 별 상품 반환
 //    @Override
 //    @Transactional
