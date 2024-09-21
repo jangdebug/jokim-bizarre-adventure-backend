@@ -1,13 +1,16 @@
 package com.jokim.sivillage.api.product.domain;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -20,21 +23,15 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = 255, nullable = false)
+    @Column(nullable = false, length = 36, unique = true)
+    private String productCode;
+    @Column(nullable = false, length = 255)
     private String productName;
-
-    @Column(nullable = true)
-    private boolean isOnSale;
-
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String detail;
-
     @Column(nullable = false)
-    private Double price;
-
-    @OneToMany(mappedBy = "product")
-    private List<ProductOption> options;
-
+    private Double standardPrice;
+    @Column(nullable = false)
+    private Double discountPrice;
 
 }

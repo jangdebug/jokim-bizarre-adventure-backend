@@ -44,37 +44,37 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        authorizeRequests -> authorizeRequests
-                                .requestMatchers(
-                                        "/swagger-ui/**",
-                                        "/v3/api-docs/**",
-                                        "/v1/**",
-                                        "/v1/auth/refresh",
-                                        "/v1/auth/sign-in",
-                                        "/v1/auth/sign-in/oauth",
-                                        "/v1/auth/sign-up/simple",
-                                        "/v1/auth/duplicate-email",
-                                        "/error"
-                                )
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                )
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(
+                authorizeRequests -> authorizeRequests
+                    .requestMatchers(
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/v1/**",
+                        "/v1/auth/refresh",
+                        "/v1/auth/sign-in",
+                        "/v1/auth/sign-in/oauth",
+                        "/v1/auth/sign-up/simple",
+                        "/v1/auth/duplicate-email",
+                        "/error"
+                    )
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+            )
 
-                .sessionManagement(
-                        sessionManagement -> sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilter(corsFilter())
-                .logout(logout -> logout
-                        .logoutUrl("/v1/auth/logout")
-                        .addLogoutHandler(customLogoutHandler) // CustomLogoutHandler 추가
-                        .logoutSuccessHandler(new SimpleUrlLogoutSuccessHandler())  // 로그아웃 성공 시 동작
-                );
+            .sessionManagement(
+                sessionManagement -> sessionManagement
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilter(corsFilter())
+            .logout(logout -> logout
+                .logoutUrl("/v1/auth/logout")
+                .addLogoutHandler(customLogoutHandler) // CustomLogoutHandler 추가
+                .logoutSuccessHandler(new SimpleUrlLogoutSuccessHandler())  // 로그아웃 성공 시 동작
+            );
 
         return http.build();
     }
