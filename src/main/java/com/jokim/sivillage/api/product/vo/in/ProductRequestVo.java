@@ -16,5 +16,6 @@ public class ProductRequestVo {
     private String detail;
     private Double standardPrice;
     private Double discountPrice;
+    private String brandName;
 
 }

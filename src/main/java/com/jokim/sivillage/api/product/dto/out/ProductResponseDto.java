@@ -21,7 +21,7 @@ public class ProductResponseDto {
     private Double amount;
     private Double price;
     private String detail;
-
+    private String brandName;
 
     public ProductResponseVo toResponseVo() {
         return ProductResponseVo.builder()
@@ -31,6 +31,7 @@ public class ProductResponseDto {
             .amount(amount)
             .price(price)
             .detail(detail)
+            .brandName(brandName)
             .build();
     }
 

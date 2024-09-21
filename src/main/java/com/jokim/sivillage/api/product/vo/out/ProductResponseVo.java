@@ -19,5 +19,6 @@ public class ProductResponseVo {
     private Double amount;
     private Double price;
     private String detail;
+    private String brandName;
 
 }

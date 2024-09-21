@@ -129,7 +129,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 //                product.isOnSale.as("isOnSale"),
                     product.standardPrice.as("price"),
                     product.discountPrice.as("amount"),
-                    product.detail.as("detail")
+                    product.detail.as("detail"),
+                    product.brandName.as("brandName")
                 ))
             .from(product)
             .where(product.productCode.eq(productCode))

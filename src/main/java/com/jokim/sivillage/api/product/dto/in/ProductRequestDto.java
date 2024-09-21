@@ -16,6 +16,7 @@ public class ProductRequestDto {
     private String detail;
     private Double standardPrice;
     private Double discountPrice;
+    private String brandName;
 
     public Product toEntity() {
         return Product.builder().
@@ -24,6 +25,7 @@ public class ProductRequestDto {
             detail(detail).
             standardPrice(standardPrice).
             discountPrice(discountPrice).
+            brandName(brandName).
             build();
     }
 
@@ -35,6 +37,7 @@ public class ProductRequestDto {
             detail(detail).
             standardPrice(standardPrice).
             discountPrice(discountPrice).
+            brandName(brandName).
             build();
     }
 
