@@ -49,17 +49,15 @@ public class ProductController {
     // 상품 이미지 데이터 보기
     @Operation(summary = "상품 데이터 보기(이미지관련)", description = "상품코드로 이미지 관련 데이터를 조회한다.")
     @GetMapping("/product-image/{productCode}")
-    public List<ProductImageResponseVo> getProductImage(
+    public BaseResponse<List<ProductImageResponseVo>> getProductImage(
         @PathVariable String productCode) {
         log.info("productCoded : {}", productCode);
         List<ProductImageResponseDto> productImageResponseDtoList = productService.getProductImageByProductCode(
             productCode);
         log.info("productImageResponseDtoList in ProductController {}",
             productImageResponseDtoList.toString());
-        List<ProductImageResponseVo> productImageResponseVoList = productImageResponseDtoList.stream()
-            .map(ProductImageResponseDto::toVo).toList();
-        log.info("productImageResponseVoList {}", productImageResponseVoList.toString());
-        return productImageResponseVoList;
+        return new BaseResponse<>(productImageResponseDtoList.stream()
+            .map(ProductImageResponseDto::toVo).toList());
     }
 
     // 상품 데이터 입력
@@ -94,6 +92,15 @@ public class ProductController {
 
     }
 
+
+    // 상품 리스트 반환
+    @Operation(summary = "상품 리스트 반환", description = "상품 리스트 목록을 반환한다")
+    @GetMapping("/products/category-id")
+    public BaseResponse<List<ProductListResponseVo>> getProductList(
+        @RequestParam String categoryId) {
+
+        return new BaseResponse<>();
+    }
     // 옵션 별  필터링 된 상품 보기
     // todo 상품 리스트 정보 반환 구현 후 진행 예정
 //    @Operation
