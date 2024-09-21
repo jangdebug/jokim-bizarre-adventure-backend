@@ -30,4 +30,7 @@ public class BrandMediaList {
     @Column(nullable = false, length = 36)
     private String mediaCode;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean isLogo;
+
 }

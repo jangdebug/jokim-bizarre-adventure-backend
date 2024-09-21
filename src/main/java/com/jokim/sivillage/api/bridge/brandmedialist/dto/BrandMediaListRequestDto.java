@@ -5,11 +5,13 @@ import com.jokim.sivillage.api.bridge.brandmedialist.vo.AddBrandMediaListRequest
 import lombok.Builder;
 import lombok.Getter;
 
+@Getter
 @Builder
 public class BrandMediaListRequestDto {
 
     private String brandCode;
     private String mediaCode;
+    private Boolean isLogo;
 
     public static BrandMediaListRequestDto toDto(
         AddBrandMediaListRequestVo addBrandMediaListRequestVo) {
@@ -17,13 +19,15 @@ public class BrandMediaListRequestDto {
         return BrandMediaListRequestDto.builder()
             .brandCode(addBrandMediaListRequestVo.getBrandCode())
             .mediaCode(addBrandMediaListRequestVo.getMediaCode())
+            .isLogo(addBrandMediaListRequestVo.getIsLogo())
             .build();
     }
 
-    public BrandMediaList toEntity() {
+    public BrandMediaList toEntity(Boolean isLogo) {
         return BrandMediaList.builder()
             .brandCode(brandCode)
             .mediaCode(mediaCode)
+            .isLogo(isLogo)
             .build();
     }
 

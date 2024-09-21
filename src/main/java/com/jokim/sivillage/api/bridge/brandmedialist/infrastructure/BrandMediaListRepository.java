@@ -8,4 +8,6 @@ public interface BrandMediaListRepository extends JpaRepository<BrandMediaList, 
 
     List<BrandMediaList> findByBrandCode(String brandCode);
 
+    boolean existsByBrandCodeAndIsLogo(String brandCode, Boolean isLogo);
+
 }

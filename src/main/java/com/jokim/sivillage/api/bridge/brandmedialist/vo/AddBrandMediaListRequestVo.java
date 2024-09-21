@@ -8,5 +8,6 @@ public class AddBrandMediaListRequestVo {
 
     private String brandCode;
     private String mediaCode;
+    private Boolean isLogo;
 
 }
