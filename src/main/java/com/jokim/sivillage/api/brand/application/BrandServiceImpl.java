@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -39,6 +41,14 @@ public class BrandServiceImpl implements BrandService {
 
         return BrandResponseDto.toDto(
                 brandRepository.findByBrandCode(brandCode).orElse(new Brand()), logoMediaCode);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<BrandResponseDto> getAllBrands() {
+
+        return brandRepository.findAllByOrderByEnglishInitial().stream()
+                .map(BrandResponseDto::toDto).toList();
     }
 
     private String generateUniqueBrandCode() {

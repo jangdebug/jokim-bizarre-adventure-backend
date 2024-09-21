@@ -2,13 +2,17 @@ package com.jokim.sivillage.api.brand.presentation;
 
 import com.jokim.sivillage.api.brand.application.BrandService;
 import com.jokim.sivillage.api.brand.dto.BrandRequestDto;
+import com.jokim.sivillage.api.brand.dto.BrandResponseDto;
 import com.jokim.sivillage.api.brand.vo.in.AddBrandRequestVo;
+import com.jokim.sivillage.api.brand.vo.out.BrandDetailResponseVo;
 import com.jokim.sivillage.api.brand.vo.out.BrandSummaryResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Brand")
 @RequiredArgsConstructor
@@ -29,7 +33,15 @@ public class BrandController {
     @GetMapping("/{brandCode}")
     public BaseResponse<BrandSummaryResponseVo> getBrandSummary(@PathVariable String brandCode) {
 
-        return new BaseResponse<>(brandService.getBrandSummary(brandCode).toVo());
+        return new BaseResponse<>(brandService.getBrandSummary(brandCode).toSummaryVo());
+    }
+
+    @Operation(summary = "Brand 전체 조회")
+    @GetMapping
+    public BaseResponse<List<BrandDetailResponseVo>> getAllBrands() {
+
+        return new BaseResponse<>(brandService.getAllBrands().stream()
+                .map(BrandResponseDto::toDetailVo).toList());
     }
 
 }
