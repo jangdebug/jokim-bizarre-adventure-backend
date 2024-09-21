@@ -2,18 +2,25 @@ package com.jokim.sivillage.api.product.dto.out;
 
 
 import com.jokim.sivillage.api.product.vo.out.ProductListResponseVo;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @Getter
 @Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductListResponseDto {
 
     private String productCode;
     private String productName;
     private String imageUrl;
-    private String discountRate;
+    private Double price;
+    private Integer discountRate;
     private String brandName;
 
 
@@ -22,6 +29,7 @@ public class ProductListResponseDto {
             .productCode(productCode)
             .productName(productName)
             .imageUrl(imageUrl)
+            .price(price)
             .discountRate(discountRate)
             .brandName(brandName)
             .build();

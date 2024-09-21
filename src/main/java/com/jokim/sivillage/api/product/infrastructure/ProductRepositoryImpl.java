@@ -13,11 +13,13 @@ import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
 import com.jokim.sivillage.common.exception.BaseException;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -70,49 +72,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     @Override
     public ProductResponseDto findProductDtoByProductCode(String productCode) {
 
-//        List<ProductResponseDto> productResponseDtos = jpaQueryFactory
-//            .select(Projections.bean(
-//                ProductResponseDto.class,
-//                product.productCode.as("productCode"),
-//                media.url.as("imageUrl"),
-//                brand.mainName.as("brandName"),
-//                Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100) ",
-//                    product.discountPrice,
-//                    product.standardPrice).as("discountRate"),
-//                product.productName.as("productName"),
-//                product.isOnSale.as("isOnSale"),
-//                product.standardPrice.as("price"),
-//                product.discountPrice.as("amount"),
-//                product.detail.as("detail"),
-//                Expressions.numberTemplate(Double.class, "ROUND({0},1)", review.starPoint.avg())
-//                    .as("starPoint"),
-//                Expressions.asNumber(review.count()).as("reviewCount")
-//
-//            ))
-//            .from(product)
-//            .leftJoin(productMediaList).on(product.productCode.eq(
-//                productMediaList.productCode))  // productMediaList와 product 조인
-//            .leftJoin(media)
-//            .on(productMediaList.mediaCode.eq(media.mediaCode))  // productMediaList와 media 조인
-////            .leftJoin(brandProductList).on(product.productCode.eq(brandProductList.productCode))
-////            .leftJoin(brand).on(brandProductList.brandCode.eq(brand.brandCode))
-////            .leftJoin(review).on(product.productCode.eq(review.productCode))
-//            // n * n * n * n ..
-//            .where(product.productCode.eq(productCode))
-//            .groupBy(
-//                product.productCode,
-//                media.url,
-//                brand.mainName,
-//                product.discountPrice,
-//                product.standardPrice,
-//                product.productName,
-//                product.isOnSale,
-//                product.standardPrice,
-//                product.discountPrice,
-//                product.detail
-//            )
-//            .fetch();
-
         List<ProductResponseDto> productResponseDtoList = jpaQueryFactory
             .select(
                 Projections.fields(ProductResponseDto.class,
@@ -143,28 +102,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         ProductResponseDto productResponseDto = productResponseDtoList.get(0);
         log.info("productResponseDto in repoiImpl{}", productResponseDto);
-
-//        // Hashtag 리스트 쿼리
-//        List<HashtagResponseDto> hashtagResponseDtoList = jpaQueryFactory
-//            .select(Projections.bean(
-//                HashtagResponseDto.class,
-//                hashtag.id.as("hashtagId"),
-//                hashtag.value.as("value")
-//            ))
-//            .from(productHashtag)
-//            .leftJoin(hashtag).on(productHashtag.hashtag.id.eq(hashtag.id))
-//            .where(productHashtag.productCode.eq(productCode))
-//            .fetch();
-
-//        List<HashtagResponseVo> hashtagResponseVoList = hashtagResponseDtoList
-//            .stream().map(h -> h.toVo()).toList();
-//        hashtagResponseVoList.forEach(vo -> log.info("HashtagResponseVo: {}", vo));
-//        log.info("hashtagResponseVos {}", hashtagResponseVoList);
-
-        // DTO에 Hashtag 리스트 추가
-//        if (productResponseDto != null) {
-//            productResponseDto.setHashTag(hashtagResponseVos);
-//        }
         return productResponseDto;
     }
 
@@ -192,5 +129,44 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         log.info("productResponseDtoList in ProductRepoImpl {}", productResponseDtoList.toString());
 
         return productResponseDtoList;
+    }
+
+    @Override
+    public List<ProductListResponseDto> getProductListByProductCodeList(
+        List<String> productCodeList) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        Optional.ofNullable(productCodeList)
+            .ifPresent(code -> builder.and(product.productCode.in(productCodeList)));
+        List<ProductListResponseDto> productListResponseDtoList = jpaQueryFactory
+            .select(
+                Projections.fields(
+                    ProductListResponseDto.class,
+                    product.productCode.as("productCode"),
+                    product.productName.as("productName"),
+                    product.discountPrice.as("price"),
+                    Expressions.cases()
+                        .when(product.standardPrice.eq(0.0))
+                        .then(-1)  // standardPrice가 0이면 0을 반환
+                        .otherwise(
+                            Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
+                                product.discountPrice,
+                                product.standardPrice)
+                        ).as("discountRate"),
+                    product.brandName.as("brandName")
+                ))
+            .from(product)
+            .where(builder)
+            .fetch();
+
+        // todo offset 추가
+
+        // imageUrl 찾는 쿼리 너무 복잡해...
+        // imageUrl은 따로 줘야 할려나..
+        log.info("productListResponseDtoList in ProductRepoImpl {}",
+            productListResponseDtoList.toString());
+
+        return productListResponseDtoList;
     }
 }

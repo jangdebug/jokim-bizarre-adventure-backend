@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductImageResponseDto> getProductImageByProductCode(String productCode) {
-        
+
         return productRepositoryCustom.getProductImagesByProductCode(productCode);
     }
     // 옵션 별 상품 반환
@@ -108,42 +108,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     // category별 product => 작성 중 정지
-//    @Override
-//    public List<ProductListResponseVo> getProductsByCategory(Long categoryId) {
-//        // categoryId 에 해당하는 productCategoryList entity 반환
-//        List<ProductCategoryList> productCategoryLists = productCategoryListRepository.findById(
-//            categoryId);
-//        if (productCategoryLists.isEmpty()) {
-//            return new ArrayList<>();
-//        }
-//        // categoryId 에 해당하는 productCodes 반환하기
-//        List<String> productCodes = productCategoryLists.stream()
-//            .map(ProductCategoryList::getProductCode).toList();
-//
-//        // ProductCode에 해당하는 product 가져오기
-//        List<Product> products = productCodes.stream().
-//            map(productCode -> productRepository.findByProductCode(productCode).get()).toList();
-//
-//        // ProductListResponseVo로 만들기
-//        List<ProductListResponseVo> productListResponseVos = products.stream().map(
-//            product ->
-//                ProductListResponseVo.builder()
-//                    .productCode(product.getProductCode())
-//                    .productName(product.getProductName())
-//                    .imageUrl(
-//                        "https://image.sivillage.com/upload/C00001/goods/org/293/220802002890293.jpg?RS=750&SP=1")
-//                    // productMediaListRepository.findByProductCode().getMediaCode
-//                    //todo 중개테이블 생성 후 확인
-//                    // temp 값 입력
-//                    .discountRate()
-//                    .brandName()
-//                    .isWish(false) // 초기값
-//                    .build()
-//
-//        );
-//
-//        return List.of();
-//    }
+    @Override
+    public List<ProductListResponseDto> getProductListByProductCodeList(
+        List<String> productCodeList) {
+
+        return productRepositoryCustom.getProductListByProductCodeList(productCodeList);
+
+    }
 
 //    @Override
 //    public List<DailyHotProductResponseDto> getDailyHotProducts() {

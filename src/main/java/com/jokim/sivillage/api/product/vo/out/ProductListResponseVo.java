@@ -11,7 +11,8 @@ public class ProductListResponseVo {
     private String productCode;
     private String productName;
     private String imageUrl;
-    private String discountRate;
+    private Double price;
+    private Integer discountRate;
     private String brandName;
 
 

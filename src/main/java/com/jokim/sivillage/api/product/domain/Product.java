@@ -36,5 +36,4 @@ public class Product {
     @Column(length = 30)
     private String brandName;
 
-
 }

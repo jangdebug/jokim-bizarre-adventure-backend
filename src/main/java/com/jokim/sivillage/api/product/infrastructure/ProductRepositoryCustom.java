@@ -17,18 +17,6 @@ public interface ProductRepositoryCustom {
     List<ProductListResponseDto> getRandomProducts(Integer count);
 
     List<ProductImageResponseDto> getProductImagesByProductCode(String productCode);
-//    List<Product> findProductByHit();
 
-//    List<Product> findProductByNewProduct();
-
-//    List<Product> findProductByReview();
-//
-//    List<Product> findProductBySalesVolume();
-//
-//    List<Product> findProductByDiscountRate();
-//
-//    List<Product> findProductByHighPrice();
-//
-//    List<Product> findProductByWish();
-
+    List<ProductListResponseDto> getProductListByProductCodeList(List<String> productCodeList);
 }

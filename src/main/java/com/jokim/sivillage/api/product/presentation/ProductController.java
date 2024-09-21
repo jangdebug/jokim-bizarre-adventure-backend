@@ -94,12 +94,14 @@ public class ProductController {
 
 
     // 상품 리스트 반환
-    @Operation(summary = "상품 리스트 반환", description = "상품 리스트 목록을 반환한다")
-    @GetMapping("/products/category-id")
+    @Operation(summary = "상품 리스트 보기", description = "상품 코드 리스트로 상품 목록을 조회한다")
+    @GetMapping("/products/product-code-list")
     public BaseResponse<List<ProductListResponseVo>> getProductList(
-        @RequestParam String categoryId) {
+        @RequestParam List<String> productCodeList) {
 
-        return new BaseResponse<>();
+        return new BaseResponse<>(
+            productService.getProductListByProductCodeList(productCodeList).stream()
+                .map(ProductListResponseDto::toResponseVo).toList());
     }
     // 옵션 별  필터링 된 상품 보기
     // todo 상품 리스트 정보 반환 구현 후 진행 예정

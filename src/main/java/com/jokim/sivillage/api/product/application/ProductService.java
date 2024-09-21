@@ -21,6 +21,10 @@ public interface ProductService {
 
     List<ProductListResponseDto> getRandomProducts(Integer count);
 
+    
+    List<ProductListResponseDto> getProductListByProductCodeList(
+        List<String> productCodeList);
+
 }
 
 
