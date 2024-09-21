@@ -31,19 +31,19 @@ public class BrandController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Brand summary 조회 API")
-    @GetMapping("/{brandCode}")
-    public BaseResponse<BrandSummaryResponseVo> getBrandSummary(@PathVariable String brandCode) {
-
-        return new BaseResponse<>(brandService.getBrandSummary(brandCode).toSummaryVo());
-    }
-
-    @Operation(summary = "Brand 전체 조회")
+    @Operation(summary = "Brand 전체 조회 API")
     @GetMapping
     public BaseResponse<List<BrandDetailResponseVo>> getAllBrands() {
 
         return new BaseResponse<>(brandService.getAllBrands().stream()
                 .map(BrandResponseDto::toDetailVo).toList());
+    }
+
+    @Operation(summary = "Brand summary 조회 API")
+    @GetMapping("/{brandCode}")
+    public BaseResponse<BrandSummaryResponseVo> getBrandSummary(@PathVariable String brandCode) {
+
+        return new BaseResponse<>(brandService.getBrandSummary(brandCode).toSummaryVo());
     }
 
     @Operation(summary = "Brand 정보 수정 API")

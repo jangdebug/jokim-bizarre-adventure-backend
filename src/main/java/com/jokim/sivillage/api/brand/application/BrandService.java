@@ -9,8 +9,8 @@ public interface BrandService {
 
     void addBrand(BrandRequestDto brandRequestDto);
 
-    BrandResponseDto getBrandSummary(String brandCode);
     List<BrandResponseDto> getAllBrands();
+    BrandResponseDto getBrandSummary(String brandCode);
 
     void updateBrand(BrandRequestDto brandRequestDto);
 

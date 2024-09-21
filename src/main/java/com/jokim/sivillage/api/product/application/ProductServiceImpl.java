@@ -2,7 +2,6 @@ package com.jokim.sivillage.api.product.application;
 
 
 import com.jokim.sivillage.api.brand.infrastructure.BrandRepository;
-import com.jokim.sivillage.api.bridge.brandproductlist.repository.BrandProductListRepository;
 import com.jokim.sivillage.api.hashtag.infrastructure.ProductHashtagRepository;
 import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
@@ -28,7 +27,6 @@ public class ProductServiceImpl implements ProductService {
     private final BrandRepository brandRepository;
     private final ProductHashtagRepository productHashtagRepository;
     private final ProductRepositoryCustom productRepositoryCustom;
-    private final BrandProductListRepository brandProductListRepository;
 
 
     @Override
