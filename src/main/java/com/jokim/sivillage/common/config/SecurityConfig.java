@@ -56,8 +56,7 @@ public class SecurityConfig {
                         "/v1/auth/sign-in/oauth",
                         "/v1/auth/sign-up/simple",
                         "/v1/auth/duplicate-email",
-                        "/error",
-                        "/v1/**"
+                        "/error"
                     )
                     .permitAll()
                     .anyRequest()

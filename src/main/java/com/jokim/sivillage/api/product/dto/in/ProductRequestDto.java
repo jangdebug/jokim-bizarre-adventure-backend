@@ -13,7 +13,6 @@ public class ProductRequestDto {
 
     private String productCode;
     private String productName;
-    private boolean isOnSale;
     private String detail;
     private Double standardPrice;
     private Double discountPrice;
@@ -44,7 +43,6 @@ public class ProductRequestDto {
         return ProductRequestDto.builder()
             .productCode(productRequestVo.getProductCode())
             .productName(productRequestVo.getProductName())
-            .isOnSale(productRequestVo.isOnSale())
             .detail(productRequestVo.getDetail())
             .standardPrice(productRequestVo.getStandardPrice())
             .discountPrice(productRequestVo.getDiscountPrice())

@@ -7,7 +7,6 @@ import lombok.ToString;
 
 
 @ToString
-@Setter
 public class HashtagResponseDto {
 
     private Long hashtagId;

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BrandProductListRepository extends JpaRepository<BrandProductList, Long> {
 
-    BrandProductList findBrandProductListByProductCode(String productCode);
+    BrandProductList findByProductCode(String productCode);
 
 }
