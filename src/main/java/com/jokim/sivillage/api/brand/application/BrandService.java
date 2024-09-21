@@ -13,4 +13,6 @@ public interface BrandService {
     List<BrandResponseDto> getAllBrands();
 
     void updateBrand(BrandRequestDto brandRequestDto);
+
+    void deleteBrand(String brandCode);
 }

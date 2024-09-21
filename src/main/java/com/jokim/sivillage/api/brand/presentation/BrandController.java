@@ -54,4 +54,12 @@ public class BrandController {
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "Brand 삭제 API")
+    @DeleteMapping("/{brandCode}")
+    public BaseResponse<Void> deleteBrand(@PathVariable String brandCode) {
+
+        brandService.deleteBrand(brandCode);
+        return new BaseResponse<>();
+    }
+
 }

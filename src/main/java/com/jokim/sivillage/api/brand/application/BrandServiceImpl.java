@@ -61,6 +61,13 @@ public class BrandServiceImpl implements BrandService {
         brandRepository.save(brandRequestDto.toEntity(brand.getId()));
     }
 
+    @Transactional
+    @Override
+    public void deleteBrand(String brandCode) {
+
+        brandRepository.deleteByBrandCode(brandCode);
+    }
+
     private String generateUniqueBrandCode() {
         for(int i = 0; i < MAX_CODE_TRIES; i++) {
             String brandCode = CodeGenerator.generateCode("BR");

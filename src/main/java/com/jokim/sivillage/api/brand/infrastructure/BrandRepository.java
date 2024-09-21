@@ -14,4 +14,6 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     boolean existsByBrandCode(String brandCode);
 
+    void deleteByBrandCode(String brandCode);
+
 }
