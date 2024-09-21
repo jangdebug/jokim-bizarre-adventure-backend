@@ -4,6 +4,7 @@ import com.jokim.sivillage.api.brand.application.BrandService;
 import com.jokim.sivillage.api.brand.dto.BrandRequestDto;
 import com.jokim.sivillage.api.brand.dto.BrandResponseDto;
 import com.jokim.sivillage.api.brand.vo.in.AddBrandRequestVo;
+import com.jokim.sivillage.api.brand.vo.in.UpdateBrandRequestVo;
 import com.jokim.sivillage.api.brand.vo.out.BrandDetailResponseVo;
 import com.jokim.sivillage.api.brand.vo.out.BrandSummaryResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
@@ -25,6 +26,7 @@ public class BrandController {
     @Operation(summary = "Brand 생성 API")
     @PostMapping
     public BaseResponse<Void> addBrand(@RequestBody AddBrandRequestVo addBrandRequestVo) {
+
         brandService.addBrand(BrandRequestDto.toDto(addBrandRequestVo));
         return new BaseResponse<>();
     }
@@ -42,6 +44,14 @@ public class BrandController {
 
         return new BaseResponse<>(brandService.getAllBrands().stream()
                 .map(BrandResponseDto::toDetailVo).toList());
+    }
+
+    @Operation(summary = "Brand 정보 수정 API")
+    @PutMapping
+    public BaseResponse<Void> updateBrand(@RequestBody UpdateBrandRequestVo updateBrandRequestVo) {
+
+        brandService.updateBrand(BrandRequestDto.toDto(updateBrandRequestVo));
+        return new BaseResponse<>();
     }
 
 }

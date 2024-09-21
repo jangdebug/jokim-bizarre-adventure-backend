@@ -1,6 +1,7 @@
 package com.jokim.sivillage.api.brand.application;
 
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GENERATE_BRAND_CODE;
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_BRAND;
 
 import com.jokim.sivillage.api.brand.domain.Brand;
 import com.jokim.sivillage.api.brand.dto.BrandRequestDto;
@@ -49,6 +50,15 @@ public class BrandServiceImpl implements BrandService {
 
         return brandRepository.findAllByOrderByEnglishInitial().stream()
                 .map(BrandResponseDto::toDto).toList();
+    }
+
+    @Transactional
+    @Override
+    public void updateBrand(BrandRequestDto brandRequestDto) {
+        Brand brand = brandRepository.findByBrandCode(brandRequestDto.getBrandCode())
+                .orElseThrow(() -> new BaseException(NOT_EXIST_BRAND));
+
+        brandRepository.save(brandRequestDto.toEntity(brand.getId()));
     }
 
     private String generateUniqueBrandCode() {

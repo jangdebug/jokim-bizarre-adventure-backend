@@ -12,4 +12,5 @@ public interface BrandService {
     BrandResponseDto getBrandSummary(String brandCode);
     List<BrandResponseDto> getAllBrands();
 
+    void updateBrand(BrandRequestDto brandRequestDto);
 }
