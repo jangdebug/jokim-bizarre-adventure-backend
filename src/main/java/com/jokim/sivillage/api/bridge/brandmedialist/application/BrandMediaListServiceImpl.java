@@ -4,9 +4,14 @@ import com.jokim.sivillage.api.bridge.brandmedialist.dto.BrandMediaListRequestDt
 import com.jokim.sivillage.api.bridge.brandmedialist.dto.BrandMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.brandmedialist.infrastructure.BrandMediaListRepository;
 import java.util.List;
+import java.util.Optional;
+
+import com.jokim.sivillage.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.ALREADY_EXIST_LOGO;
 
 @RequiredArgsConstructor
 @Service
@@ -17,8 +22,13 @@ public class BrandMediaListServiceImpl implements BrandMediaListService {
     @Transactional
     @Override
     public void addBrandMediaList(BrandMediaListRequestDto brandMediaListRequestDto) {
+        Boolean isLogo = Optional.ofNullable(brandMediaListRequestDto.getIsLogo()).orElse(false);
 
-        brandMediaListRepository.save(brandMediaListRequestDto.toEntity());
+        if(isLogo && brandMediaListRepository.
+                existsByBrandCodeAndIsLogo(brandMediaListRequestDto.getBrandCode(), true))
+            throw new BaseException(ALREADY_EXIST_LOGO);
+
+        brandMediaListRepository.save(brandMediaListRequestDto.toEntity(isLogo));
     }
 
     @Transactional(readOnly = true)

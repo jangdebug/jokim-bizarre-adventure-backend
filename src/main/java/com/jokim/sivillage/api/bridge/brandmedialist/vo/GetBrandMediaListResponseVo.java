@@ -8,5 +8,6 @@ import lombok.Getter;
 public class GetBrandMediaListResponseVo {
 
     private String mediaCode;
+    private Boolean isLogo;
 
 }

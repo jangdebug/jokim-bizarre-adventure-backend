@@ -24,13 +24,13 @@ public class ProductCategoryList {
     private String mainCategoryCode;
 
     @Column(length = 36)
-    private String secondaryCategoyCode;
+    private String secondaryCategoryCode;
 
     @Column(length = 36)
-    private String tertiaryCategoyCode;
+    private String tertiaryCategoryCode;
 
     @Column(length = 36)
-    private String quaternaryCategoyCode;
+    private String quaternaryCategoryCode;
 
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean isOnSale;

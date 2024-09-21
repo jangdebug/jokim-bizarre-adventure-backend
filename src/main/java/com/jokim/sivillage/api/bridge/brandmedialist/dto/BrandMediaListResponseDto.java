@@ -8,17 +8,20 @@ import lombok.Builder;
 public class BrandMediaListResponseDto {
 
     private String mediaCode;
+    private Boolean isLogo;
 
     public static BrandMediaListResponseDto toDto(BrandMediaList brandMediaList) {
         return BrandMediaListResponseDto.builder()
             .mediaCode(brandMediaList.getMediaCode())
+            .isLogo(brandMediaList.getIsLogo())
             .build();
     }
 
     public GetBrandMediaListResponseVo toVo() {
         return GetBrandMediaListResponseVo.builder()
-            .mediaCode(mediaCode)
-            .build();
+                .mediaCode(mediaCode)
+                .isLogo(isLogo)
+                .build();
     }
 
 }

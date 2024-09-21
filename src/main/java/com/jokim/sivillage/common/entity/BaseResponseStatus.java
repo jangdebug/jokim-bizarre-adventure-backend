@@ -53,9 +53,13 @@ public enum BaseResponseStatus {
     // Media
     NOT_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 2101, "존재하지 않는 미디어입니다."),
     ALREADY_EXIST_THUMBNAIL(HttpStatus.BAD_REQUEST, false, 2102, "썸네일이 이미 존재하는 컨텐츠입니다."),
+    ALREADY_EXIST_LOGO(HttpStatus.BAD_REQUEST, false, 2103, "로고가 이미 존재하는 컨텐츠입니다."),
     FAILED_TO_GENERATE_MEDIA_CODE(HttpStatus.CONFLICT, false, 2104, "고유한 미디어 코드를 생성하는 데 실패했습니다."),
     INVALID_MEDIA_TYPE(HttpStatus.BAD_REQUEST, false, 2107, "미디어 타입을 다시 확인해주세요."),
 
+    // Brand
+    NOT_EXIST_BRAND(HttpStatus.NOT_FOUND, false, 2201, "존재하지 않는 브랜드입니다."),
+    FAILED_TO_GENERATE_BRAND_CODE(HttpStatus.CONFLICT, false, 2204, "고유한 브랜드 코드를 생성하는 데 실패했습니다."),
 
     // Category
     NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, false, 2401, "존재하지 않는 카테고리입니다."),
