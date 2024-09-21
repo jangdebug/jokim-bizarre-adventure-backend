@@ -24,7 +24,7 @@ public class ReviewMediaListServiceImpl implements ReviewMediaListService {
     @Transactional(readOnly = true)
     @Override
     public List<ReviewMediaListResponseDto> getReviewMediaList(String reviewCode) {
-        return reviewMediaListRepository.findByReviewCode(reviewCode)
+        return reviewMediaListRepository.findByReviewCodeOrderById(reviewCode)
             .stream().map(ReviewMediaListResponseDto::toDto).toList();
     }
 
