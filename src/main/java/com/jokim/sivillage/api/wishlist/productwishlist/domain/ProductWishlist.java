@@ -1,6 +1,7 @@
 package com.jokim.sivillage.api.wishlist.productwishlist.domain;
 
 
+import com.jokim.sivillage.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid", "productCode"})})
 @Entity
-public class ProductWishlist {
+public class ProductWishlist extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,7 @@
 package com.jokim.sivillage.api.wishlist.productwishlist.dto;
 
 import com.jokim.sivillage.api.wishlist.productwishlist.domain.ProductWishlist;
-import com.jokim.sivillage.api.wishlist.productwishlist.vo.AddProductWishlistRequestVo;
+import com.jokim.sivillage.api.wishlist.productwishlist.vo.in.AddProductWishlistRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 

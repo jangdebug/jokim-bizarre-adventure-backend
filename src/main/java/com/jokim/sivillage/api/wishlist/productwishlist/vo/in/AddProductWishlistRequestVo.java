@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.wishlist.productwishlist.vo;
+package com.jokim.sivillage.api.wishlist.productwishlist.vo.in;
 
 import lombok.Getter;
 

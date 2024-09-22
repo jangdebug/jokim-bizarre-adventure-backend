@@ -2,12 +2,16 @@ package com.jokim.sivillage.api.wishlist.productwishlist.presentation;
 
 import com.jokim.sivillage.api.wishlist.productwishlist.application.ProductWishlistService;
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistRequestDto;
-import com.jokim.sivillage.api.wishlist.productwishlist.vo.AddProductWishlistRequestVo;
+import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistResponseDto;
+import com.jokim.sivillage.api.wishlist.productwishlist.vo.in.AddProductWishlistRequestVo;
+import com.jokim.sivillage.api.wishlist.productwishlist.vo.out.GetAllProductWishlistResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Wishlist")
 @RequiredArgsConstructor
@@ -28,5 +32,14 @@ public class ProductWishlistController {
         return new BaseResponse<>();
     }
 
+    @Operation(summary = "상품 Wishlist 전체 조회 API")
+    @GetMapping
+    public BaseResponse<List<GetAllProductWishlistResponseVo>> getAllProductWishlists(
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        return new BaseResponse<>(productWishlistService.getAllProductWishlists(
+                authorizationHeader.replace("Bearer ", ""))
+                .stream().map(ProductWishlistResponseDto::toVo).toList());
+    }
 
 }
