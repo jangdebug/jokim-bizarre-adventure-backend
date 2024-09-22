@@ -5,6 +5,7 @@ import com.jokim.sivillage.api.wishlist.brandwishlist.dto.BrandWishlistRequestDt
 import com.jokim.sivillage.api.wishlist.brandwishlist.dto.BrandWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.brandwishlist.vo.in.AddBrandWishlistRequestVo;
 import com.jokim.sivillage.api.wishlist.brandwishlist.vo.out.GetAllBrandWishlistResponseVo;
+import com.jokim.sivillage.api.wishlist.brandwishlist.vo.out.GetBrandWishlistStateResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,6 +42,15 @@ public class BrandWishlistController {
 
         return new BaseResponse<>(brandWishlistService.getAllBrandWishlists(extractToken(authorizationHeader))
                 .stream().map(BrandWishlistResponseDto::toVoForBrandCode).toList());
+    }
+
+    @Operation(summary = "Brand Wishlist 상태 조회 API")
+    @GetMapping("/{brandCode}")
+    public BaseResponse<GetBrandWishlistStateResponseVo> getBrandWishlistState(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable String brandCode) {
+
+        return new BaseResponse<>(brandWishlistService.getBrandWishlistState(
+                extractToken(authorizationHeader), brandCode).toVoForIsChecked());
     }
 
 }

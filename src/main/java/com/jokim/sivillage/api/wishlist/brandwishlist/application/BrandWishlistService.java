@@ -10,5 +10,6 @@ public interface BrandWishlistService {
     void addBrandWishlist(BrandWishlistRequestDto brandWishlistRequestDto);
 
     List<BrandWishlistResponseDto> getAllBrandWishlists(String accessToken);
+    BrandWishlistResponseDto getBrandWishlistState(String accessToken, String brandCode);
 
 }

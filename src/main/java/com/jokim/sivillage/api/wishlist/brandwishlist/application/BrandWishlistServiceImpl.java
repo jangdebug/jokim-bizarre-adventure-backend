@@ -38,4 +38,15 @@ public class BrandWishlistServiceImpl implements BrandWishlistService {
                 .stream().map(BrandWishlistResponseDto::toDto).toList();
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public BrandWishlistResponseDto getBrandWishlistState(String accessToken, String brandCode) {
+
+        Boolean isChecked = brandWishlistRepository.findByUuidAndBrandCode(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), brandCode)
+                .map(BrandWishlist::getIsChecked).orElse(false);
+
+        return BrandWishlistResponseDto.toDto(isChecked);
+    }
+
 }
