@@ -5,6 +5,7 @@ import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistReque
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.productwishlist.vo.in.AddProductWishlistRequestVo;
 import com.jokim.sivillage.api.wishlist.productwishlist.vo.out.GetAllProductWishlistResponseVo;
+import com.jokim.sivillage.api.wishlist.productwishlist.vo.out.GetProductWishlistStateResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,7 +40,18 @@ public class ProductWishlistController {
 
         return new BaseResponse<>(productWishlistService.getAllProductWishlists(
                 authorizationHeader.replace("Bearer ", ""))
-                .stream().map(ProductWishlistResponseDto::toVo).toList());
+                .stream().map(ProductWishlistResponseDto::toVoForProductCode).toList());
+    }
+
+    @Operation(summary = "상품 Wishlist 상태 조회")
+    @GetMapping("/{productCode}")
+    public BaseResponse<GetProductWishlistStateResponseVo> getProductWishlistState(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable String productCode) {
+
+        return new BaseResponse<>(productWishlistService.getProductWishlistState(
+                authorizationHeader.replace("Bearer ", ""), productCode)
+                .toVoForIsChecked());
     }
 
 }

@@ -10,5 +10,6 @@ public interface ProductWishlistService {
     void addProductWishlist(ProductWishlistRequestDto productWishlistRequestDto);
 
     List<ProductWishlistResponseDto> getAllProductWishlists(String accessToken);
+    ProductWishlistResponseDto getProductWishlistState(String accessToken, String productCode);
 
 }

@@ -1,9 +1,11 @@
 package com.jokim.sivillage.api.wishlist.productwishlist.application;
 
+import com.jokim.sivillage.api.bridge.productmedialist.domain.ProductMediaList;
 import com.jokim.sivillage.api.wishlist.productwishlist.domain.ProductWishlist;
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistRequestDto;
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.productwishlist.infrastructure.ProductWishlistRepository;
+import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,17 @@ public class ProductWishlistServiceImpl implements ProductWishlistService {
         return productWishlistRepository.findByUuidAndIsCheckedOrderByUpdatedAtDesc(
                 jwtTokenProvider.validateAndGetUserUuid(accessToken), true)
                 .stream().map(ProductWishlistResponseDto::toDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ProductWishlistResponseDto getProductWishlistState(String accessToken, String productCode) {
+
+        Boolean isChecked = productWishlistRepository.findByUuidAndProductCode(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), productCode)
+                .map(ProductWishlist::getIsChecked).orElse(false);
+
+        return ProductWishlistResponseDto.toDto(isChecked);
     }
 
 }
