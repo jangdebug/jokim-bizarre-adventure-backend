@@ -26,48 +26,12 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
-    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 40;
     private static final int DEFAULT_PAGE_NUMBER = 0;
 
     private final JPAQueryFactory jpaQueryFactory;
     private final QProductOption productOption = QProductOption.productOption;
 
-    //    @Override
-//    public List<Product> findFilteredProduct(Long sizeId, Long colorId, Long etcId) {
-//
-//        QProduct product = QProduct.product;
-//        QProductOption productOption = QProductOption.productOption;
-//
-//        log.info("productOption.size.id {}", productOption.size.id);
-//
-//        return jpaQueryFactory.selectFrom(product)
-//            .join(productOption).on(product.productCode.eq(productOption.productCode))
-//            .where(eqSize(sizeId)
-//                , eqColor(colorId)
-//                , eqEtc(etcId))
-//            .fetch();
-//    }
-//
-//    public BooleanExpression eqSize(Long sizeId) {
-//        if (sizeId == null) {
-//            return null;
-//        }
-//        return productOption.size.id.eq(sizeId);
-//    }
-//
-//    public BooleanExpression eqColor(Long colorId) {
-//        if (colorId == null) {
-//            return null;
-//        }
-//        return productOption.color.id.eq(colorId);
-//    }
-//
-//    public BooleanExpression eqEtc(Long etcId) {
-//        if (etcId == null) {
-//            return null;
-//        }
-//        return productOption.etc.id.eq(etcId);
-//    }
 
     @Override
     public ProductResponseDto findProductDtoByProductCode(String productCode) {

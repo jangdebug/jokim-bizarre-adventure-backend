@@ -23,9 +23,10 @@ public class ProductCategoryListController {
     @Operation(summary = "Product-Category-List 생성 API", description = "Add Product By Categories")
     @PostMapping
     public BaseResponse<Void> addProductByCategories(
-            @RequestBody AddProductCategoryListRequestVo addProductCategoryListRequestVo) {
+        @RequestBody AddProductCategoryListRequestVo addProductCategoryListRequestVo) {
 
-        productCategoryListService.addProductByCategories(ProductCategoryListRequestDto.toDto(addProductCategoryListRequestVo));
+        productCategoryListService.addProductByCategories(
+            ProductCategoryListRequestDto.toDto(addProductCategoryListRequestVo));
 
         return new BaseResponse<>();
     }
@@ -33,21 +34,49 @@ public class ProductCategoryListController {
     @Operation(summary = "Product-Category-List 조회 API", description = "Get Product-Category-List By Categories")
     @GetMapping
     public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCategoryList(
-            @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,
-            @RequestParam(value = "secondaryCategoryCode", required = false) String secondaryCategoryCode,
-            @RequestParam(value = "tertiaryCategoryCode", required = false) String tertiaryCategoryCode,
-            @RequestParam(value = "quaternaryCategoryCode", required = false) String quaternaryCategoryCode,
-            @RequestParam(value = "lastId", required = false) Long lastId,
-            @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @RequestParam(value = "pageNo", required = false) Integer pageNo
+        @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,
+        @RequestParam(value = "secondaryCategoryCode", required = false) String secondaryCategoryCode,
+        @RequestParam(value = "tertiaryCategoryCode", required = false) String tertiaryCategoryCode,
+        @RequestParam(value = "quaternaryCategoryCode", required = false) String quaternaryCategoryCode,
+        @RequestParam(value = "lastId", required = false) Long lastId,
+        @RequestParam(value = "pageSize", required = false) Integer pageSize,
+        @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
         CursorPage<ProductCategoryListResponseDto> cursor = productCategoryListService.getProductCategoryListByCategories(
-                mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
-                lastId, pageSize, pageNo);
+            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+            lastId, pageSize, pageNo);
 
         return new BaseResponse<>(
-                new CursorPage<>(cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList(),
-                        cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo()));
+            new CursorPage<>(
+                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList(),
+                cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(),
+                cursor.getPageNo()));
+    }
+
+
+    @Operation(summary = "Option에 따른 Product-Category-List 조회 API", description = "Get Product-Category-List By Option")
+    @GetMapping("/options")
+    public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCodesByOptions(
+        @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,
+        @RequestParam(value = "secondaryCategoryCode", required = false) String secondaryCategoryCode,
+        @RequestParam(value = "tertiaryCategoryCode", required = false) String tertiaryCategoryCode,
+        @RequestParam(value = "quaternaryCategoryCode", required = false) String quaternaryCategoryCode,
+        @RequestParam(value = "lastId", required = false) Long lastId,
+        @RequestParam(value = "pageSize", required = false) Integer pageSize,
+        @RequestParam(value = "pageNo", required = false) Integer pageNo,
+        @RequestParam(value = "sizeId", required = false) Long sizeId,
+        @RequestParam(value = "colorId", required = false) Long colorId,
+        @RequestParam(value = "etcId", required = false) Long etcId
+    ) {
+        CursorPage<ProductCategoryListResponseDto> cursor = productCategoryListService.getProductCodesByOptions(
+            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+            lastId, pageSize, pageNo, sizeId, colorId, etcId);
+
+        return new BaseResponse<>(
+            new CursorPage<>(
+                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList(),
+                cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(),
+                cursor.getPageNo()));
     }
 
 }

@@ -18,23 +18,42 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
 
     @Transactional
     @Override
-    public void addProductByCategories(ProductCategoryListRequestDto productCategoryListRequestDto) {
+    public void addProductByCategories(
+        ProductCategoryListRequestDto productCategoryListRequestDto) {
         productCategoryListRepository.save(productCategoryListRequestDto.toEntity());
     }
 
     @Transactional(readOnly = true)
     @Override
     public CursorPage<ProductCategoryListResponseDto> getProductCategoryListByCategories(
-            String mainCategoryCode, String secondaryCategoryCode,
-            String tertiaryCategoryCode, String quaternaryCategoryCode,
-            Long lastId, Integer pageSize, Integer pageNo) {
+        String mainCategoryCode, String secondaryCategoryCode,
+        String tertiaryCategoryCode, String quaternaryCategoryCode,
+        Long lastId, Integer pageSize, Integer pageNo) {
 
         CursorPage<String> cursor = productCategoryListRepositoryCustom.getProductCategoryListByCategories(
-                mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
-                lastId, pageSize, pageNo);
+            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+            lastId, pageSize, pageNo);
 
-        return new CursorPage<>(cursor.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList(),
-                cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo());
+        return new CursorPage<>(
+            cursor.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList(),
+            cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public CursorPage<ProductCategoryListResponseDto> getProductCodesByOptions(
+        String mainCategoryCode, String secondaryCategoryCode,
+        String tertiaryCategoryCode, String quaternaryCategoryCode,
+        Long lastId, Integer pageSize, Integer pageNo,
+        Long sizeId, Long colorId, Long etcId) {
+
+        CursorPage<String> cursor = productCategoryListRepositoryCustom.getProductCodesByOptions(
+            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+            lastId, pageSize, pageNo, sizeId, colorId, etcId);
+
+        return new CursorPage<>(
+            cursor.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList(),
+            cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo());
     }
 
 }
