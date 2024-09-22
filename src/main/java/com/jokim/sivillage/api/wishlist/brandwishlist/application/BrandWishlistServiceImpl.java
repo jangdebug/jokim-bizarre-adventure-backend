@@ -2,11 +2,14 @@ package com.jokim.sivillage.api.wishlist.brandwishlist.application;
 
 import com.jokim.sivillage.api.wishlist.brandwishlist.domain.BrandWishlist;
 import com.jokim.sivillage.api.wishlist.brandwishlist.dto.BrandWishlistRequestDto;
+import com.jokim.sivillage.api.wishlist.brandwishlist.dto.BrandWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.brandwishlist.infrastructure.BrandWishlistRepository;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +27,15 @@ public class BrandWishlistServiceImpl implements BrandWishlistService {
                 brandWishlistRequestDto.getBrandCode()).map(BrandWishlist::getId).orElse(null);
 
         brandWishlistRepository.save(brandWishlistRequestDto.toEntity(id, uuid, true));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<BrandWishlistResponseDto> getAllBrandWishlists(String accessToken) {
+
+        return brandWishlistRepository.findByUuidAndIsCheckedOrderByUpdatedAtDesc(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), true)
+                .stream().map(BrandWishlistResponseDto::toDto).toList();
     }
 
 }

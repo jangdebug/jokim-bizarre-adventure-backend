@@ -2,12 +2,16 @@ package com.jokim.sivillage.api.wishlist.brandwishlist.presentation;
 
 import com.jokim.sivillage.api.wishlist.brandwishlist.application.BrandWishlistService;
 import com.jokim.sivillage.api.wishlist.brandwishlist.dto.BrandWishlistRequestDto;
+import com.jokim.sivillage.api.wishlist.brandwishlist.dto.BrandWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.brandwishlist.vo.in.AddBrandWishlistRequestVo;
+import com.jokim.sivillage.api.wishlist.brandwishlist.vo.out.GetAllBrandWishlistResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
 
@@ -28,6 +32,15 @@ public class BrandWishlistController {
         brandWishlistService.addBrandWishlist(BrandWishlistRequestDto.toDto(
                 addBrandWishlistRequestVo, extractToken(authorizationHeader)));
         return new BaseResponse<>();
+    }
+
+    @Operation(summary = "Brand Wishlist 전체 조회 API")
+    @GetMapping
+    public BaseResponse<List<GetAllBrandWishlistResponseVo>>  getAllBrandWishlists(
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        return new BaseResponse<>(brandWishlistService.getAllBrandWishlists(extractToken(authorizationHeader))
+                .stream().map(BrandWishlistResponseDto::toVoForBrandCode).toList());
     }
 
 }
