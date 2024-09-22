@@ -3,6 +3,7 @@ package com.jokim.sivillage.api.review.presentation;
 import com.jokim.sivillage.api.review.application.ReviewService;
 import com.jokim.sivillage.api.review.dto.in.ReviewRequestDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
+import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto;
 import com.jokim.sivillage.api.review.vo.in.ReviewRequestVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
@@ -32,6 +33,13 @@ public class ReviewController {
     @GetMapping("/reviews/product/{productCode}")
     public BaseResponse<List<ReviewResponseDto>> getReview(@PathVariable String productCode) {
         List<ReviewResponseDto> reviewResponses = reviewService.getReview(productCode);
+        return new BaseResponse<>(reviewResponses);
+    }
+
+    @Operation(summary = "ReviewSummary API", description = "Review API 입니다.", tags = {"Review"})
+    @GetMapping("/reviews/summary/{productCode}")
+    public BaseResponse<ReviewSummaryResponseDto> getReviewSummary(@PathVariable String productCode) {
+        ReviewSummaryResponseDto reviewResponses = reviewService.getReviewSummary(productCode);
         return new BaseResponse<>(reviewResponses);
     }
 }
