@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ProductService {
 
+
     ProductResponseDto getProductByProductCode(String productCode);
 
     void saveProduct(ProductRequestDto productRequestDto);
@@ -21,9 +22,12 @@ public interface ProductService {
 
     List<ProductListResponseDto> getRandomProducts(Integer count);
 
-    
+
     List<ProductListResponseDto> getProductListByProductCodeList(
         List<String> productCodeList);
+
+    List<ProductListResponseDto> getProductListByOptions(Long sizeId,
+        Long colorId, Long etcId);
 
 }
 

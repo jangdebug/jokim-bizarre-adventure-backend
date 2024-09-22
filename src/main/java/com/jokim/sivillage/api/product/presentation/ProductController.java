@@ -103,24 +103,22 @@ public class ProductController {
             productService.getProductListByProductCodeList(productCodeList).stream()
                 .map(ProductListResponseDto::toResponseVo).toList());
     }
+
     // 옵션 별  필터링 된 상품 보기
-    // todo 상품 리스트 정보 반환 구현 후 진행 예정
-//    @Operation
-//    @GetMapping("/products/options")
-//    public BaseResponse<List<ProductResponseVo>> getFilteredProduct(
-//        @RequestParam(value = "size-id") Long sizeId,
-//        @RequestParam(value = "color-id") Long colorId,
-//        @RequestParam(value = "etc-id") Long etcId) {
-//        log.info("productSize, color, etc id : {}, {}, {}", sizeId, colorId, etcId);
-//        List<ProductResponseDto> productResponseDto = productService.getFilteredProducts(sizeId,
-//            colorId, etcId);
-//        log.info("productResponseDto : {}", productResponseDto.toString());
-//        ModelMapper modelMapper = new ModelMapper();
-//        List<ProductResponseVo> productResponseVo = productResponseDto.stream()
-//            .map(ProductResponseDto::toResponseVo).toList();
-//        log.info("productResponseVo : {}", productResponseVo.toString());
-//        return new BaseResponse<>(productResponseVo);
-//    }
+    @Operation(summary = "옵션 별 상품 리스트 보기", description = "옵션에 따른 상품 목록을 조회한다")
+    @GetMapping("/products/options")
+    public BaseResponse<List<ProductListResponseVo>> getFilteredProduct(
+        @RequestParam(value = "size-id") Long sizeId,
+        @RequestParam(value = "color-id") Long colorId,
+        @RequestParam(value = "etc-id") Long etcId) {
+        log.info("productSize, color, etc id : {}, {}, {}", sizeId, colorId, etcId);
+        List<ProductListResponseDto> productListResponseDtoList = productService.getProductListByOptions(
+            sizeId,
+            colorId, etcId);
+        log.info("productListResponseDto : {}", productListResponseDtoList.toString());
+        return new BaseResponse<>(
+            productListResponseDtoList.stream().map(ProductListResponseDto::toResponseVo).toList());
+    }
 
     // 랜덤 상품 리스트 보기
     @Operation(summary = "상품 리스트 보기", description = "주어진 갯수만큼 상품 리스트를 반환한다.")
