@@ -12,4 +12,5 @@ public interface ProductWishlistService {
     List<ProductWishlistResponseDto> getAllProductWishlists(String accessToken);
     ProductWishlistResponseDto getProductWishlistState(String accessToken, String productCode);
 
+    void deleteProductWishlist(ProductWishlistRequestDto productWishlistRequestDto);
 }

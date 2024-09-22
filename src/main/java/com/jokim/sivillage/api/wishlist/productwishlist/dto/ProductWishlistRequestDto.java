@@ -13,11 +13,18 @@ public class ProductWishlistRequestDto {
     private String productCode;
 
     public static ProductWishlistRequestDto toDto(
-            AddProductWishlistRequestVo addProductWishlistRequestVo, String accessToken) {
+            AddProductWishlistRequestVo addProductWishlistRequestVo, String accessToken) {  // add wishlist
 
         return ProductWishlistRequestDto.builder()
                 .accessToken(accessToken)
                 .productCode(addProductWishlistRequestVo.getProductCode())
+                .build();
+    }
+
+    public static ProductWishlistRequestDto toDto(String accessToken, String productCode) { // soft delete wishlist
+        return ProductWishlistRequestDto.builder()
+                .accessToken(accessToken)
+                .productCode(productCode)
                 .build();
     }
 

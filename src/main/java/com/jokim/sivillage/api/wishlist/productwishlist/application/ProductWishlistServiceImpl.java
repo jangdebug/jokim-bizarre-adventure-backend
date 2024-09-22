@@ -1,11 +1,9 @@
 package com.jokim.sivillage.api.wishlist.productwishlist.application;
 
-import com.jokim.sivillage.api.bridge.productmedialist.domain.ProductMediaList;
 import com.jokim.sivillage.api.wishlist.productwishlist.domain.ProductWishlist;
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistRequestDto;
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.productwishlist.infrastructure.ProductWishlistRepository;
-import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,6 +47,18 @@ public class ProductWishlistServiceImpl implements ProductWishlistService {
                 .map(ProductWishlist::getIsChecked).orElse(false);
 
         return ProductWishlistResponseDto.toDto(isChecked);
+    }
+
+    @Transactional
+    @Override
+    public void deleteProductWishlist(ProductWishlistRequestDto productWishlistRequestDto) {    // Soft Delete
+
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(productWishlistRequestDto.getAccessToken());
+        Long id = productWishlistRepository.findByUuidAndProductCode(
+                uuid, productWishlistRequestDto.getProductCode()).map(ProductWishlist::getId).orElse(null);
+
+        if(id == null) return;
+        productWishlistRepository.save(productWishlistRequestDto.toEntity(id, uuid, false));
     }
 
 }

@@ -43,15 +43,24 @@ public class ProductWishlistController {
                 .stream().map(ProductWishlistResponseDto::toVoForProductCode).toList());
     }
 
-    @Operation(summary = "상품 Wishlist 상태 조회")
+    @Operation(summary = "상품 Wishlist 상태 조회 API")
     @GetMapping("/{productCode}")
     public BaseResponse<GetProductWishlistStateResponseVo> getProductWishlistState(
-            @RequestHeader("Authorization") String authorizationHeader,
-            @PathVariable String productCode) {
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable String productCode) {
 
         return new BaseResponse<>(productWishlistService.getProductWishlistState(
                 authorizationHeader.replace("Bearer ", ""), productCode)
                 .toVoForIsChecked());
+    }
+
+    @Operation(summary = "상품 Wishlist 삭제 API", description = "Soft Delete")
+    @DeleteMapping("/{productCode}")
+    public BaseResponse<Void> deleteProductWishlist(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable String productCode) {
+
+        productWishlistService.deleteProductWishlist(ProductWishlistRequestDto.toDto(
+                authorizationHeader.replace("Bearer ", ""), productCode));
+        return new BaseResponse<>();
     }
 
 }
