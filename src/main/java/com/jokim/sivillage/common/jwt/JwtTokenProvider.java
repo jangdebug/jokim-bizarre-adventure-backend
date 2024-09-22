@@ -41,9 +41,10 @@ public class JwtTokenProvider {
      */
     public String validateAndGetUserUuid(String token) throws BaseException {
         try {
-            log.info("validateAndGet머시기 값{}",extractClaim(token, Claims::getSubject));
+            String extractClaimed = extractClaim(token, Claims::getSubject);
+            log.info("validateAndGet 머시기 값{}",extractClaimed);
 
-            return extractClaim(token, Claims::getSubject);
+            return extractClaimed;
         } catch (NullPointerException e) {
             log.info("토큰에 담긴 유저 정보가 없습니다");
             throw new BaseException(BaseResponseStatus.WRONG_JWT_TOKEN);
