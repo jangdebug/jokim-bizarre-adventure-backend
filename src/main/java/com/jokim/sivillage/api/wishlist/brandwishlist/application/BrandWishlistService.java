@@ -12,4 +12,6 @@ public interface BrandWishlistService {
     List<BrandWishlistResponseDto> getAllBrandWishlists(String accessToken);
     BrandWishlistResponseDto getBrandWishlistState(String accessToken, String brandCode);
 
+    void deleteBrandWishlist(BrandWishlistRequestDto brandWishlistRequestDto);
+
 }

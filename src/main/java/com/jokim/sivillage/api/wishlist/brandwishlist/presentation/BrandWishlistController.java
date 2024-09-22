@@ -53,4 +53,14 @@ public class BrandWishlistController {
                 extractToken(authorizationHeader), brandCode).toVoForIsChecked());
     }
 
+    @Operation(summary = "Brand Wishlist 삭제 API")
+    @DeleteMapping("/{brandCode}")
+    public BaseResponse<Void> deleteBrandWishlist(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable String brandCode) {
+
+        brandWishlistService.deleteBrandWishlist(BrandWishlistRequestDto.toDto(
+                extractToken(authorizationHeader), brandCode));
+        return new BaseResponse<>();
+    }
+
 }

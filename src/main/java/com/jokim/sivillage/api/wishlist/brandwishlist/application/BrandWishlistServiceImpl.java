@@ -49,4 +49,16 @@ public class BrandWishlistServiceImpl implements BrandWishlistService {
         return BrandWishlistResponseDto.toDto(isChecked);
     }
 
+    @Transactional
+    @Override
+    public void deleteBrandWishlist(BrandWishlistRequestDto brandWishlistRequestDto) {  // Soft Delete
+
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(brandWishlistRequestDto.getAccessToken());
+        Long id = brandWishlistRepository.findByUuidAndBrandCode(
+                uuid, brandWishlistRequestDto.getBrandCode()).map(BrandWishlist::getId).orElse(null);
+
+        if(id == null) return;
+        brandWishlistRepository.save(brandWishlistRequestDto.toEntity(id, uuid, false));
+    }
+
 }

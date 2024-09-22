@@ -21,6 +21,13 @@ public class BrandWishlistRequestDto {
                 .build();
     }
 
+    public static BrandWishlistRequestDto toDto(String accessToken, String brandCode) { // soft delete wishlist
+        return BrandWishlistRequestDto.builder()
+                .accessToken(accessToken)
+                .brandCode(brandCode)
+                .build();
+    }
+
     public BrandWishlist toEntity(Long id, String uuid, Boolean isChecked) {
         return BrandWishlist.builder()
                 .id(id)
