@@ -53,4 +53,14 @@ public class EventWishlistController {
                 .toVoForIsChecked());
     }
 
+    @Operation(summary = "이벤트 Wishlist 삭제 API", description = "Soft Delete")
+    @DeleteMapping("/{eventCode}")
+    public BaseResponse<Void> deleteEventWishlist(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable String eventCode) {
+
+        eventWishlistService.deleteEventWishlist(EventWishlistRequestDto.toDto(
+                authorizationHeader.replace("Bearer ", ""), eventCode));
+        return new BaseResponse<>();
+    }
+
 }

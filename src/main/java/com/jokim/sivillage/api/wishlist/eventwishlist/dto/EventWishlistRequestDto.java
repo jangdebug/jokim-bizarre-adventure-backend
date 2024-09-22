@@ -21,6 +21,13 @@ public class EventWishlistRequestDto {
                 .build();
     }
 
+    public static EventWishlistRequestDto toDto(String accessToken, String eventCode) {
+        return EventWishlistRequestDto.builder()
+                .accessToken(accessToken)
+                .eventCode(eventCode)
+                .build();
+    }
+
     public EventWishlist toEntity(Long id, String uuid, Boolean isChecked) {
         return EventWishlist.builder()
                 .id(id)

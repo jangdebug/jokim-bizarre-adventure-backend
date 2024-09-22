@@ -12,4 +12,6 @@ public interface EventWishlistService {
     List<EventWishlistResponseDto> getAllEventWishlists(String accessToken);
     EventWishlistResponseDto getEventWishlistState(String accessToken, String eventCode);
 
+    void deleteEventWishlist(EventWishlistRequestDto eventWishlistRequestDto);
+
 }

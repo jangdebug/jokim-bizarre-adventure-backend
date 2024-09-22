@@ -50,4 +50,16 @@ public class EventWishlistServiceImpl implements EventWishlistService {
         return EventWishlistResponseDto.toDto(isChecked);
     }
 
+    @Transactional
+    @Override
+    public void deleteEventWishlist(EventWishlistRequestDto eventWishlistRequestDto) {  // Soft Delete
+
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(eventWishlistRequestDto.getAccessToken());
+        Long id = eventWishlistRepository.findByUuidAndEventCode(uuid, eventWishlistRequestDto.getEventCode())
+                .map(EventWishlist::getId).orElse(null);
+
+        if(id == null) return;
+        eventWishlistRepository.save(eventWishlistRequestDto.toEntity(id, uuid, false));
+    }
+
 }
