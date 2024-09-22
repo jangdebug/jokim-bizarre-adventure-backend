@@ -121,14 +121,13 @@ public class ProductController {
     }
 
     // 랜덤 상품 리스트 보기
-    @Operation(summary = "상품 리스트 보기", description = "주어진 갯수만큼 상품 리스트를 반환한다.")
+    @Operation(summary = "랜덤 상품 리스트 보기", description = "주어진 갯수만큼 상품 리스트를 반환한다.")
     @GetMapping("/main/random-product")
     public BaseResponse<List<ProductListResponseVo>> getRandomProduct(
         @RequestParam(name = "count", required = false) Integer count) {
         if (count == null) {
             count = 5;
         }
-        log.info("count : {}", count);
         List<ProductListResponseDto> productListResponseDtos = productService.getRandomProducts(
             count);
         List<ProductListResponseVo> productListResponseVos =

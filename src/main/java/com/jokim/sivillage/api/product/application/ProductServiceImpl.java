@@ -83,8 +83,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductListResponseDto> getRandomProducts(Integer count) {
-
-        return productRepositoryCustom.getRandomProducts(count);
+        List<Product> productList = productRepository.getRandomProducts(count);
+        // 랜덤으로 productCode 5개 얻기
+        List<String> productCodeList = productList.stream().map(product -> product.getProductCode())
+            .toList();
+        return productRepositoryCustom.getProductListByProductCodeList(productCodeList);
 
     }
 

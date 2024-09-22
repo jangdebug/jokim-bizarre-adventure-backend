@@ -1,5 +1,6 @@
 package com.jokim.sivillage.api.product.dto.out;
 
+import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,20 @@ public class ProductResponseDto {
             .price(price)
             .detail(detail)
             .brandName(brandName)
+            .build();
+    }
+
+    public static ProductResponseDto of(Product product) {
+        Integer discountRate = (int) Math.round(
+            ((1 - product.getDiscountPrice() / product.getStandardPrice()) * 100));
+        return ProductResponseDto.builder()
+            .productCode(product.getProductCode())
+            .productName(product.getProductName())
+            .discountRate(discountRate)
+            .amount(product.getStandardPrice())
+            .price(product.getDiscountPrice())
+            .detail(product.getDetail())
+            .brandName(product.getBrandName())
             .build();
     }
 

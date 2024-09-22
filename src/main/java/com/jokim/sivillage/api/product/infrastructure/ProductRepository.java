@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //        @Param("colorValue") Long colorValue, @Param("etcValue") Long etcValue);
 
     @Query("SELECT p FROM Product p ORDER BY RAND() LIMIT :count")
-    List<Product> findRandomProducts(@Param("count") Integer count);
+    List<Product> getRandomProducts(@Param("count") Integer count);
 
 //    List<Product> findProductByHit();
 
