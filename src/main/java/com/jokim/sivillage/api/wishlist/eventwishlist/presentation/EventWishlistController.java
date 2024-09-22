@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
+
 @Tag(name = "Wishlist")
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +31,7 @@ public class EventWishlistController {
             @RequestBody AddEventWishlistRequestVo addEventWishlistRequestVo) {
 
         eventWishlistService.addEventWishlist(EventWishlistRequestDto.toDto(
-                addEventWishlistRequestVo, authorizationHeader.replace("Bearer ", "")));
+                addEventWishlistRequestVo, extractToken(authorizationHeader)));
         return new BaseResponse<>();
     }
 
@@ -38,8 +40,7 @@ public class EventWishlistController {
     public BaseResponse<List<GetAllEventWishlistResponseVo>> getAllEventWishlists(
             @RequestHeader("Authorization") String authorizationHeader) {
 
-        return new BaseResponse<>(eventWishlistService.getAllEventWishlists(
-                authorizationHeader.replace("Bearer ", ""))
+        return new BaseResponse<>(eventWishlistService.getAllEventWishlists(extractToken(authorizationHeader))
                 .stream().map(EventWishlistResponseDto::toVoForEventCode).toList());
     }
 
@@ -49,8 +50,7 @@ public class EventWishlistController {
             @RequestHeader("Authorization") String authorizationHeader, @PathVariable String eventCode) {
 
         return new BaseResponse<>(eventWishlistService.getEventWishlistState(
-                authorizationHeader.replace("Bearer ", ""), eventCode)
-                .toVoForIsChecked());
+                extractToken(authorizationHeader), eventCode).toVoForIsChecked());
     }
 
     @Operation(summary = "이벤트 Wishlist 삭제 API", description = "Soft Delete")
@@ -59,7 +59,7 @@ public class EventWishlistController {
             @RequestHeader("Authorization") String authorizationHeader, @PathVariable String eventCode) {
 
         eventWishlistService.deleteEventWishlist(EventWishlistRequestDto.toDto(
-                authorizationHeader.replace("Bearer ", ""), eventCode));
+                extractToken(authorizationHeader), eventCode));
         return new BaseResponse<>();
     }
 

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
+
 @Tag(name = "Wishlist")
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +31,7 @@ public class ProductWishlistController {
             @RequestBody AddProductWishlistRequestVo addProductWishlistRequestVo) {
 
         productWishlistService.addProductWishlist(ProductWishlistRequestDto.toDto(
-                addProductWishlistRequestVo, authorizationHeader.replace("Bearer ", "")));
+                addProductWishlistRequestVo, extractToken(authorizationHeader)));
         return new BaseResponse<>();
     }
 
@@ -38,8 +40,7 @@ public class ProductWishlistController {
     public BaseResponse<List<GetAllProductWishlistResponseVo>> getAllProductWishlists(
             @RequestHeader("Authorization") String authorizationHeader) {
 
-        return new BaseResponse<>(productWishlistService.getAllProductWishlists(
-                authorizationHeader.replace("Bearer ", ""))
+        return new BaseResponse<>(productWishlistService.getAllProductWishlists(extractToken(authorizationHeader))
                 .stream().map(ProductWishlistResponseDto::toVoForProductCode).toList());
     }
 
@@ -49,8 +50,7 @@ public class ProductWishlistController {
             @RequestHeader("Authorization") String authorizationHeader, @PathVariable String productCode) {
 
         return new BaseResponse<>(productWishlistService.getProductWishlistState(
-                authorizationHeader.replace("Bearer ", ""), productCode)
-                .toVoForIsChecked());
+                extractToken(authorizationHeader), productCode).toVoForIsChecked());
     }
 
     @Operation(summary = "상품 Wishlist 삭제 API", description = "Soft Delete")
@@ -59,7 +59,7 @@ public class ProductWishlistController {
             @RequestHeader("Authorization") String authorizationHeader, @PathVariable String productCode) {
 
         productWishlistService.deleteProductWishlist(ProductWishlistRequestDto.toDto(
-                authorizationHeader.replace("Bearer ", ""), productCode));
+                extractToken(authorizationHeader), productCode));
         return new BaseResponse<>();
     }
 
