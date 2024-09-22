@@ -6,6 +6,7 @@ import com.jokim.sivillage.api.wishlist.eventwishlist.dto.EventWishlistResponseD
 import com.jokim.sivillage.api.wishlist.eventwishlist.infrastructure.EventWishlistRepository;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,17 @@ public class EventWishlistServiceImpl implements EventWishlistService {
         return eventWishlistRepository.findByUuidAndIsCheckedOrderByUpdatedAtDesc(
                 jwtTokenProvider.validateAndGetUserUuid(accessToken), true)
                 .stream().map(EventWishlistResponseDto::toDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public EventWishlistResponseDto getEventWishlistState(String accessToken, String eventCode) {
+
+        Boolean isChecked = eventWishlistRepository.findByUuidAndEventCode(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), eventCode)
+                .map(EventWishlist::getIsChecked).orElse(false);
+
+        return EventWishlistResponseDto.toDto(isChecked);
     }
 
 }

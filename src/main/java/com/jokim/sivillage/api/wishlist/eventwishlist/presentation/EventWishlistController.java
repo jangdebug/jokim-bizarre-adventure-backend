@@ -5,6 +5,7 @@ import com.jokim.sivillage.api.wishlist.eventwishlist.dto.EventWishlistRequestDt
 import com.jokim.sivillage.api.wishlist.eventwishlist.dto.EventWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.eventwishlist.vo.in.AddEventWishlistRequestVo;
 import com.jokim.sivillage.api.wishlist.eventwishlist.vo.out.GetAllEventWishlistResponseVo;
+import com.jokim.sivillage.api.wishlist.eventwishlist.vo.out.GetEventWishlistStateResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,6 +41,16 @@ public class EventWishlistController {
         return new BaseResponse<>(eventWishlistService.getAllEventWishlists(
                 authorizationHeader.replace("Bearer ", ""))
                 .stream().map(EventWishlistResponseDto::toVoForEventCode).toList());
+    }
+
+    @Operation(summary = "이벤트 Wishlist 상태 조회 API")
+    @GetMapping("/{eventCode}")
+    public BaseResponse<GetEventWishlistStateResponseVo> getEventWishlistState(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable String eventCode) {
+
+        return new BaseResponse<>(eventWishlistService.getEventWishlistState(
+                authorizationHeader.replace("Bearer ", ""), eventCode)
+                .toVoForIsChecked());
     }
 
 }

@@ -10,5 +10,6 @@ public interface EventWishlistService {
     void addEventWishlist(EventWishlistRequestDto eventWishlistRequestDto);
 
     List<EventWishlistResponseDto> getAllEventWishlists(String accessToken);
+    EventWishlistResponseDto getEventWishlistState(String accessToken, String eventCode);
 
 }
