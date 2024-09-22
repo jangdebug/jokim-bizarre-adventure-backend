@@ -49,6 +49,7 @@ public class ProductRequestDto {
             .detail(productRequestVo.getDetail())
             .standardPrice(productRequestVo.getStandardPrice())
             .discountPrice(productRequestVo.getDiscountPrice())
+            .brandName(productRequestVo.getBrandName())
             .build();
     }
 

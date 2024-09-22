@@ -104,7 +104,7 @@ public class ProductController {
                 .map(ProductListResponseDto::toResponseVo).toList());
     }
 
-    // 옵션 별  필터링 된 상품 보기
+    // 옵션 별  필터링 된 상품 보기 => 기능 x product-category-list 쪽으로 이동
     @Operation(summary = "옵션 별 상품 리스트 보기", description = "옵션에 따른 상품 목록을 조회한다")
     @GetMapping("/products/options")
     public BaseResponse<List<ProductListResponseVo>> getFilteredProduct(
@@ -129,6 +129,21 @@ public class ProductController {
             count = 5;
         }
         List<ProductListResponseDto> productListResponseDtos = productService.getRandomProducts(
+            count);
+        List<ProductListResponseVo> productListResponseVos =
+            productListResponseDtos.stream().map(ProductListResponseDto::toResponseVo).toList();
+        return new BaseResponse<>(productListResponseVos);
+    }
+
+    // 최고 할인 상품 보기
+    @Operation(summary = "최고 할인 상품 리스트 보기", description = "최고 할인 상품 리스트를 반환한다.")
+    @GetMapping("/main/most-discount-rate/{count}")
+    public BaseResponse<List<ProductListResponseVo>> getMostDiscountProduct(
+        @RequestParam(name = "count", required = false) Integer count) {
+        if (count == null) {
+            count = 5;
+        }
+        List<ProductListResponseDto> productListResponseDtos = productService.getMostDiscountProduct(
             count);
         List<ProductListResponseVo> productListResponseVos =
             productListResponseDtos.stream().map(ProductListResponseDto::toResponseVo).toList();

@@ -29,6 +29,8 @@ public interface ProductService {
     List<ProductListResponseDto> getProductListByOptions(Long sizeId,
         Long colorId, Long etcId);
 
+    List<ProductListResponseDto> getMostDiscountProduct(Integer count);
+
 }
 
 

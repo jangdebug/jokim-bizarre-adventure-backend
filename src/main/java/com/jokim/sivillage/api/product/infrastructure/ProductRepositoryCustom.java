@@ -21,4 +21,5 @@ public interface ProductRepositoryCustom {
     List<ProductListResponseDto> getProductListByOpions(Long sizeId,
         Long colorId, Long etcId);
 
+    List<ProductListResponseDto> getMostDiscountProduct(Integer count);
 }
