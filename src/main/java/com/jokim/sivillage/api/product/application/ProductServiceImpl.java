@@ -6,7 +6,6 @@ import com.jokim.sivillage.api.bridge.brandproductlist.repository.BrandProductLi
 import com.jokim.sivillage.api.hashtag.infrastructure.ProductHashtagRepository;
 import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
-import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepository;
@@ -105,12 +104,13 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    @Override
-    public List<ProductListResponseDto> getProductListByOptions(Long sizeId, Long colorId,
-        Long etcId) {
-
-        return productRepositoryCustom.getProductListByOpions(sizeId, colorId, etcId);
-    }
+    // product-category에 구현되어 있음
+//    @Override
+//    public List<ProductListResponseDto> getProductListByOptions(Long sizeId, Long colorId,
+//        Long etcId) {
+//
+//        return productRepositoryCustom.getProductListByOptions(sizeId, colorId, etcId);
+//    }
 
     @Override
     public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {

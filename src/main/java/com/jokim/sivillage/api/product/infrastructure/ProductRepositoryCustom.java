@@ -18,8 +18,9 @@ public interface ProductRepositoryCustom {
 
     ProductListResponseDto getProductListByProductCode(String productCode);
 
-    List<ProductListResponseDto> getProductListByOpions(Long sizeId,
-        Long colorId, Long etcId);
+    // product-category에 구현되어 있음
+//    List<ProductListResponseDto> getProductListByOptions(Long sizeId,
+//        Long colorId, Long etcId);
 
     List<ProductListResponseDto> getMostDiscountProduct(Integer count);
 }

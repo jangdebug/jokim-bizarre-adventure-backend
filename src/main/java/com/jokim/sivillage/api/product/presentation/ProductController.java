@@ -116,19 +116,19 @@ public class ProductController {
     }
 
     // 옵션 별  필터링 된 상품 보기 => 기능 x product-category-list 쪽에서 기능 이동
-    @Operation(summary = "옵션 별 상품 리스트 보기", description = "옵션에 따른 상품 목록을 조회한다(상품에서 작동한다 태그용)")
-    @GetMapping("/products/options")
-    public BaseResponse<List<ProductListResponseVo>> getFilteredProduct(
-        @RequestParam(value = "size-id") Long sizeId,
-        @RequestParam(value = "color-id") Long colorId,
-        @RequestParam(value = "etc-id") Long etcId) {
-        log.info("productSize, color, etc id : {}, {}, {}", sizeId, colorId, etcId);
-        List<ProductListResponseDto> productListResponseDtoList = productService.getProductListByOptions(
-            sizeId, colorId, etcId);
-
-        return new BaseResponse<>(
-            productListResponseDtoList.stream().map(ProductListResponseDto::toResponseVo).toList());
-    }
+//    @Operation(summary = "옵션 별 상품 리스트 보기", description = "옵션에 따른 상품 목록을 조회한다(상품에서 작동한다 태그용)")
+//    @GetMapping("/products/options")
+//    public BaseResponse<List<ProductListResponseVo>> getFilteredProduct(
+//        @RequestParam(value = "size-id") Long sizeId,
+//        @RequestParam(value = "color-id") Long colorId,
+//        @RequestParam(value = "etc-id") Long etcId) {
+//        log.info("productSize, color, etc id : {}, {}, {}", sizeId, colorId, etcId);
+//        List<ProductListResponseDto> productListResponseDtoList = productService.getProductListByOptions(
+//            sizeId, colorId, etcId);
+//
+//        return new BaseResponse<>(
+//            productListResponseDtoList.stream().map(ProductListResponseDto::toResponseVo).toList());
+//    }
 
     // 랜덤 상품 리스트 보기
     @Operation(summary = "랜덤 상품 리스트 보기", description = "주어진 갯수만큼 상품 리스트를 반환한다.")

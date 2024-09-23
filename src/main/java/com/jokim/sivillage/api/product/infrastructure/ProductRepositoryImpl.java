@@ -1,20 +1,13 @@
 package com.jokim.sivillage.api.product.infrastructure;
 
-import static com.jokim.sivillage.api.bridge.productmedialist.domain.QProductMediaList.productMediaList;
-import static com.jokim.sivillage.api.media.domain.QMedia.media;
 import static com.jokim.sivillage.api.product.domain.QProduct.product;
 
-import com.jokim.sivillage.api.media.domain.MediaType;
-import com.jokim.sivillage.api.product.domain.QProductOption;
-import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -28,7 +21,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private static final int DEFAULT_PAGE_NUMBER = 0;
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final QProductOption productOption = QProductOption.productOption;
 
 
     @Override
@@ -121,43 +113,44 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return productListResponseDto;
     }
 
-    @Override
-    public List<ProductListResponseDto> getProductListByOpions(Long sizeId,
-        Long colorId, Long etcId) {
-
-        BooleanBuilder builder = new BooleanBuilder();
-        Optional.ofNullable(sizeId)
-            .ifPresent(size -> builder.and(productOption.size.id.eq(size)));
-
-        Optional.ofNullable(colorId)
-            .ifPresent(color -> builder.and(productOption.color.id.eq(color)));
-
-        Optional.ofNullable(etcId)
-            .ifPresent(etc -> builder.and(productOption.etc.id.eq(etc)));
-
-        List<ProductListResponseDto> productListResponseDtoList = jpaQueryFactory.select(
-                Projections.fields(
-                    ProductListResponseDto.class,
-                    product.productCode.as("productCode"),
-                    product.productName.as("productName"),
-                    product.discountPrice.as("price"),
-                    Expressions.cases()
-                        .when(product.standardPrice.eq(0.0))
-                        .then(-1)  // standardPrice가 0이면 0을 반환
-                        .otherwise(
-                            Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
-                                product.discountPrice,
-                                product.standardPrice)
-                        ).as("discountRate"),
-                    product.brandName.as("brandName")
-                ))
-            .from(product)
-            .leftJoin(productOption).on(product.productCode.eq(productOption.productCode))
-            .where(builder)
-            .fetch();
-
-        return productListResponseDtoList;
-    }
+    // product-category에 구현되어 있음
+//    @Override
+//    public List<ProductListResponseDto> getProductListByOptions(Long sizeId,
+//        Long colorId, Long etcId) {
+//
+//        BooleanBuilder builder = new BooleanBuilder();
+//        Optional.ofNullable(sizeId)
+//            .ifPresent(size -> builder.and(productOption.size.id.eq(size)));
+//
+//        Optional.ofNullable(colorId)
+//            .ifPresent(color -> builder.and(productOption.color.id.eq(color)));
+//
+//        Optional.ofNullable(etcId)
+//            .ifPresent(etc -> builder.and(productOption.etc.id.eq(etc)));
+//
+//        List<ProductListResponseDto> productListResponseDtoList = jpaQueryFactory.select(
+//                Projections.fields(
+//                    ProductListResponseDto.class,
+//                    product.productCode.as("productCode"),
+//                    product.productName.as("productName"),
+//                    product.discountPrice.as("price"),
+//                    Expressions.cases()
+//                        .when(product.standardPrice.eq(0.0))
+//                        .then(-1)  // standardPrice가 0이면 0을 반환
+//                        .otherwise(
+//                            Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
+//                                product.discountPrice,
+//                                product.standardPrice)
+//                        ).as("discountRate"),
+//                    product.brandName.as("brandName")
+//                ))
+//            .from(product)
+//            .leftJoin(productOption).on(product.productCode.eq(productOption.productCode))
+//            .where(builder)
+//            .fetch();
+//
+//        return productListResponseDtoList;
+//    }
 
 
     @Override
@@ -180,7 +173,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                     product.brandName.as("brandName")
                 ))
             .from(product)
-            .leftJoin(productOption).on(product.productCode.eq(productOption.productCode))
             .orderBy(Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
                 product.discountPrice,
                 product.standardPrice).desc())
