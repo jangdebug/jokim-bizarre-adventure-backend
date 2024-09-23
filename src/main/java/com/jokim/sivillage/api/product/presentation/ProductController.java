@@ -94,14 +94,20 @@ public class ProductController {
 
 
     // 상품 리스트 반환
-    @Operation(summary = "상품 리스트 보기", description = "상품 코드 리스트로 상품 목록을 조회한다")
+    @Operation(summary = "상품 리스트 정보 보기", description = "상품 코드로 상품 리스트 정보를 조회한다")
     @GetMapping("/products/product-code-list")
-    public BaseResponse<List<ProductListResponseVo>> getProductList(
-        @RequestParam List<String> productCodeList) {
+    public BaseResponse<ProductListResponseVo> getProductList(
+        @RequestParam String productCode) {
+
+        ProductListResponseDto productListResponseDto = productService.getProductListByProductCode(
+            productCode);
+
+        if (productListResponseDto == null) {
+            return new BaseResponse<>();
+        }
 
         return new BaseResponse<>(
-            productService.getProductListByProductCodeList(productCodeList).stream()
-                .map(ProductListResponseDto::toResponseVo).toList());
+            productListResponseDto.toResponseVo());
     }
 
     // 옵션 별  필터링 된 상품 보기 => 기능 x product-category-list 쪽으로 이동
@@ -115,7 +121,6 @@ public class ProductController {
         List<ProductListResponseDto> productListResponseDtoList = productService.getProductListByOptions(
             sizeId,
             colorId, etcId);
-        log.info("productListResponseDto : {}", productListResponseDtoList.toString());
         return new BaseResponse<>(
             productListResponseDtoList.stream().map(ProductListResponseDto::toResponseVo).toList());
     }

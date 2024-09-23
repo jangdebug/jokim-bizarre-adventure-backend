@@ -16,7 +16,7 @@ public interface ProductRepositoryCustom {
 
     List<ProductImageResponseDto> getProductImagesByProductCode(String productCode);
 
-    List<ProductListResponseDto> getProductListByProductCodeList(List<String> productCodeList);
+    ProductListResponseDto getProductListByProductCode(String productCode);
 
     List<ProductListResponseDto> getProductListByOpions(Long sizeId,
         Long colorId, Long etcId);

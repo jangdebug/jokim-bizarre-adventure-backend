@@ -87,16 +87,20 @@ public class ProductServiceImpl implements ProductService {
         // 랜덤으로 productCode 5개 얻기
         List<String> productCodeList = productList.stream().map(product -> product.getProductCode())
             .toList();
-        return productRepositoryCustom.getProductListByProductCodeList(productCodeList);
+        List<ProductListResponseDto> productListResponseDtoList = productCodeList.stream()
+            .map(productcode -> productRepositoryCustom.getProductListByProductCode(productcode))
+            .toList();
+        return productListResponseDtoList;
+
 
     }
 
     // category별 product => 작성 중 정지
     @Override
-    public List<ProductListResponseDto> getProductListByProductCodeList(
-        List<String> productCodeList) {
+    public ProductListResponseDto getProductListByProductCode(
+        String productCode) {
 
-        return productRepositoryCustom.getProductListByProductCodeList(productCodeList);
+        return productRepositoryCustom.getProductListByProductCode(productCode);
 
     }
 

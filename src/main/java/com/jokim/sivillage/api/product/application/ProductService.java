@@ -23,8 +23,8 @@ public interface ProductService {
     List<ProductListResponseDto> getRandomProducts(Integer count);
 
 
-    List<ProductListResponseDto> getProductListByProductCodeList(
-        List<String> productCodeList);
+    ProductListResponseDto getProductListByProductCode(
+        String productCodeList);
 
     List<ProductListResponseDto> getProductListByOptions(Long sizeId,
         Long colorId, Long etcId);

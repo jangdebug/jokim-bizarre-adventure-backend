@@ -96,15 +96,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     @Override
-    public List<ProductListResponseDto> getProductListByProductCodeList(
-        List<String> productCodeList) {
+    public ProductListResponseDto getProductListByProductCode(String productCode) {
 
-        BooleanBuilder builder = new BooleanBuilder();
-
-        Optional.ofNullable(productCodeList)
-            .ifPresent(code -> builder.and(product.productCode.in(productCodeList)));
-
-        List<ProductListResponseDto> productListResponseDtoList = jpaQueryFactory
+        ProductListResponseDto productListResponseDto = jpaQueryFactory
             .select(
                 Projections.fields(
                     ProductListResponseDto.class,
@@ -122,17 +116,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                     product.brandName.as("brandName")
                 ))
             .from(product)
-            .where(builder)
-            .fetch();
-
-        // todo offset 추가
+            .where(product.productCode.eq(productCode))
+            .fetchOne();
 
         // imageUrl 찾는 쿼리 너무 복잡해...
         // imageUrl은 따로 줘야 할려나..
-        log.info("productListResponseDtoList in ProductRepoImpl {}",
-            productListResponseDtoList.toString());
 
-        return productListResponseDtoList;
+        return productListResponseDto;
     }
 
     @Override
