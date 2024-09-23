@@ -20,5 +20,4 @@ public class Brand {
 
     @Column(length = 30)
     private String subName;
-
 }
