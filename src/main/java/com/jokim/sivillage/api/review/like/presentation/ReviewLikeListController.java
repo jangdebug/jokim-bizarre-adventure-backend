@@ -5,10 +5,13 @@ import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
 import com.jokim.sivillage.api.review.like.application.ReviewLikeListService;
 import com.jokim.sivillage.api.review.like.dto.ReviewLikeListRequestDto;
 import com.jokim.sivillage.api.review.like.vo.AddReviewLikeListRequestVo;
+import com.jokim.sivillage.api.review.like.vo.GetReviewLikeListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,6 +35,15 @@ public class ReviewLikeListController {
         reviewLikeListService.addReviewLikeList(ReviewLikeListRequestDto.toDto(
             addReviewLikeListRequestVo, extractToken(authorizationHeader)));
         return new BaseResponse<>();
+    }
+
+    @Operation(summary = "Review Like List 상태 조회 API")
+    @GetMapping("/{reviewCode}")
+    public BaseResponse<GetReviewLikeListResponseVo> getReviewLikeListState(
+        @RequestHeader("Authorization") String authorizationHeader, @PathVariable String reviewCode) {
+
+        return new BaseResponse<>(reviewLikeListService.getReviewLikeListState(
+            extractToken(authorizationHeader), reviewCode).toVo());
     }
 
 }
