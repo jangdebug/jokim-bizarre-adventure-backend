@@ -47,10 +47,9 @@ public class ProductCategoryListController {
             lastId, pageSize, pageNo);
 
         return new BaseResponse<>(
-            new CursorPage<>(
-                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList(),
-                cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(),
-                cursor.getPageNo()));
+            CursorPage.toCursorPage(cursor,
+                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList())
+        );
     }
 
 
@@ -73,10 +72,9 @@ public class ProductCategoryListController {
             lastId, pageSize, pageNo, sizeId, colorId, etcId);
 
         return new BaseResponse<>(
-            new CursorPage<>(
-                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList(),
-                cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(),
-                cursor.getPageNo()));
+            CursorPage.toCursorPage(cursor,
+                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList())
+        );
     }
 
 }
