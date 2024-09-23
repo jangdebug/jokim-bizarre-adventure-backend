@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Bridge")
+@Tag(name = "Product-Media")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/product-media")

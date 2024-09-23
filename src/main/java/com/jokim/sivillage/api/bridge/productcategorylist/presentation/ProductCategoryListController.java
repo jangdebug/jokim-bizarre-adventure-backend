@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Bridge")
+@Tag(name = "Product-Category")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/product-category")
@@ -31,7 +31,7 @@ public class ProductCategoryListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Product-Category-List 조회 API", description = "Get Product-Category-List By Categories")
+    @Operation(summary = "Product-Category-List 조회 API", description = "카테고리별 상품 조회")
     @GetMapping
     public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCategoryList(
             @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,

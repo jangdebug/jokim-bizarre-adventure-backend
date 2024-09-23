@@ -16,7 +16,7 @@ import java.util.List;
 
 import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
 
-@Tag(name = "Wishlist")
+@Tag(name = "Wishlist-Event")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/wishlist/event")
