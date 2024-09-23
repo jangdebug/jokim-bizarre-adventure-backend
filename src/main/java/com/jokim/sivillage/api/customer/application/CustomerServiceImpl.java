@@ -243,24 +243,20 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByEmail(signInRequestDto.getEmail())
             .orElseThrow(() -> new BaseException(BaseResponseStatus.FAILED_TO_LOGIN));
 
-        try {
-            // 2. 사용자 인증 (비밀번호 포함)
-            Authentication authentication = authenticate(customer, signInRequestDto.getPassword());
+        // 2. 사용자 인증 (비밀번호 포함)
+        Authentication authentication = authenticate(customer, signInRequestDto.getPassword());
 
-            // 3. 토큰 생성
-            String accessToken = jwtTokenProvider.generateAccessToken(authentication);
-            String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+        // 3. 토큰 생성
+        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
 
-            // 4. Redis에 Refresh Token 저장
-            TokenRedis tokenRedis = new TokenRedis(customer.getUuid(), refreshToken);
-            tokenRedisRepository.save(tokenRedis);
+        // 4. Redis에 Refresh Token 저장
+        TokenRedis tokenRedis = new TokenRedis(customer.getUuid(), refreshToken);
+        tokenRedisRepository.save(tokenRedis);
 
-            return SignInResponseDto.toDto(accessToken, refreshToken);
+        return SignInResponseDto.toDto(accessToken, refreshToken);
 
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.FAILED_TO_LOGIN);
-        }
     }
 
 
