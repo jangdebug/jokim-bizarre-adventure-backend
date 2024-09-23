@@ -7,7 +7,5 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EvaluationItemValueRepository  extends JpaRepository<EvaluationItemValue,Long> {
-    List<EvaluationItemValue> findByEvaluationItemNameId(Long id);
-    List<EvaluationItemValue> findByEvaluationItemNameIdIn(List<Long> evaluationItemNameIds);
-    Optional<EvaluationItemValue> findFirstByEvaluationItemNameId(Long evaluationItemNameId);
+    List<EvaluationItemValue> findByReviewCode(String reviewCode);
 }

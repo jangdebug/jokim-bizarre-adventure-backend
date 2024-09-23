@@ -1,6 +1,7 @@
 package com.jokim.sivillage.api.review.vo.out;
 
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
+import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto.EvaluationSummary;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class ReviewSummaryResponseVo {
-    private Double starAverage;
-    private List<ReviewResponseDto.Evaluation> evaluation;
-    private List<String> image; // List<String>으로 변경
+    private Double starAverage;  // 별점 평균
+    private List<EvaluationSummary> evaluation;  // 평가 항목 정보
 }

@@ -19,9 +19,9 @@ public class ProductStatistic {
     private String productCode;
 
     @Column(nullable = false)
-    private Integer evaluation1Rate;
-    private Integer evaluation2Rate;
-    private Integer evaluation3Rate;
+    private Long evaluationItemNameId;
 
-    private Double starAverage;
+    @Column(nullable = false)
+    private Integer evaluationItemNameRate;
+
 }

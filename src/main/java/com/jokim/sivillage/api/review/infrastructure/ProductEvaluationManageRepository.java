@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ProductEvaluationManageRepository extends JpaRepository<ProductEvaluationManage,Long> {
-    List<ProductEvaluationManage> findByProductCode(String productCode);
 
 }

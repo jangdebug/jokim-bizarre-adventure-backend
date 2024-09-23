@@ -1,7 +1,6 @@
 package com.jokim.sivillage.api.review.vo.out;
 
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto.Evaluation;
-import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto.Image;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,6 @@ public class ReviewResponseVo {
     private String productOption;
     private String content;
     // 리스트 형태의 필드 추가
-    private List<Evaluation> evaluation;
-    private List<Image> image;
+    private List<Evaluation> evaluation; // 평가 정보를 담는 리스트
 
 }

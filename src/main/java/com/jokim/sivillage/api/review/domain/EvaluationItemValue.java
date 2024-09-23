@@ -18,6 +18,9 @@ public class EvaluationItemValue {
     @ManyToOne
     private EvaluationItemName evaluationItemName;
 
+    @Column(nullable = false, length = 36)
+    private String reviewCode;
+
     @Column(nullable = false, length = 30)
     private String value;
 

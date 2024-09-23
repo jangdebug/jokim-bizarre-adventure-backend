@@ -1,6 +1,7 @@
 package com.jokim.sivillage.api.review.dto.out;
 
 import com.jokim.sivillage.api.review.domain.Review;
+import com.jokim.sivillage.api.review.vo.out.ReviewResponseVo;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,6 @@ public class ReviewResponseDto {
 
     // 리스트 형태의 필드 추가
     private List<Evaluation> evaluation; // 평가 정보를 담는 리스트
-    private List<String> image; // 이미지 정보를 담는 리스트
 
     @Getter
     @Builder
@@ -41,19 +41,8 @@ public class ReviewResponseDto {
         private String value; // 평가 항목 값
     }
 
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    public static class Image {
-        private String url; // 이미지 URL
-    }
-
-
     public static ReviewResponseDto fromReview(
         Review review,
-        List<String> images,
         List<Evaluation> evaluations
     ) {
         return ReviewResponseDto.builder()
@@ -68,7 +57,22 @@ public class ReviewResponseDto {
             .productOption("default")
             .content(review.getContent())
             .evaluation(evaluations)
-            .image(images)
+            .build();
+    }
+
+    public ReviewResponseVo toVo(){
+        return ReviewResponseVo.builder()
+            .productCode(productCode)
+            .reviewCode(reviewCode)
+            .starPoint(starPoint)
+            .type(type)
+            .isBest(false)
+            .customerEmail("anonymous")
+            .modifyDate(modifyDate)
+            .likeCount(0)
+            .productOption("default")
+            .content(content)
+            .evaluation(evaluation)
             .build();
     }
 
