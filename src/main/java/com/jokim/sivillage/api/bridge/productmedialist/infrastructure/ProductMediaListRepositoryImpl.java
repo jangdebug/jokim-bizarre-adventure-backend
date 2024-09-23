@@ -1,10 +1,13 @@
 package com.jokim.sivillage.api.bridge.productmedialist.infrastructure;
 
 import com.jokim.sivillage.api.bridge.productmedialist.domain.QProductMediaList;
-import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ProductMediaListResponseDto;
-import com.jokim.sivillage.api.bridge.productmedialist.dto.out.QProductMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.AllProductMediaListsResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.QAllProductMediaListsResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.QThumbnailProductMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ThumbnailProductMediaListResponseDto;
 import com.jokim.sivillage.api.media.domain.QMedia;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +22,36 @@ public class ProductMediaListRepositoryImpl implements ProductMediaListRepositor
     private final QMedia media = QMedia.media;
 
     @Override
-    public List<ProductMediaListResponseDto> getProductMediaList(String productCode) {
+    public List<AllProductMediaListsResponseDto> getAllProductMediaLists(String productCode) {
 
-        return jpaQueryFactory.select(new QProductMediaListResponseDto(
-                media.mediaCode
-                , media.url
-                , media.name
-                , media.mediaType.stringValue()
-                , productMediaList.isThumbnail))
+        return jpaQueryFactory.select(new QAllProductMediaListsResponseDto(
+                media.mediaCode,
+                media.url,
+                media.mediaType.stringValue(),
+                productMediaList.isThumbnail))
             .from(productMediaList)
-            .leftJoin(media).on(productMediaList.mediaCode.eq(media.mediaCode))
+            .rightJoin(media).on(productMediaList.mediaCode.eq(media.mediaCode))
             .where(productMediaList.productCode.eq(productCode))
+            .orderBy(media.id.asc())
             .fetch();
+    }
+
+    @Override
+    public ThumbnailProductMediaListResponseDto getThumbnailByProductCode(String productCode) {
+
+        BooleanExpression condition = Expressions.allOf(
+            productMediaList.productCode.eq(productCode),
+            productMediaList.isThumbnail.eq(true));
+
+        return jpaQueryFactory.select(new QThumbnailProductMediaListResponseDto(
+            media.mediaCode,
+            media.url,
+            media.mediaType.stringValue()))
+            .from(productMediaList)
+            .rightJoin(media).on(productMediaList.mediaCode.eq(media.mediaCode))
+            .where(condition)
+            .fetchOne();
+
     }
 
 }

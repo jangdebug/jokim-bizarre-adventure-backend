@@ -5,12 +5,10 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GetProductMediaListResponseVo {
+public class GetThumbnailProductMediaListResponseVo {
 
     private String mediaCode;
     private String mediaUrl;
-    private String mediaName;
     private String mediaType;
-    private Boolean isThumbnail;
 
 }

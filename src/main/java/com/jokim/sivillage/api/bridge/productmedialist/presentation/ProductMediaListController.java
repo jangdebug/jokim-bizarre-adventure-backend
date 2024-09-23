@@ -2,10 +2,11 @@ package com.jokim.sivillage.api.bridge.productmedialist.presentation;
 
 import com.jokim.sivillage.api.bridge.productmedialist.application.ProductMediaListService;
 import com.jokim.sivillage.api.bridge.productmedialist.dto.in.ProductMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ProductMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.AllProductMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.productmedialist.vo.in.AddProductMediaListRequestVo;
 import com.jokim.sivillage.api.bridge.productmedialist.vo.in.UpdateProductMediaListRequestVo;
-import com.jokim.sivillage.api.bridge.productmedialist.vo.out.GetProductMediaListResponseVo;
+import com.jokim.sivillage.api.bridge.productmedialist.vo.out.GetAllProductMediaListsResponseVo;
+import com.jokim.sivillage.api.bridge.productmedialist.vo.out.GetThumbnailProductMediaListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,13 +33,22 @@ public class ProductMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Product-Media-List 조회 API")
+    @Operation(summary = "Product-Media-List 전체 조회 API", description = "Id 오름차순 조회")
     @GetMapping("/{productCode}")
-    public BaseResponse<List<GetProductMediaListResponseVo>> getProductMediaList(@PathVariable String productCode) {
+    public BaseResponse<List<GetAllProductMediaListsResponseVo>> getAllProductMediaLists(@PathVariable String productCode) {
 
         return new BaseResponse<>(
-                productMediaListService.getProductMediaList(productCode)
-                        .stream().map(ProductMediaListResponseDto::toVo).toList());
+                productMediaListService.getAllProductMediaLists(productCode)
+                        .stream().map(AllProductMediaListsResponseDto::toVo).toList());
+    }
+
+    @Operation(summary = "Product-Media-List 썸네일 조회 API")
+    @GetMapping("/thumbnail/{productCode}")
+    public BaseResponse<GetThumbnailProductMediaListResponseVo> getThumbnailByProductCode(
+        @PathVariable String productCode) {
+
+        return new BaseResponse<>(productMediaListService.getThumbnailByProductCode(
+            productCode).toVo());
     }
 
     @Operation(summary = "Product-Media-List 썸네일 수정 API")
