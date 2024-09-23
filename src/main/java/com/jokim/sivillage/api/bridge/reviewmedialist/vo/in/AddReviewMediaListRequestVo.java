@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.bridge.reviewmedialist.vo;
+package com.jokim.sivillage.api.bridge.reviewmedialist.vo.in;
 
 import lombok.Getter;
 
