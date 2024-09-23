@@ -1,7 +1,7 @@
 package com.jokim.sivillage.api.product.infrastructure;
 
 
-
+import static com.jokim.sivillage.api.brand.domain.QBrand.brand;
 import static com.jokim.sivillage.api.product.domain.QProduct.product;
 
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
@@ -105,9 +105,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 product.discountPrice,
                                 product.standardPrice)
                         ).as("discountRate"),
-                    product.brandCode.as("brandCode")
+                    product.brandCode.as("brandName")
                 ))
             .from(product)
+            .leftJoin(brand).on(brand.brandCode.eq(product.brandCode))
             .where(product.productCode.eq(productCode))
             .fetchOne();
 
