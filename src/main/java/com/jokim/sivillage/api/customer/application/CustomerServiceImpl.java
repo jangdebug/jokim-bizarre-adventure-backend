@@ -86,14 +86,10 @@ public class CustomerServiceImpl implements CustomerService {
             throw new BaseException(BaseResponseStatus.DUPLICATED_EMAIL);
         }
 
-        try{
-            String uuid = UUID.randomUUID().toString();
-            customerRepository.save(signUpRequestDto.toCustomerEntity(passwordEncoder, uuid, State.ACTIVATION));
-            customerMarketingRepository.save(signUpRequestDto.toMarketingEntity(uuid));
-            customerPolicyRepository.save(signUpRequestDto.toPolicyEntity(uuid));
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        String uuid = UUID.randomUUID().toString();
+        customerRepository.save(signUpRequestDto.toCustomerEntity(passwordEncoder, uuid, State.ACTIVATION));
+        customerMarketingRepository.save(signUpRequestDto.toMarketingEntity(uuid));
+        customerPolicyRepository.save(signUpRequestDto.toPolicyEntity(uuid));
 
     }
 
@@ -105,13 +101,8 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer == null) {
             throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
         }
-
-        try {
-            // 기존 customer 엔티티 수정 후 저장
-            customerRepository.save(updatePasswordRequestDto.updateEntity(customer, passwordEncoder));
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        // 기존 customer 엔티티 수정 후 저장
+        customerRepository.save(updatePasswordRequestDto.updateEntity(customer, passwordEncoder));
     }
 
     @Transactional
@@ -125,14 +116,10 @@ public class CustomerServiceImpl implements CustomerService {
             throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
         }
 
-        try {
-            // 기존 customer 엔티티 수정 후 저장
-            customerRepository.save(updateInfoRequestDto.updateEntity(customer));
-            customerMarketingRepository.save(updateInfoRequestDto.updateEntity(marketing));
-            customerPolicyRepository.save(updateInfoRequestDto.updateEntity(policy));
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        // 기존 customer 엔티티 수정 후 저장
+        customerRepository.save(updateInfoRequestDto.updateEntity(customer));
+        customerMarketingRepository.save(updateInfoRequestDto.updateEntity(marketing));
+        customerPolicyRepository.save(updateInfoRequestDto.updateEntity(policy));
     }
 
     @Transactional
@@ -142,17 +129,13 @@ public class CustomerServiceImpl implements CustomerService {
         List<CustomerAddressDefaultList> customerAddressDefaultList =
             customerAddressDefaultListRepository.findByUuid(uuid);
 
-        try{
-            Address savedAddress = customerAddressRepository.save(customerAddressRequestDto.toEntity(uuid));
-            if(customerAddressDefaultList.isEmpty()){
-                customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toFirstEntity(uuid,
-                    savedAddress.getAddressCode()));
-            }else{
-                customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toEntity(uuid,
-                    savedAddress.getAddressCode()));
-            }
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+        Address savedAddress = customerAddressRepository.save(customerAddressRequestDto.toEntity(uuid));
+        if(customerAddressDefaultList.isEmpty()){
+            customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toFirstEntity(uuid,
+                savedAddress.getAddressCode()));
+        }else{
+            customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toEntity(uuid,
+                savedAddress.getAddressCode()));
         }
     }
 
@@ -160,14 +143,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void updateAddress(CustomerAddressRequestDto customerAddressRequestDto) { //체크필요
         Address address = customerAddressRepository.findByAddressCode(
-            customerAddressRequestDto.getAddressCode()).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS
-        ));
-        try{
-            customerAddressRepository.save(customerAddressRequestDto.updateEntity(address));
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+            customerAddressRequestDto.getAddressCode()).orElseThrow(()
+            -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
+        customerAddressRepository.save(customerAddressRequestDto.updateEntity(address));
     }
+
     @Transactional
     @Override
     public void setDefaultAddress(CustomerAddressDefaultListDto customerAddressDefaultListDto) {
@@ -220,11 +200,7 @@ public class CustomerServiceImpl implements CustomerService {
                 : customerSizeRequestDto.updateToEntity(existingCustomerSize);  // 기존 엔티티 업데이트
 
         // 엔티티 저장
-        try {
-            customerSizeRepository.save(customerSize);
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
+        customerSizeRepository.save(customerSize);
     }
 
     @Override
@@ -235,7 +211,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (customer != null) {
             // 회원이 존재할 경우 소셜 계정 연결 체크
-            Optional<SocialCustomer> socialCustomerOpt = socialCustomerRepository.findByUuidAndOauthProviderId(customer.getUuid(), oauthSignInRequestDto.getOauthProviderId());
+            Optional<SocialCustomer> socialCustomerOpt =
+                socialCustomerRepository.findByUuidAndOauthProviderId(
+                    customer.getUuid(), oauthSignInRequestDto.getOauthProviderId());
 
             if (socialCustomerOpt.isEmpty()) {
                 // 새로운 소셜 계정을 연결
@@ -265,24 +243,20 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByEmail(signInRequestDto.getEmail())
             .orElseThrow(() -> new BaseException(BaseResponseStatus.FAILED_TO_LOGIN));
 
-        try {
-            // 2. 사용자 인증 (비밀번호 포함)
-            Authentication authentication = authenticate(customer, signInRequestDto.getPassword());
+        // 2. 사용자 인증 (비밀번호 포함)
+        Authentication authentication = authenticate(customer, signInRequestDto.getPassword());
 
-            // 3. 토큰 생성
-            String accessToken = jwtTokenProvider.generateAccessToken(authentication);
-            String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+        // 3. 토큰 생성
+        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
 
-            // 4. Redis에 Refresh Token 저장
-            TokenRedis tokenRedis = new TokenRedis(customer.getUuid(), refreshToken);
-            tokenRedisRepository.save(tokenRedis);
+        // 4. Redis에 Refresh Token 저장
+        TokenRedis tokenRedis = new TokenRedis(customer.getUuid(), refreshToken);
+        tokenRedisRepository.save(tokenRedis);
 
-            return SignInResponseDto.toDto(accessToken, refreshToken);
+        return SignInResponseDto.toDto(accessToken, refreshToken);
 
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.FAILED_TO_LOGIN);
-        }
     }
 
 
@@ -303,7 +277,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         // Customer 객체를 principal로 사용하는 Authentication 생성
         Customer customer = customerRepository.findByUuid(customerUuid)
-            .orElseThrow(() -> new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR));
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.FAILED_CREATE_AUTHORITY));
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
             customer, null, customer.getAuthorities());
@@ -328,7 +302,8 @@ public class CustomerServiceImpl implements CustomerService {
             // 주소 목록을 순회하며 AddressResponseDto로 변환
             return addresses.stream().map(address -> {
                 // 각 주소의 addressCode를 통해 기본 배송지 여부 확인
-                Boolean isDefault = customerAddressDefaultListRepository.findByAddressCode(address.getAddressCode())
+                Boolean isDefault = customerAddressDefaultListRepository
+                    .findByAddressCode(address.getAddressCode())
                     .map(CustomerAddressDefaultList::getIsDefault)
                     .orElse(false); // 기본 배송지가 없으면 false로 설정
 

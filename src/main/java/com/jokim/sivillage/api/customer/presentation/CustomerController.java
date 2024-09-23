@@ -87,12 +87,8 @@ public class CustomerController {
     @Operation(summary = "DuplicateEmail API", description = "이메일 중복체크 API입니다", tags = {"Auth"})
     @PostMapping("auth/duplicate-email")
     public BaseResponse<Void> duplicateEmail(@RequestBody DuplicateEmailVo duplicateEmailVo) {
-        try {
-            customerService.duplicateEmail(DuplicateEmailDto.toDto(duplicateEmailVo));
-            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
+        customerService.duplicateEmail(DuplicateEmailDto.toDto(duplicateEmailVo));
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
     @Operation(summary = "Logout API", description = "로그아웃 API 입니다.", tags = {"Auth"})
@@ -117,7 +113,7 @@ public class CustomerController {
             return new BaseResponse<>(e.getStatus());
         } catch (Exception e) {
             log.error("리프레시 토큰 재발급 오류: ", e);
-            return new BaseResponse<>(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+            return new BaseResponse<>(BaseResponseStatus.FAILED_CREATE_AUTHORITY);
         }
     }
 
@@ -165,7 +161,7 @@ public class CustomerController {
 
     @Operation(summary = "Delivery API", description = "사용자 배송지 조회 API 입니다.", tags = {"MyPage"})
     @GetMapping("/mypage/delivery-info")
-    public ResponseEntity<List<AddressResponseVo>> getAddress(
+    public BaseResponse<List<AddressResponseVo>> getAddress(
         @RequestHeader("Authorization") String authorizationHeader
     ) {
         // Authorization 헤더에서 accessToken 추출
@@ -180,7 +176,7 @@ public class CustomerController {
             .toList(); // Dto -> Vo로 변환
 
         // 결과를 ResponseEntity로 반환
-        return ResponseEntity.ok(addressResponseVos);
+        return new BaseResponse<>(addressResponseVos);
     }
 
     @Operation(summary = "Delevery API", description = "사용자 배송지 생성 API 입니다.", tags = {"MyPage"})

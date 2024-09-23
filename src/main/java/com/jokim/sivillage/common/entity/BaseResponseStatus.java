@@ -22,6 +22,7 @@ public enum BaseResponseStatus {
     NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 403, "접근 권한이 없습니다"),
     DISABLED_USER(HttpStatus.FORBIDDEN, false, 404, "비활성화된 계정입니다. 계정을 복구하시겠습니까?"),
     FAILED_TO_RESTORE(HttpStatus.INTERNAL_SERVER_ERROR, false, 405, "계정 복구에 실패했습니다. 관리자에게 문의해주세요."),
+    FAILED_CREATE_AUTHORITY(HttpStatus.FORBIDDEN, false, 406, "접근 권한 생성에 실패했습니다"),
 
     /**
      * 900: 기타 에러
