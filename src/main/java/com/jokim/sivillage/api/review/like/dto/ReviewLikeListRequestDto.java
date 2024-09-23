@@ -21,6 +21,13 @@ public class ReviewLikeListRequestDto {
             .build();
     }
 
+    public static ReviewLikeListRequestDto toDto(String accessToken, String reviewCode) {   // soft delete review like
+        return ReviewLikeListRequestDto.builder()
+            .accessToken(accessToken)
+            .reviewCode(reviewCode)
+            .build();
+    }
+
     public ReviewLikeList toEntity(Long id, String uuid, Boolean isChecked) {
         return ReviewLikeList.builder()
             .id(id)

@@ -37,4 +37,16 @@ public class ReviewLikeListServiceImpl implements ReviewLikeListService {
         return ReviewLikeListResponseDto.toDto(isChecked);
     }
 
+    @Transactional
+    @Override
+    public void deleteReviewLikeList(ReviewLikeListRequestDto reviewLikeListRequestDto) {   // Soft Delete
+
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(reviewLikeListRequestDto.getAccessToken());
+        Long id = reviewLikeListRepository.findByUuidAndReviewCode(
+            uuid, reviewLikeListRequestDto.getReviewCode()).map(ReviewLikeList::getId).orElse(null);
+
+        if(id == null) return;
+        reviewLikeListRepository.save(reviewLikeListRequestDto.toEntity(id, uuid, false));
+    }
+
 }

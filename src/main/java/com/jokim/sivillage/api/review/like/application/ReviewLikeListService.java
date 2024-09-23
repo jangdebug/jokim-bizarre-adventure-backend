@@ -9,4 +9,6 @@ public interface ReviewLikeListService {
 
     ReviewLikeListResponseDto getReviewLikeListState(String accessToken, String reviewCode);
 
+    void deleteReviewLikeList(ReviewLikeListRequestDto reviewLikeListRequestDto);
+
 }
