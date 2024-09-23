@@ -97,7 +97,12 @@ public class ProductController {
     @Operation(summary = "상품 리스트 정보 보기", description = "상품 코드로 상품 리스트 정보를 조회한다")
     @GetMapping("/products/product-code-list")
     public BaseResponse<ProductListResponseVo> getProductList(
-        @RequestParam String productCode) {
+        @RequestParam(required = false) String productCode) {
+
+        // 상품 코드 잘못 왔을 시
+        if (productCode == null) {
+            return new BaseResponse<>();
+        }
 
         ProductListResponseDto productListResponseDto = productService.getProductListByProductCode(
             productCode);
