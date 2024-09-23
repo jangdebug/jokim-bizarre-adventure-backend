@@ -36,20 +36,20 @@ public class BrandServiceImpl implements BrandService {
 
     @Transactional(readOnly = true)
     @Override
+    public List<BrandResponseDto> getAllBrands() {
+
+        return brandRepository.findAllByOrderByEnglishInitial().stream()
+                .map(BrandResponseDto::toDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public BrandResponseDto getBrandSummary(String brandCode) {
         String logoMediaCode = brandMediaListRepository.findByBrandCodeAndIsLogo(brandCode, true)
                 .map(BrandMediaList::getMediaCode).orElse(null);
 
         return BrandResponseDto.toDto(
                 brandRepository.findByBrandCode(brandCode).orElse(new Brand()), logoMediaCode);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<BrandResponseDto> getAllBrands() {
-
-        return brandRepository.findAllByOrderByEnglishInitial().stream()
-                .map(BrandResponseDto::toDto).toList();
     }
 
     @Transactional

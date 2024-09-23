@@ -45,7 +45,7 @@ public class BrandRequestDto {
                 .build();
     }
 
-    public Brand toEntity(Long id) {
+    public Brand toEntity(Long id) {    // update Brand
         return Brand.builder()
                 .id(id)
                 .brandCode(brandCode)
