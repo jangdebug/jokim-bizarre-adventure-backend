@@ -74,11 +74,12 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(product.getId());
     }
 
-    @Override
-    public List<ProductImageResponseDto> getProductImageByProductCode(String productCode) {
-
-        return productRepositoryCustom.getProductImagesByProductCode(productCode);
-    }
+    // media 부분에 구현되어 있어서 보류
+//    @Override
+//    public List<ProductImageResponseDto> getProductImageByProductCode(String productCode) {
+//
+//        return productRepositoryCustom.getProductImagesByProductCode(productCode);
+//    }
 
 
     @Override

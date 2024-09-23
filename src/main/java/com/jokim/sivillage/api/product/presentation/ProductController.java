@@ -2,17 +2,14 @@ package com.jokim.sivillage.api.product.presentation;
 
 import com.jokim.sivillage.api.product.application.ProductService;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
-import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.vo.in.ProductRequestVo;
-import com.jokim.sivillage.api.product.vo.out.ProductImageResponseVo;
 import com.jokim.sivillage.api.product.vo.out.ProductListResponseVo;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -44,35 +41,32 @@ public class ProductController {
         log.info("productCoded : {}", productCode);
         ProductResponseDto productResponseDto = productService.getProductByProductCode(productCode);
         ProductResponseVo response = Optional.ofNullable(productResponseDto)
-            .map(ProductResponseDto::toResponseVo)
-            .orElse(null);
+            .map(ProductResponseDto::toResponseVo).orElse(null);
         return new BaseResponse<>(response);
     }
 
     // 상품 이미지 데이터 보기
-    @Operation(summary = "상품 데이터 보기(이미지관련)", description = "상품코드로 이미지 관련 데이터를 조회한다.")
-    @GetMapping("/product-image/{productCode}")
-    public BaseResponse<List<ProductImageResponseVo>> getProductImage(
-        @PathVariable(required = false) String productCode) {
-        if (productCode == null) {
-            return new BaseResponse<>();
-        }
-        List<ProductImageResponseDto> productImageResponseDtoList = productService.getProductImageByProductCode(
-            productCode);
-        log.info("productImageResponseDtoList in ProductController {}",
-            Optional.ofNullable(productImageResponseDtoList).orElse(Collections.emptyList()));
-
-        return new BaseResponse<>(
-            Optional.ofNullable(productImageResponseDtoList)
-                .map(list -> list.stream().map(ProductImageResponseDto::toVo).toList())
-                .orElse(null));
-    }
+    // media 부분에 구현되어 있어서 보류
+//    @Operation(summary = "상품 데이터 보기(이미지관련)", description = "상품코드로 이미지 관련 데이터를 조회한다.")
+//    @GetMapping("/product-image/{productCode}")
+//    public BaseResponse<List<ProductImageResponseVo>> getProductImage(
+//        @PathVariable(required = false) String productCode) {
+//        if (productCode == null) {
+//            return new BaseResponse<>();
+//        }
+//        List<ProductImageResponseDto> productImageResponseDtoList = productService.getProductImageByProductCode(
+//            productCode);
+//        log.info("productImageResponseDtoList in ProductController {}",
+//            Optional.ofNullable(productImageResponseDtoList).orElse(Collections.emptyList()));
+//
+//        return new BaseResponse<>(Optional.ofNullable(productImageResponseDtoList)
+//            .map(list -> list.stream().map(ProductImageResponseDto::toVo).toList()).orElse(null));
+//    }
 
     // 상품 데이터 입력
     @PostMapping("/products")
     @Operation(summary = "상품 데이터 저장", description = "상품 데이터를 저장한다.")
-    public BaseResponse<Void> saveProduct(
-        @RequestBody ProductRequestVo productRequestVo) {
+    public BaseResponse<Void> saveProduct(@RequestBody ProductRequestVo productRequestVo) {
         log.info("productRequestVo : {} in saveProduct", productRequestVo.toString());
         ProductRequestDto productRequestDto = ProductRequestDto.toDto(productRequestVo);
         log.info("productRequestDto : in ProductController {}", productRequestDto.toString());
@@ -83,8 +77,7 @@ public class ProductController {
     // 상품 업데이트 하기
     @Operation(summary = "상품 데이터 업데이트", description = "상품코드로 상품 데이터를 수정한다.")
     @PutMapping("/products")
-    public BaseResponse<Void> updateProduct(
-        @RequestBody ProductRequestVo productRequestVo) {
+    public BaseResponse<Void> updateProduct(@RequestBody ProductRequestVo productRequestVo) {
         log.info("productRequestVo : {}", productRequestVo.toString());
         ProductRequestDto productRequestDto = ProductRequestDto.toDto(productRequestVo);
         productService.updateProduct(productRequestDto);
@@ -119,8 +112,7 @@ public class ProductController {
             return new BaseResponse<>();
         }
 
-        return new BaseResponse<>(
-            productListResponseDto.toResponseVo());
+        return new BaseResponse<>(productListResponseDto.toResponseVo());
     }
 
     // 옵션 별  필터링 된 상품 보기 => 기능 x product-category-list 쪽에서 기능 이동
@@ -132,8 +124,7 @@ public class ProductController {
         @RequestParam(value = "etc-id") Long etcId) {
         log.info("productSize, color, etc id : {}, {}, {}", sizeId, colorId, etcId);
         List<ProductListResponseDto> productListResponseDtoList = productService.getProductListByOptions(
-            sizeId,
-            colorId, etcId);
+            sizeId, colorId, etcId);
 
         return new BaseResponse<>(
             productListResponseDtoList.stream().map(ProductListResponseDto::toResponseVo).toList());
@@ -149,8 +140,8 @@ public class ProductController {
         }
         List<ProductListResponseDto> productListResponseDtos = productService.getRandomProducts(
             count);
-        List<ProductListResponseVo> productListResponseVos =
-            productListResponseDtos.stream().map(ProductListResponseDto::toResponseVo).toList();
+        List<ProductListResponseVo> productListResponseVos = productListResponseDtos.stream()
+            .map(ProductListResponseDto::toResponseVo).toList();
         return new BaseResponse<>(productListResponseVos);
     }
 
@@ -164,8 +155,8 @@ public class ProductController {
         }
         List<ProductListResponseDto> productListResponseDtos = productService.getMostDiscountProduct(
             count);
-        List<ProductListResponseVo> productListResponseVos =
-            productListResponseDtos.stream().map(ProductListResponseDto::toResponseVo).toList();
+        List<ProductListResponseVo> productListResponseVos = productListResponseDtos.stream()
+            .map(ProductListResponseDto::toResponseVo).toList();
         return new BaseResponse<>(productListResponseVos);
     }
 

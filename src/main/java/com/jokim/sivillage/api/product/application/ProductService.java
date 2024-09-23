@@ -1,7 +1,6 @@
 package com.jokim.sivillage.api.product.application;
 
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
-import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import java.util.List;
@@ -18,7 +17,8 @@ public interface ProductService {
 
     void deleteProduct(String productCode);
 
-    List<ProductImageResponseDto> getProductImageByProductCode(String productCode);
+    // media 부분에 구현되어 있어서 보류
+//    List<ProductImageResponseDto> getProductImageByProductCode(String productCode);
 
     List<ProductListResponseDto> getRandomProducts(Integer count);
 

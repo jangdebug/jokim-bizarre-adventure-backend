@@ -32,4 +32,7 @@ public class ProductCategoryList {
     @Column(length = 36)
     private String quaternaryCategoyCode;
 
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean isOnSale;
+
 }
