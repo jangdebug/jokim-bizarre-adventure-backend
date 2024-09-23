@@ -8,6 +8,9 @@ import lombok.Getter;
 public class GetProductMediaListResponseVo {
 
     private String mediaCode;
+    private String mediaUrl;
+    private String mediaName;
+    private String mediaType;
     private Boolean isThumbnail;
 
 }

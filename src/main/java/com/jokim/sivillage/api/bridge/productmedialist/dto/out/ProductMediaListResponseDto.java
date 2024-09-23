@@ -1,27 +1,34 @@
 package com.jokim.sivillage.api.bridge.productmedialist.dto.out;
 
-import com.jokim.sivillage.api.bridge.productmedialist.domain.ProductMediaList;
 import com.jokim.sivillage.api.bridge.productmedialist.vo.out.GetProductMediaListResponseVo;
-import lombok.Builder;
+import com.querydsl.core.annotations.QueryProjection;
 
-@Builder
 public class ProductMediaListResponseDto {
 
-    private String mediaCode;
-    private Boolean isThumbnail;
+    private final String mediaCode;
+    private final String mediaUrl;
+    private final String mediaName;
+    private final String mediaType;
+    private final Boolean isThumbnail;
 
-    public static ProductMediaListResponseDto toDto(ProductMediaList productMediaList) {
-        return ProductMediaListResponseDto.builder()
-                .mediaCode(productMediaList.getMediaCode())
-                .isThumbnail(productMediaList.getIsThumbnail())
-                .build();
+    @QueryProjection
+    public ProductMediaListResponseDto(String mediaCode, String mediaUrl, String mediaName,
+        String mediaType, Boolean isThumbnail) {
+        this.mediaCode = mediaCode;
+        this.mediaUrl = mediaUrl;
+        this.mediaName = mediaName;
+        this.mediaType = mediaType;
+        this.isThumbnail = isThumbnail;
     }
 
     public GetProductMediaListResponseVo toVo() {
         return GetProductMediaListResponseVo.builder()
-                .mediaCode(mediaCode)
-                .isThumbnail(isThumbnail)
-                .build();
+            .mediaCode(mediaCode)
+            .mediaUrl(mediaUrl)
+            .mediaName(mediaName)
+            .mediaType(mediaType)
+            .isThumbnail(isThumbnail)
+            .build();
     }
 
 }
