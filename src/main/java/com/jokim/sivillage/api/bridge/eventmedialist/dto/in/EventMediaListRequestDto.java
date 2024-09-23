@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.bridge.eventmedialist.dto;
+package com.jokim.sivillage.api.bridge.eventmedialist.dto.in;
 
 import com.jokim.sivillage.api.bridge.eventmedialist.domain.EventMediaList;
 import com.jokim.sivillage.api.bridge.eventmedialist.vo.in.AddEventMediaListRequestVo;

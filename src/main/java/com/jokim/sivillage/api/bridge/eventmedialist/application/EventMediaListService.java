@@ -1,14 +1,14 @@
 package com.jokim.sivillage.api.bridge.eventmedialist.application;
 
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.in.EventMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.AllEventMediaListResponseDto;
 import java.util.List;
 
 public interface EventMediaListService {
 
     void addEventMediaList(EventMediaListRequestDto eventMediaListRequestDto);
 
-    List<EventMediaListResponseDto> getEventMediaList(String eventCode);
+    List<AllEventMediaListResponseDto> getAllEventMediaLists(String eventCode);
 
     void updateEventMediaList(EventMediaListRequestDto eventMediaListRequestDto);
 

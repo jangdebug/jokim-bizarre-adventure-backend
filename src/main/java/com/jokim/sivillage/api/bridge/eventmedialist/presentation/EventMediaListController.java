@@ -1,11 +1,11 @@
 package com.jokim.sivillage.api.bridge.eventmedialist.presentation;
 
 import com.jokim.sivillage.api.bridge.eventmedialist.application.EventMediaListService;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.in.EventMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.AllEventMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.vo.in.AddEventMediaListRequestVo;
 import com.jokim.sivillage.api.bridge.eventmedialist.vo.in.UpdateEventMediaListRequestVo;
-import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetEventMediaListResponseVo;
+import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetAllEventMediaListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,14 +37,14 @@ public class EventMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Event-Media-List 조회 API")
+    @Operation(summary = "Event-Media-List 전체 조회 API")
     @GetMapping("/{eventCode}")
-    public BaseResponse<List<GetEventMediaListResponseVo>> getEventMediaList(
+    public BaseResponse<List<GetAllEventMediaListResponseVo>> getAllEventMediaLists(
         @PathVariable String eventCode) {
 
         return new BaseResponse<>(
-            eventMediaListService.getEventMediaList(eventCode)
-                .stream().map(EventMediaListResponseDto::toVo).toList());
+            eventMediaListService.getAllEventMediaLists(eventCode)
+                .stream().map(AllEventMediaListResponseDto::toVo).toList());
     }
 
     @Operation(summary = "Event-Media-List 썸네일 수정 API")
