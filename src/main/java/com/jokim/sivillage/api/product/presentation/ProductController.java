@@ -12,7 +12,9 @@ import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,23 +43,29 @@ public class ProductController {
     public BaseResponse<ProductResponseVo> getProduct(@PathVariable String productCode) {
         log.info("productCoded : {}", productCode);
         ProductResponseDto productResponseDto = productService.getProductByProductCode(productCode);
-        log.info("productResponseDto : {}", productResponseDto.toString());
-        ProductResponseVo productResponseVo = productResponseDto.toResponseVo();
-        return new BaseResponse<>(productResponseVo);
+        ProductResponseVo response = Optional.ofNullable(productResponseDto)
+            .map(ProductResponseDto::toResponseVo)
+            .orElse(null);
+        return new BaseResponse<>(response);
     }
 
     // 상품 이미지 데이터 보기
     @Operation(summary = "상품 데이터 보기(이미지관련)", description = "상품코드로 이미지 관련 데이터를 조회한다.")
     @GetMapping("/product-image/{productCode}")
     public BaseResponse<List<ProductImageResponseVo>> getProductImage(
-        @PathVariable String productCode) {
-        log.info("productCoded : {}", productCode);
+        @PathVariable(required = false) String productCode) {
+        if (productCode == null) {
+            return new BaseResponse<>();
+        }
         List<ProductImageResponseDto> productImageResponseDtoList = productService.getProductImageByProductCode(
             productCode);
         log.info("productImageResponseDtoList in ProductController {}",
-            productImageResponseDtoList.toString());
-        return new BaseResponse<>(productImageResponseDtoList.stream()
-            .map(ProductImageResponseDto::toVo).toList());
+            Optional.ofNullable(productImageResponseDtoList).orElse(Collections.emptyList()));
+
+        return new BaseResponse<>(
+            Optional.ofNullable(productImageResponseDtoList)
+                .map(list -> list.stream().map(ProductImageResponseDto::toVo).toList())
+                .orElse(null));
     }
 
     // 상품 데이터 입력
@@ -115,8 +123,8 @@ public class ProductController {
             productListResponseDto.toResponseVo());
     }
 
-    // 옵션 별  필터링 된 상품 보기 => 기능 x product-category-list 쪽으로 이동
-    @Operation(summary = "옵션 별 상품 리스트 보기", description = "옵션에 따른 상품 목록을 조회한다")
+    // 옵션 별  필터링 된 상품 보기 => 기능 x product-category-list 쪽에서 기능 이동
+    @Operation(summary = "옵션 별 상품 리스트 보기", description = "옵션에 따른 상품 목록을 조회한다(상품에서 작동한다 태그용)")
     @GetMapping("/products/options")
     public BaseResponse<List<ProductListResponseVo>> getFilteredProduct(
         @RequestParam(value = "size-id") Long sizeId,
@@ -126,6 +134,7 @@ public class ProductController {
         List<ProductListResponseDto> productListResponseDtoList = productService.getProductListByOptions(
             sizeId,
             colorId, etcId);
+
         return new BaseResponse<>(
             productListResponseDtoList.stream().map(ProductListResponseDto::toResponseVo).toList());
     }

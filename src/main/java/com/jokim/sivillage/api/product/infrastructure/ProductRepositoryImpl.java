@@ -9,8 +9,6 @@ import com.jokim.sivillage.api.product.domain.QProductOption;
 import com.jokim.sivillage.api.product.dto.out.ProductImageResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
-import com.jokim.sivillage.common.entity.BaseResponseStatus;
-import com.jokim.sivillage.common.exception.BaseException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -47,7 +45,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                             Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
                                 product.discountPrice,
                                 product.standardPrice)
-                        ).as("discountRate"),  // 드물겠지만 standardPrice가
+                        ).as("discountRate"),
                     product.productName.as("productName"),
 //                product.isOnSale.as("isOnSale"),
                     product.standardPrice.as("price"),
@@ -60,12 +58,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .fetch();
 
         log.info("productResponseDtoList in repoImpl {}", productResponseDtoList);
-        if (productResponseDtoList.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NO_EXIST_PRODUCT);
+        ProductResponseDto productResponseDto = null;
+        if (!productResponseDtoList.isEmpty()) {
+            productResponseDto = productResponseDtoList.get(0);
         }
-
-        ProductResponseDto productResponseDto = productResponseDtoList.get(0);
-        log.info("productResponseDto in repoiImpl{}", productResponseDto);
+        
         return productResponseDto;
     }
 
