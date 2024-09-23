@@ -34,6 +34,6 @@ public class Product {
     @Column(nullable = false)
     private Double discountPrice;
     @Column(length = 30)
-    private String brandName;
+    private String brandCode;
 
 }

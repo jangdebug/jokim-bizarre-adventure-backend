@@ -1,5 +1,7 @@
 package com.jokim.sivillage.api.product.infrastructure;
 
+
+
 import static com.jokim.sivillage.api.product.domain.QProduct.product;
 
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
@@ -43,7 +45,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                     product.standardPrice.as("price"),
                     product.discountPrice.as("amount"),
                     product.detail.as("detail"),
-                    product.brandName.as("brandName")
+                    product.brandCode.as("brandCode")
                 ))
             .from(product)
             .where(product.productCode.eq(productCode))
@@ -103,7 +105,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 product.discountPrice,
                                 product.standardPrice)
                         ).as("discountRate"),
-                    product.brandName.as("brandName")
+                    product.brandCode.as("brandCode")
                 ))
             .from(product)
             .where(product.productCode.eq(productCode))
@@ -169,8 +171,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                             Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
                                 product.discountPrice,
                                 product.standardPrice)
-                        ).as("discountRate"),
-                    product.brandName.as("brandName")
+                        ).as("discountRate")
+//                    product.brandName.as("brandName")
                 ))
             .from(product)
             .orderBy(Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",

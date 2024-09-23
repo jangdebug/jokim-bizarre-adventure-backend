@@ -22,7 +22,7 @@ public class ProductResponseDto {
     private Double amount;
     private Double price;
     private String detail;
-    private String brandName;
+    private String brandCode;
 
     public ProductResponseVo toResponseVo() {
         return ProductResponseVo.builder()
@@ -32,7 +32,7 @@ public class ProductResponseDto {
             .amount(amount)
             .price(price)
             .detail(detail)
-            .brandName(brandName)
+            .brandCode(brandCode)
             .build();
     }
 
@@ -46,7 +46,7 @@ public class ProductResponseDto {
             .amount(product.getStandardPrice())
             .price(product.getDiscountPrice())
             .detail(product.getDetail())
-            .brandName(product.getBrandName())
+            .brandCode(product.getBrandCode())
             .build();
     }
 
