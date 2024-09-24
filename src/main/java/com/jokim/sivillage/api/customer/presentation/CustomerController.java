@@ -213,7 +213,8 @@ public class CustomerController {
         @RequestHeader("Authorization") String authorizationHeader,
         @RequestBody CustomerAddressUpdateVo customerAddressUpdateVo
     ) {
-        customerService.updateAddress(CustomerAddressRequestDto.toUpdateDto(customerAddressUpdateVo));
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.updateAddress(CustomerAddressRequestDto.toUpdateDto(accessToken, customerAddressUpdateVo));
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 

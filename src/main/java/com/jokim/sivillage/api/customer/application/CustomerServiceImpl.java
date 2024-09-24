@@ -87,7 +87,8 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         String uuid = UUID.randomUUID().toString();
-        customerRepository.save(signUpRequestDto.toCustomerEntity(passwordEncoder, uuid, State.ACTIVATION));
+        customerRepository.save(
+            signUpRequestDto.toCustomerEntity(passwordEncoder, uuid, State.ACTIVATION));
         customerMarketingRepository.save(signUpRequestDto.toMarketingEntity(uuid));
         customerPolicyRepository.save(signUpRequestDto.toPolicyEntity(uuid));
 
@@ -96,7 +97,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto) {
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(updatePasswordRequestDto.getAccessToken());
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(
+            updatePasswordRequestDto.getAccessToken());
         Customer customer = customerRepository.findByUuid(uuid).orElse(null);
         if (customer == null) {
             throw new BaseException(BaseResponseStatus.TOKEN_NOT_VALID);
@@ -108,7 +110,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public void updateInfo(UpdateInfoRequestDto updateInfoRequestDto) {
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(updateInfoRequestDto.getAccessToken());
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(
+            updateInfoRequestDto.getAccessToken());
         Customer customer = customerRepository.findByUuid(uuid).orElse(null);
         Marketing marketing = customerMarketingRepository.findByUuid(uuid).orElse(null);
         Policy policy = customerPolicyRepository.findByUuid(uuid).orElse(null);
@@ -122,20 +125,38 @@ public class CustomerServiceImpl implements CustomerService {
         customerPolicyRepository.save(updateInfoRequestDto.updateEntity(policy));
     }
 
-    @Transactional
     @Override
-    public void createAddress(CustomerAddressRequestDto customerAddressRequestDto) { //체크필요
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerAddressRequestDto.getAccessToken());
+    public void createAddress(CustomerAddressRequestDto customerAddressRequestDto) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(
+            customerAddressRequestDto.getAccessToken());
+
+        Address savedAddress = customerAddressRepository.save(
+            customerAddressRequestDto.toEntity(uuid)); // 일단 어드레스 저장함.
+
         List<CustomerAddressDefaultList> customerAddressDefaultList =
             customerAddressDefaultListRepository.findByUuid(uuid);
 
-        Address savedAddress = customerAddressRepository.save(customerAddressRequestDto.toEntity(uuid));
-        if(customerAddressDefaultList.isEmpty()){
-            customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toFirstEntity(uuid,
-                savedAddress.getAddressCode()));
-        }else{
-            customerAddressDefaultListRepository.save(CustomerAddressDefaultListDto.toEntity(uuid,
-                savedAddress.getAddressCode()));
+        // 아래 로직이 defaultAddress 저장하는 로직임
+        //create를 통해 들어온 어드레스가 처음 생성한 어드레스라면 create에서 모두 처리
+        if (customerAddressRequestDto.getIsDefault() && customerAddressDefaultList.isEmpty()) {
+            customerAddressDefaultListRepository.save(
+                CustomerAddressDefaultListDto.toEntity(uuid, true,
+                    savedAddress.getAddressCode()));
+        }
+        else {
+            //create를 통해 생성한 어드레스가 처음도 아니고, isDefault도 false라면
+            customerAddressDefaultListRepository.save(
+                CustomerAddressDefaultListDto.toEntity(uuid, false,
+                    savedAddress.getAddressCode()));
+        }
+
+        //create를 통해 들어온 어드레스가 처음 생성한 어드레스는 아니지만 isDefault가 true라면 setDefault 사용
+        if (customerAddressRequestDto.getIsDefault()) {
+            CustomerAddressDefaultListDto tem = CustomerAddressDefaultListDto.toDto(uuid,
+                customerAddressRequestDto.getAccessToken(),
+                savedAddress.getAddressCode(), true);
+            setDefaultAddress(tem);
+
         }
     }
 
@@ -145,29 +166,40 @@ public class CustomerServiceImpl implements CustomerService {
         Address address = customerAddressRepository.findByAddressCode(
             customerAddressRequestDto.getAddressCode()).orElseThrow(()
             -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
-        customerAddressRepository.save(customerAddressRequestDto.updateEntity(address));
-    }
+        Address newAddress = customerAddressRepository.save(
+            customerAddressRequestDto.updateEntity(address));
 
-    @Transactional
+        //update를 통해 들어온 어드레스의 isDefault가 true라면 setDefault 사용
+        if (customerAddressRequestDto.getIsDefault()) {
+            CustomerAddressDefaultListDto tem = CustomerAddressDefaultListDto.toDto(
+                newAddress.getUuid(), customerAddressRequestDto.getAccessToken(),
+                newAddress.getAddressCode(), true);
+            setDefaultAddress(tem);
+        }
+    }
+    
     @Override
     public void setDefaultAddress(CustomerAddressDefaultListDto customerAddressDefaultListDto) {
         // JWT를 통해 유저 UUID를 검증하고 가져옴
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerAddressDefaultListDto.getAccessToken());
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(
+            customerAddressDefaultListDto.getAccessToken());
+
         String addressCode = customerAddressDefaultListDto.getAddressCode();
 
         // 기존에 default 주소가 설정된 항목을 찾아서 false로 변경
         CustomerAddressDefaultList customerAddressDefaultList =
             customerAddressDefaultListRepository.findByUuidAndIsDefault(uuid, true)
-                .orElseThrow(()-> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
-
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
+        
         customerAddressDefaultListRepository.save(
-            customerAddressDefaultListDto.toOldDefaultAddressListEntity(customerAddressDefaultList));
-
+            customerAddressDefaultListDto.toOldDefaultAddressListEntity(
+                customerAddressDefaultList));
+        
         // 새로 설정하려는 주소 코드를 가진 항목을 찾아서 default로 설정
         CustomerAddressDefaultList newDefaultAddress =
             customerAddressDefaultListRepository.findByAddressCode(addressCode)
-                .orElseThrow(()->new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
-
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
+        
         customerAddressDefaultListRepository.save(
             customerAddressDefaultListDto.toNewDefaultAddressListEntity(newDefaultAddress));
     }
@@ -179,25 +211,28 @@ public class CustomerServiceImpl implements CustomerService {
             customerAddressDefaultListRepository.findByAddressCode(addressCode).orElseThrow(()
                 -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
 
-        if(customerAddressDefaultList.getIsDefault()){
+        if (customerAddressDefaultList.getIsDefault()) {
             throw new BaseException(BaseResponseStatus.NOT_DELETE_DEFAULTADDRESS);
         }
         customerAddressDefaultListRepository.deleteByAddressCode(addressCode);
         customerAddressRepository.deleteByAddressCode(addressCode);
     }
 
+
+
     @Override
     public void saveOrUpdateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto) {
         // accessToken에서 uuid 추출
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(customerSizeRequestDto.getAccessToken());
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(
+            customerSizeRequestDto.getAccessToken());
 
         // uuid로 기존 엔티티가 있는지 확인
         CustomerSize existingCustomerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
 
         // 기존 엔티티가 있으면 업데이트, 없으면 새로 생성
         CustomerSize customerSize = (existingCustomerSize == null)
-                ? customerSizeRequestDto.toEntity(uuid)  // 새 엔티티 생성
-                : customerSizeRequestDto.updateToEntity(existingCustomerSize);  // 기존 엔티티 업데이트
+            ? customerSizeRequestDto.toEntity(uuid)  // 새 엔티티 생성
+            : customerSizeRequestDto.updateToEntity(existingCustomerSize);  // 기존 엔티티 업데이트
 
         // 엔티티 저장
         customerSizeRepository.save(customerSize);
@@ -233,7 +268,7 @@ public class CustomerServiceImpl implements CustomerService {
             return SignInResponseDto.toDto(accessToken, refreshToken);
 
         }
-            // 로그인 처리. null로 보내면 컨트롤러에서 if문 사용해 회원가입 먼저 하라고 오류 출력
+        // 로그인 처리. null로 보내면 컨트롤러에서 if문 사용해 회원가입 먼저 하라고 오류 출력
         return null;
     }
 
@@ -250,7 +285,6 @@ public class CustomerServiceImpl implements CustomerService {
         String accessToken = jwtTokenProvider.generateAccessToken(authentication);
         String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
-
         // 4. Redis에 Refresh Token 저장
         TokenRedis tokenRedis = new TokenRedis(customer.getUuid(), refreshToken);
         tokenRedisRepository.save(tokenRedis);
@@ -260,18 +294,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-
     //리프레시 토큰을 확인하여 accessToken 재발급
     @Override
     @Transactional
-    public RefreshTokenResponseDto refreshAccessToken(RefreshTokenRequestDto refreshTokenRequestDto) {
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(refreshTokenRequestDto.getRefreshToken());
+    public RefreshTokenResponseDto refreshAccessToken(
+        RefreshTokenRequestDto refreshTokenRequestDto) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(
+            refreshTokenRequestDto.getRefreshToken());
 
         // Redis에서 리프레시 토큰 검증 //key값이 uuid이기에 uuid로 검색
         TokenRedis tokenRedis = tokenRedisRepository.findById(uuid)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.TOKEN_NOT_VALID));
 
-        log.info("tokenRedis값 제대로 오나?{}",tokenRedis);
+        log.info("tokenRedis값 제대로 오나?{}", tokenRedis);
         // 리프레시 토큰이 유효하다면 새로운 액세스 토큰 생성
         String customerUuid = tokenRedis.getId();
 
@@ -325,7 +360,6 @@ public class CustomerServiceImpl implements CustomerService {
             )
         );
     }
-
 
 
 }

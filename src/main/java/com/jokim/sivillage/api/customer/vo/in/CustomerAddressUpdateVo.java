@@ -13,6 +13,7 @@ public class CustomerAddressUpdateVo {
     private String zipCode;
     private String addressRoad;
     private String addressJibeon;
+    private Boolean isDefault;
     private String addressDetail;
     private Boolean deliveryPolicy;
 }
