@@ -33,7 +33,7 @@ public class Product {
     private Double standardPrice;
     @Column(nullable = false)
     private Double discountPrice;
-    @Column(length = 30)
+    @Column(length = 36)
     private String brandCode;
 
 }
