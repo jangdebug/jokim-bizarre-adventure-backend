@@ -76,8 +76,8 @@ public class ProductCategoryListRepositoryImpl implements ProductCategoryListRep
 
         if (content.size() > curPageSize) {
             hasNext = true;
-            content = content.subList(0, curPageSize);      // 실제 페이지 사이즈 만큼 자르기
             nextCursor = content.get(curPageSize).getId();  // 마지막 항목의 ID를 커서로 설정
+            content = content.subList(0, curPageSize);      // 실제 페이지 사이즈 만큼 자르기
         }
 
         List<String> productCodeList = content.stream()
