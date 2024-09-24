@@ -17,18 +17,12 @@ public interface ProductService {
 
     void deleteProduct(String productCode);
 
-    // media 부분에 구현되어 있어서 보류
-//    List<ProductImageResponseDto> getProductImageByProductCode(String productCode);
 
     List<ProductListResponseDto> getRandomProducts(Integer count);
 
 
     ProductListResponseDto getProductListByProductCode(
         String productCodeList);
-
-    // product-category에 구현되어 있음
-//    List<ProductListResponseDto> getProductListByOptions(Long sizeId,
-//        Long colorId, Long etcId);
 
     List<ProductListResponseDto> getMostDiscountProduct(Integer count);
 

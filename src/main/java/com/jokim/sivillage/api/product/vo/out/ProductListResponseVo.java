@@ -13,7 +13,7 @@ public class ProductListResponseVo {
     private String imageUrl;
     private Double price;
     private Integer discountRate;
-    private String brandName;
+    private String brandCode;
 
 
 }

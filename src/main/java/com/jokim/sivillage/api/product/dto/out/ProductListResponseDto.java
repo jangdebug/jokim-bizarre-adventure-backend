@@ -21,7 +21,7 @@ public class ProductListResponseDto {
     private String imageUrl;
     private Double price;
     private Integer discountRate;
-    private String brandName;
+    private String brandCode;
 
 
     public ProductListResponseVo toResponseVo() {
@@ -31,7 +31,7 @@ public class ProductListResponseDto {
             .imageUrl(imageUrl)
             .price(price)
             .discountRate(discountRate)
-            .brandName(brandName)
+            .brandCode(brandCode)
             .build();
     }
 
