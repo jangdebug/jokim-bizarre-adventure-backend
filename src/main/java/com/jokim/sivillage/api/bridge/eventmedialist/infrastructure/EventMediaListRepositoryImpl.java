@@ -1,8 +1,8 @@
 package com.jokim.sivillage.api.bridge.eventmedialist.infrastructure;
 
 import com.jokim.sivillage.api.bridge.eventmedialist.domain.QEventMediaList;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.AllEventMediaListResponseDto;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.QAllEventMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.AllEventMediaListsResponseDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.QAllEventMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.QThumbnailEventMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.ThumbnailEventMediaListResponseDto;
 import com.jokim.sivillage.api.media.domain.QMedia;
@@ -22,8 +22,8 @@ public class EventMediaListRepositoryImpl implements EventMediaListRepositoryCus
     private final QMedia media = QMedia.media;
 
     @Override
-    public List<AllEventMediaListResponseDto> getAllEventMediaLists(String eventCode) {
-        return jpaQueryFactory.select(new QAllEventMediaListResponseDto(
+    public List<AllEventMediaListsResponseDto> getAllEventMediaLists(String eventCode) {
+        return jpaQueryFactory.select(new QAllEventMediaListsResponseDto(
             media.mediaCode,
             media.url,
             media.mediaType.stringValue(),

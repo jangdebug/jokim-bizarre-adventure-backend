@@ -1,7 +1,7 @@
-package com.jokim.sivillage.api.bridge.brandmedialist.dto;
+package com.jokim.sivillage.api.bridge.brandmedialist.dto.in;
 
 import com.jokim.sivillage.api.bridge.brandmedialist.domain.BrandMediaList;
-import com.jokim.sivillage.api.bridge.brandmedialist.vo.AddBrandMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.brandmedialist.vo.in.AddBrandMediaListRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 

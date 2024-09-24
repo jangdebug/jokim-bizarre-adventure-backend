@@ -1,11 +1,9 @@
 package com.jokim.sivillage.api.bridge.eventmedialist.dto.out;
 
-import com.jokim.sivillage.api.bridge.eventmedialist.domain.EventMediaList;
-import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetAllEventMediaListResponseVo;
+import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetAllEventMediaListsResponseVo;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Builder;
 
-public class AllEventMediaListResponseDto {
+public class AllEventMediaListsResponseDto {
 
     private final String mediaCode;
     private final String mediaUrl;
@@ -13,7 +11,7 @@ public class AllEventMediaListResponseDto {
     private final Boolean isThumbnail;
 
     @QueryProjection
-    public AllEventMediaListResponseDto(String mediaCode, String mediaUrl, String mediaType,
+    public AllEventMediaListsResponseDto(String mediaCode, String mediaUrl, String mediaType,
         Boolean isThumbnail) {
         this.mediaCode = mediaCode;
         this.mediaUrl = mediaUrl;
@@ -21,8 +19,8 @@ public class AllEventMediaListResponseDto {
         this.isThumbnail = isThumbnail;
     }
 
-    public GetAllEventMediaListResponseVo toVo() {
-        return GetAllEventMediaListResponseVo.builder()
+    public GetAllEventMediaListsResponseVo toVo() {
+        return GetAllEventMediaListsResponseVo.builder()
             .mediaCode(mediaCode)
             .mediaUrl(mediaUrl)
             .mediaType(mediaType)

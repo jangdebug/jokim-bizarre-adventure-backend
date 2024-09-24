@@ -1,10 +1,10 @@
 package com.jokim.sivillage.api.bridge.reviewmedialist.infrastructure;
 
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListsResponseDto;
 import java.util.List;
 
 public interface ReviewMediaListRepositoryCustom {
 
-    List<AllReviewMediaListResponseDto> getAllReviewMediaLists(String reviewCode);
+    List<AllReviewMediaListsResponseDto> getAllReviewMediaLists(String reviewCode);
 
 }

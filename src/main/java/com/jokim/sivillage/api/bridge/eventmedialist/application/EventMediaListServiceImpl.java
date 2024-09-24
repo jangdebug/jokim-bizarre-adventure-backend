@@ -5,7 +5,7 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_MED
 
 import com.jokim.sivillage.api.bridge.eventmedialist.domain.EventMediaList;
 import com.jokim.sivillage.api.bridge.eventmedialist.dto.in.EventMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.AllEventMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.AllEventMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.ThumbnailEventMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.infrastructure.EventMediaListRepository;
 import com.jokim.sivillage.api.bridge.eventmedialist.infrastructure.EventMediaListRepositoryCustom;
@@ -35,7 +35,7 @@ public class EventMediaListServiceImpl implements EventMediaListService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<AllEventMediaListResponseDto> getAllEventMediaLists(String eventCode) {
+    public List<AllEventMediaListsResponseDto> getAllEventMediaLists(String eventCode) {
         return eventMediaListRepositoryCustom.getAllEventMediaLists(eventCode);
     }
 

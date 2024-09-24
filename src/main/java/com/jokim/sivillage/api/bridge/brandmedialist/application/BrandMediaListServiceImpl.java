@@ -1,8 +1,9 @@
 package com.jokim.sivillage.api.bridge.brandmedialist.application;
 
-import com.jokim.sivillage.api.bridge.brandmedialist.dto.BrandMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.brandmedialist.dto.BrandMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.brandmedialist.dto.in.BrandMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.brandmedialist.dto.out.AllBrandMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.brandmedialist.infrastructure.BrandMediaListRepository;
+import com.jokim.sivillage.api.bridge.brandmedialist.infrastructure.BrandMediaListRepositoryCustom;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.ALREADY_EXIST
 public class BrandMediaListServiceImpl implements BrandMediaListService {
 
     private final BrandMediaListRepository brandMediaListRepository;
+    private final BrandMediaListRepositoryCustom brandMediaListRepositoryCustom;
 
     @Transactional
     @Override
@@ -33,9 +35,8 @@ public class BrandMediaListServiceImpl implements BrandMediaListService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<BrandMediaListResponseDto> getBrandMediaList(String brandCode) {
-        return brandMediaListRepository.findByBrandCode(brandCode)
-            .stream().map(BrandMediaListResponseDto::toDto).toList();
+    public List<AllBrandMediaListsResponseDto> getAllBrandMediaLists(String brandCode) {
+        return brandMediaListRepositoryCustom.getAllBrandMediaLists(brandCode);
     }
 
 }

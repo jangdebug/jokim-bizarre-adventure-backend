@@ -1,8 +1,8 @@
 package com.jokim.sivillage.api.bridge.reviewmedialist.infrastructure;
 
 import com.jokim.sivillage.api.bridge.reviewmedialist.domain.QReviewMediaList;
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListResponseDto;
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.QAllReviewMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListsResponseDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.QAllReviewMediaListsResponseDto;
 import com.jokim.sivillage.api.media.domain.QMedia;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -18,9 +18,9 @@ public class ReviewMediaListRepositoryImpl implements ReviewMediaListRepositoryC
     private final QMedia media = QMedia.media;
 
     @Override
-    public List<AllReviewMediaListResponseDto> getAllReviewMediaLists(String reviewCode) {
+    public List<AllReviewMediaListsResponseDto> getAllReviewMediaLists(String reviewCode) {
 
-        return jpaQueryFactory.select(new QAllReviewMediaListResponseDto(
+        return jpaQueryFactory.select(new QAllReviewMediaListsResponseDto(
                 media.mediaCode,
                 media.url,
                 media.mediaType.stringValue()

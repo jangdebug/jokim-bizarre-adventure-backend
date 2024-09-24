@@ -1,6 +1,5 @@
-package com.jokim.sivillage.api.bridge.brandmedialist.vo;
+package com.jokim.sivillage.api.bridge.brandmedialist.vo.in;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter

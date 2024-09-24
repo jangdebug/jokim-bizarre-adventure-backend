@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GetAllReviewMediaListResponseVo {
+public class GetAllReviewMediaListsResponseVo {
 
     private String mediaCode;
     private String mediaUrl;
