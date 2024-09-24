@@ -8,6 +8,7 @@ import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
 import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.dto.out.AddressResponseDto;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
+import com.jokim.sivillage.api.customer.dto.out.SizeResponseDto;
 import com.jokim.sivillage.api.customer.vo.DuplicateEmailVo;
 import com.jokim.sivillage.api.customer.vo.RefreshTokenResponseVo;
 import com.jokim.sivillage.api.customer.vo.in.*;
@@ -167,10 +168,16 @@ public class CustomerController {
     ) {
         // Authorization 헤더에서 accessToken 추출
         String accessToken = authorizationHeader.replace("Bearer ", "");
-        customerService.getCustomerSize(accessToken);
 
-        return new BaseResponse<>(customerService.getCustomerSize(accessToken).toVo());
+        // 고객의 사이즈를 가져옴
+        SizeResponseDto sizeResponsDto = customerService.getCustomerSize(accessToken);
 
+        // 만약 null인 경우
+        if (sizeResponsDto == null) {
+            return new BaseResponse<>(BaseResponseStatus.NO_EXIST_SIZE);  // BaseResponseStatus에 적절한 메시지를 정의해야 함.
+        }
+
+        return new BaseResponse<>(sizeResponsDto.toVo());
     }
 
     @Operation(summary = "Delivery API", description = "사용자 배송지 조회 API 입니다.", tags = {"MyPage"})

@@ -226,9 +226,9 @@ public class CustomerServiceImpl implements CustomerService {
         String uuid = jwtTokenProvider.validateAndGetUserUuid(accessToken);
         CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
 
-        if (customerSize == null) {
-            customerSize =customerSizeRepository.save(SizeResponseDto.toDefaultEntity(uuid));
-        }
+        if (customerSize == null)
+            return null;
+
 
         return SizeResponseDto.toDto(customerSize);
     }

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SizeResponseDto {
+
     private Integer weight;
     private Integer height;
     private String topSize;
@@ -20,20 +21,7 @@ public class SizeResponseDto {
     private String footSize;
     private Boolean agreement;
 
-    public static CustomerSize toDefaultEntity(String uuid){
-        return CustomerSize.builder()
-            .uuid(uuid)
-            .weight(0)
-            .height(0)
-            .topSize("L")
-            .bottomSize("L")
-            .footSize("250")
-            .agreement(false)
-            .build();
-
-    }
-
-    public static SizeResponseDto toDto(CustomerSize customerSize){
+    public static SizeResponseDto toDto(CustomerSize customerSize) {
         return SizeResponseDto.builder()
             .weight(customerSize.getWeight())
             .height(customerSize.getHeight())
@@ -44,7 +32,7 @@ public class SizeResponseDto {
             .build();
     }
 
-    public SizeResponsVo toVo(){
+    public SizeResponsVo toVo() {
         return SizeResponsVo.builder()
             .weight(weight)
             .height(height)

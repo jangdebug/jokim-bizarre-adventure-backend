@@ -50,6 +50,7 @@ public enum BaseResponseStatus {
     SAME_NICKNAME(HttpStatus.CONFLICT, false, 2011, "현재 사용중인 닉네임입니다."),
     INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2012, "이메일을 다시 확인해주세요."),
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 이메일입니다."),
+    NO_EXIST_SIZE(HttpStatus.NOT_FOUND, false, 2018, "사용자 사이즈 정보가 존재하지 않습니다."),
 
     // Media
     NOT_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 2101, "존재하지 않는 미디어입니다."),
