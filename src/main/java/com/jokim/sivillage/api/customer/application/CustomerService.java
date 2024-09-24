@@ -38,6 +38,8 @@ public interface CustomerService {
 
     SizeResponseDto getCustomerSize(String accessToken);
 
+    AddressResponseDto getAddressDetail(String addressCode);
+
     void saveOrUpdateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto);
 
     SignInResponseDto signIn(SignInRequestDto signInRequestDto);

@@ -144,8 +144,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerAddressDefaultListRepository.save(
                 CustomerAddressDefaultListDto.toEntity(uuid, true,
                     savedAddress.getAddressCode()));
-        }
-        else {
+        } else {
             //create를 통해 생성한 어드레스가 처음도 아니고, isDefault도 false라면
             customerAddressDefaultListRepository.save(
                 CustomerAddressDefaultListDto.toEntity(uuid, false,
@@ -179,7 +178,7 @@ public class CustomerServiceImpl implements CustomerService {
             setDefaultAddress(tem);
         }
     }
-    
+
     @Override
     public void setDefaultAddress(CustomerAddressDefaultListDto customerAddressDefaultListDto) {
         // JWT를 통해 유저 UUID를 검증하고 가져옴
@@ -192,16 +191,16 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerAddressDefaultList customerAddressDefaultList =
             customerAddressDefaultListRepository.findByUuidAndIsDefault(uuid, true)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
-        
+
         customerAddressDefaultListRepository.save(
             customerAddressDefaultListDto.toOldDefaultAddressListEntity(
                 customerAddressDefaultList));
-        
+
         // 새로 설정하려는 주소 코드를 가진 항목을 찾아서 default로 설정
         CustomerAddressDefaultList newDefaultAddress =
             customerAddressDefaultListRepository.findByAddressCode(addressCode)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
-        
+
         customerAddressDefaultListRepository.save(
             customerAddressDefaultListDto.toNewDefaultAddressListEntity(newDefaultAddress));
     }
@@ -226,9 +225,9 @@ public class CustomerServiceImpl implements CustomerService {
         String uuid = jwtTokenProvider.validateAndGetUserUuid(accessToken);
         CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
 
-        if (customerSize == null)
+        if (customerSize == null) {
             return null;
-
+        }
 
         return SizeResponseDto.toDto(customerSize);
     }
@@ -367,6 +366,18 @@ public class CustomerServiceImpl implements CustomerService {
         }
         // 주소가 없을 경우 빈 리스트 반환
         return List.of();
+    }
+
+    @Override
+    public AddressResponseDto getAddressDetail(String addressCode) {
+        Address address = customerAddressRepository.findByAddressCode(addressCode).orElseThrow(
+            () -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS)
+        );
+
+        CustomerAddressDefaultList customerAddressDefaultList = customerAddressDefaultListRepository.findByAddressCode(
+            addressCode).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_ADDRESS));
+
+        return AddressResponseDto.toDto(address,customerAddressDefaultList.getIsDefault());
     }
 
 

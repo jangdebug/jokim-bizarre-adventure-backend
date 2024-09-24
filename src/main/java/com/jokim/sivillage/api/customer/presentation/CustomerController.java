@@ -200,6 +200,15 @@ public class CustomerController {
         return new BaseResponse<>(addressResponseVos);
     }
 
+    @Operation(summary = "Delivery API", description = "사용자 배송지 상세조회 API 입니다.", tags = {"MyPage"})
+    @GetMapping("/mypage/delivery-info/{addressCode}")
+    public BaseResponse<AddressResponseVo> getAddressDetail(
+        @RequestHeader("Authorization") String authorizationHeader,
+        @PathVariable("addressCode") String addressCode
+    ) {
+        return new BaseResponse<>(customerService.getAddressDetail(addressCode).toVo());
+    }
+
     @Operation(summary = "Delevery API", description = "사용자 배송지 생성 API 입니다.", tags = {"MyPage"})
     @PostMapping("/mypage/delivery-info")
     public BaseResponse<Void> CreateAddress(
