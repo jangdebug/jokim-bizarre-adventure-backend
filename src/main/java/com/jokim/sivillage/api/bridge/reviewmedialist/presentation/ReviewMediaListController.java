@@ -35,7 +35,7 @@ public class ReviewMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Review-Media-List 전체 조회 API", description = "Id 오름차순 조회")
+    @Operation(summary = "Review-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
     @GetMapping("/{reviewCode}")
     public BaseResponse<List<GetAllReviewMediaListsResponseVo>> getAllReviewMediaLists(
         @PathVariable String reviewCode) {

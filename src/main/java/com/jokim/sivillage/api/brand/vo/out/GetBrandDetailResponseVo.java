@@ -1,12 +1,11 @@
 package com.jokim.sivillage.api.brand.vo.out;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class BrandDetailResponseVo {
+public class GetBrandDetailResponseVo {
 
     private String brandCode;
     private String englishName;

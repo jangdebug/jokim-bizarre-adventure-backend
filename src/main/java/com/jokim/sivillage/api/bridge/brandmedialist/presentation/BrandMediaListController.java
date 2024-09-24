@@ -37,7 +37,7 @@ public class BrandMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Brand-Media-List 전체 조회 API", description = "Id 오름차순 조회")
+    @Operation(summary = "Brand-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
     @GetMapping("/{brandCode}")
     public BaseResponse<List<GetAllBrandMediaListsResponseVo>> getAllBrandMediaLists(
         @PathVariable String brandCode) {

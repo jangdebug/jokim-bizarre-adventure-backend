@@ -33,7 +33,7 @@ public class ProductMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Product-Media-List 전체 조회 API", description = "Id 오름차순 조회")
+    @Operation(summary = "Product-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
     @GetMapping("/{productCode}")
     public BaseResponse<List<GetAllProductMediaListsResponseVo>> getAllProductMediaLists(@PathVariable String productCode) {
 

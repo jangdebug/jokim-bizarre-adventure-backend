@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class BrandSummaryResponseVo {
+public class GetBrandSummaryResponseVo {
 
     @JsonProperty("brandName")
     private String englishName;
 
-    @JsonProperty("badgeMediaCode")
-    private String mediaCode;
+    @JsonProperty("logoMediaUrl")
+    private String mediaUrl;
 
 }

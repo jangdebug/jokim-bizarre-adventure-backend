@@ -4,6 +4,8 @@ import com.jokim.sivillage.api.bridge.brandmedialist.domain.QBrandMediaList;
 import com.jokim.sivillage.api.bridge.brandmedialist.dto.out.AllBrandMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.brandmedialist.dto.out.QAllBrandMediaListsResponseDto;
 import com.jokim.sivillage.api.media.domain.QMedia;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -31,4 +33,19 @@ public class BrandMediaListRepositoryImpl implements BrandMediaListRepositoryCus
             .orderBy(media.id.asc())
             .fetch();
     }
+
+    @Override
+    public String getBrandLogoUrl(String brandCode) {
+
+        BooleanExpression condition = Expressions.allOf(
+            brandMediaList.brandCode.eq(brandCode),
+            brandMediaList.isLogo.eq(true));
+
+        return jpaQueryFactory.select(media.url)
+            .from(brandMediaList)
+            .rightJoin(media).on(brandMediaList.mediaCode.eq(media.mediaCode))
+            .where(condition)
+            .fetchOne();
+    }
+
 }
