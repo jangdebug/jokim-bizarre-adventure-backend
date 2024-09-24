@@ -34,7 +34,7 @@ public class MeidaServiceImpl implements MediaService {
     @Override
     public MediaResponseDto getMedia(String mediaCode) {
         return MediaResponseDto.toDto(mediaRepository.findByMediaCode(mediaCode)
-                .orElseThrow(() -> new BaseException(NOT_EXIST_MEDIA)));
+            .orElse(new Media()));
     }
 
     @Transactional
@@ -49,9 +49,8 @@ public class MeidaServiceImpl implements MediaService {
     @Transactional
     @Override
     public void deleteMedia(String mediaCode) {
-        mediaRepository.deleteByMediaCode(mediaCode);
 
-        // TODO: media 중계 테이블 데이터들도 찾아서 삭제
+        mediaRepository.deleteByMediaCode(mediaCode);
     }
 
     private String generateUniqueMediaCode() {

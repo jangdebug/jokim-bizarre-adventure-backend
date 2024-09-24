@@ -12,14 +12,14 @@ public class MediaResponseDto {
     private String mediaCode;
     private String url;
     private String name;
-    private String type;
+    private String mediaType;
 
     public static MediaResponseDto toDto(Media media) {
         return MediaResponseDto.builder()
                 .mediaCode(media.getMediaCode())
                 .url(media.getUrl())
                 .name(media.getName())
-                .type(String.valueOf(media.getType()))
+                .mediaType(String.valueOf(media.getMediaType()))
                 .build();
     }
 
@@ -28,7 +28,7 @@ public class MediaResponseDto {
                 .mediaCode(mediaCode)
                 .url(url)
                 .name(name)
-                .type(type)
+                .mediaType(mediaType)
                 .build();
     }
 

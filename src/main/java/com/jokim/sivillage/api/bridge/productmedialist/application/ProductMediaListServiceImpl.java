@@ -2,8 +2,10 @@ package com.jokim.sivillage.api.bridge.productmedialist.application;
 
 import com.jokim.sivillage.api.bridge.productmedialist.domain.ProductMediaList;
 import com.jokim.sivillage.api.bridge.productmedialist.dto.in.ProductMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ProductMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.AllProductMediaListsResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ThumbnailProductMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.productmedialist.infrastructure.ProductMediaListRepository;
+import com.jokim.sivillage.api.bridge.productmedialist.infrastructure.ProductMediaListRepositoryCustom;
 import com.jokim.sivillage.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_MED
 public class ProductMediaListServiceImpl implements ProductMediaListService {
 
     private final ProductMediaListRepository productMediaListRepository;
+    private final ProductMediaListRepositoryCustom productMediaListRepositoryCustom;
 
     @Transactional
     @Override
@@ -33,9 +36,14 @@ public class ProductMediaListServiceImpl implements ProductMediaListService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ProductMediaListResponseDto> getProductMediaList(String productCode) {
-        return productMediaListRepository.findByProductCode(productCode)
-                .stream().map(ProductMediaListResponseDto::toDto).toList();
+    public List<AllProductMediaListsResponseDto> getAllProductMediaLists(String productCode) {
+        return productMediaListRepositoryCustom.getAllProductMediaLists(productCode);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ThumbnailProductMediaListResponseDto getThumbnailByProductCode(String productCode) {
+        return productMediaListRepositoryCustom.getThumbnailByProductCode(productCode);
     }
 
     @Transactional

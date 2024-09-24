@@ -28,6 +28,6 @@ public class Media {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MediaType type;
+    private MediaType mediaType = MediaType.IMAGE;
 
 }

@@ -1,5 +1,6 @@
 package com.jokim.sivillage.common.utils;
 
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
