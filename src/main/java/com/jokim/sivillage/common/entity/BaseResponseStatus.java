@@ -71,6 +71,10 @@ public enum BaseResponseStatus {
     FAILED_TO_UPDATE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2405, "부모 카테고리를 업데이트 할 수 없습니다."),
     FAILED_TO_DELETE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2406, "하위 카테고리가 있어서 삭제할 수 없습니다."),
 
+    // Product-Category
+    NOT_EXIST_IN_PRODUCT_CATEGORY(HttpStatus.NOT_FOUND, false, 2409,
+        "Product-Category-List 테이블에 존재하지 않는 상품입니다."),
+
     // Address
     NOT_DELETE_DEFAULTADDRESS(HttpStatus.BAD_REQUEST, false, 2410, "기본배송지는 삭제할 수 없습니다."),
     NOT_FOUND_ADDRESS(HttpStatus.BAD_REQUEST, false, 2411, "배송지를 찾을 수 없습니다."),

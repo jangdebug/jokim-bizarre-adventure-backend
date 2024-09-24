@@ -12,4 +12,6 @@ public interface ProductCategoryListService {
             String mainCategoryCode, String secondaryCategoryCode, String tertiaryCategoryCode, String quaternaryCategoryCode,
             Long lastId, Integer pageSize, Integer pageNo);
 
+    void updateProductCategoryList(ProductCategoryListRequestDto productCategoryListRequestDto);
+
 }

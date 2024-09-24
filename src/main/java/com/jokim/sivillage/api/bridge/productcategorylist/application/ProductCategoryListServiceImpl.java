@@ -1,10 +1,15 @@
 package com.jokim.sivillage.api.bridge.productcategorylist.application;
 
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_IN_PRODUCT_CATEGORY;
+
 import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
 import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListResponseDto;
 import com.jokim.sivillage.api.bridge.productcategorylist.infrastructure.ProductCategoryListRepository;
 import com.jokim.sivillage.api.bridge.productcategorylist.infrastructure.ProductCategoryListRepositoryCustom;
+import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.utils.CursorPage;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +23,12 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
 
     @Transactional
     @Override
-    public void addProductByCategories(
-        ProductCategoryListRequestDto productCategoryListRequestDto) {
+    public void addProductByCategories(ProductCategoryListRequestDto productCategoryListRequestDto) {
 
-        Boolean isOnSale = productCategoryListRequestDto.getIsOnSale();
+        Boolean isOnSale = Optional.ofNullable(productCategoryListRequestDto
+            .getIsOnSale()).orElse(true);
 
-        productCategoryListRepository.save(productCategoryListRequestDto.toEntity(
-            isOnSale == null || isOnSale));     // isOnSale == null ? true : isOnSale
+        productCategoryListRepository.save(productCategoryListRequestDto.toEntity(isOnSale));
     }
 
     @Transactional(readOnly = true)
@@ -40,6 +44,19 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
 
         return CursorPage.toCursorPage(cursorPage,
             cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList());
+    }
+
+    @Transactional
+    @Override
+    public void updateProductCategoryList(ProductCategoryListRequestDto productCategoryListRequestDto) {
+        List<Long> idList = productCategoryListRepositoryCustom.findByProductCodeAndCategoryCodes(
+            productCategoryListRequestDto);
+
+        if(idList.isEmpty()) throw new BaseException(NOT_EXIST_IN_PRODUCT_CATEGORY);
+
+        for(Long id : idList) productCategoryListRepository.save(
+            productCategoryListRequestDto.toEntity(id));
+
     }
 
 }

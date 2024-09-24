@@ -3,7 +3,7 @@ package com.jokim.sivillage.api.bridge.productcategorylist.presentation;
 import com.jokim.sivillage.api.bridge.productcategorylist.application.ProductCategoryListService;
 import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
 import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListResponseDto;
-import com.jokim.sivillage.api.bridge.productcategorylist.vo.AddProductCategoryListRequestVo;
+import com.jokim.sivillage.api.bridge.productcategorylist.vo.ProductCategoryListRequestVo;
 import com.jokim.sivillage.api.bridge.productcategorylist.vo.GetProductCategoryListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.utils.CursorPage;
@@ -20,13 +20,14 @@ public class ProductCategoryListController {
 
     private final ProductCategoryListService productCategoryListService;
 
-    @Operation(summary = "Product-Category-List 생성 API", description = "Add Product By Categories")
+    @Operation(summary = "Product-Category-List 생성 API", description =
+        "Add Product By Categories **(isOnSale 값 비우면 자동으로 true 들어감)**")
     @PostMapping
     public BaseResponse<Void> addProductByCategories(
-            @RequestBody AddProductCategoryListRequestVo addProductCategoryListRequestVo) {
+            @RequestBody ProductCategoryListRequestVo productCategoryListRequestVo) {
 
         productCategoryListService.addProductByCategories(ProductCategoryListRequestDto.toDto(
-            addProductCategoryListRequestVo));
+            productCategoryListRequestVo));
 
         return new BaseResponse<>();
     }
@@ -48,6 +49,17 @@ public class ProductCategoryListController {
 
         return new BaseResponse<>(CursorPage.toCursorPage(cursorPage,
             cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList()));
+    }
+
+    @Operation(summary = "Product-Category-List 판매 상태 수정 API", description =
+        "productCode & categoryCodes 조건 모두 같은 경우 찾아서 Update")
+    @PutMapping
+    public BaseResponse<Void> updateProductCategoryList(
+        @RequestBody ProductCategoryListRequestVo productCategoryListRequestVo) {
+
+        productCategoryListService.updateProductCategoryList(ProductCategoryListRequestDto.toDto(
+            productCategoryListRequestVo));
+        return new BaseResponse<>();
     }
 
 }

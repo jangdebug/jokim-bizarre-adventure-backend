@@ -2,9 +2,13 @@ package com.jokim.sivillage.api.bridge.productcategorylist.infrastructure;
 
 import com.jokim.sivillage.api.bridge.productcategorylist.domain.ProductCategoryList;
 import com.jokim.sivillage.api.bridge.productcategorylist.domain.QProductCategoryList;
+import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
 import com.jokim.sivillage.common.utils.CursorPage;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -82,4 +86,34 @@ public class ProductCategoryListRepositoryImpl implements ProductCategoryListRep
         return new CursorPage<>(productCodeList, nextCursor, hasNext, pageSize, pageNo);
 
     }
+
+    @Override
+    public List<Long> findByProductCodeAndCategoryCodes(ProductCategoryListRequestDto requestDto) {
+
+        BooleanBuilder condition = new BooleanBuilder();
+
+        Optional.ofNullable(requestDto.getProductCode())
+            .ifPresent(code -> condition.and(productCategoryList.productCode.eq(code)));
+
+        Optional.ofNullable(requestDto.getMainCategoryCode())
+            .ifPresent(code -> condition.and(productCategoryList.mainCategoryCode.eq(code)));
+
+        Optional.ofNullable(requestDto.getSecondaryCategoryCode())
+            .ifPresentOrElse(code -> condition.and(productCategoryList.secondaryCategoryCode.eq(code)),
+                () -> condition.and(productCategoryList.secondaryCategoryCode.isNull()));
+
+        Optional.ofNullable(requestDto.getTertiaryCategoryCode())
+            .ifPresentOrElse(code -> condition.and(productCategoryList.tertiaryCategoryCode.eq(code)),
+                () -> condition.and(productCategoryList.tertiaryCategoryCode.isNull()));
+
+        Optional.ofNullable(requestDto.getQuaternaryCategoryCode())
+            .ifPresentOrElse(code -> condition.and(productCategoryList.quaternaryCategoryCode.eq(code)),
+                () -> condition.and(productCategoryList.quaternaryCategoryCode.isNull()));
+
+        return jpaQueryFactory.select(productCategoryList.id)
+            .from(productCategoryList)
+            .where(condition)
+            .fetch();
+    }
+
 }
