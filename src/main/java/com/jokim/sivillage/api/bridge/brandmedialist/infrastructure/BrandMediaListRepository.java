@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BrandMediaListRepository extends JpaRepository<BrandMediaList, Long> {
 
-    List<BrandMediaList> findByBrandCode(String brandCode);
+    Optional<BrandMediaList> findByBrandCodeAndMediaCode(String brandCode, String mediaCode);
 
-    Optional<BrandMediaList> findByBrandCodeAndIsLogo(String brandCode, Boolean isLogo);
+    List<BrandMediaList> findByBrandCodeAndIsLogo(String brandCode, Boolean isLogo);
 
     boolean existsByBrandCodeAndIsLogo(String brandCode, Boolean isLogo);
 

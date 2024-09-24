@@ -4,6 +4,7 @@ import com.jokim.sivillage.api.bridge.brandmedialist.application.BrandMediaListS
 import com.jokim.sivillage.api.bridge.brandmedialist.dto.in.BrandMediaListRequestDto;
 import com.jokim.sivillage.api.bridge.brandmedialist.dto.out.AllBrandMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.brandmedialist.vo.in.AddBrandMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.brandmedialist.vo.in.UpdateBrandMediaListRequestVo;
 import com.jokim.sivillage.api.bridge.brandmedialist.vo.out.GetAllBrandMediaListsResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +45,16 @@ public class BrandMediaListController {
         return new BaseResponse<>(
             brandMediaListService.getAllBrandMediaLists(brandCode).stream()
                 .map(AllBrandMediaListsResponseDto::toVo).toList());
+    }
+
+    @Operation(summary = "Brand-Media-List 로고 수정 API")
+    @PutMapping
+    public BaseResponse<Void> updateBrandMediaList(
+        @RequestBody UpdateBrandMediaListRequestVo updateBrandMediaListRequestVo) {
+
+        brandMediaListService.updateBrandMediaList(BrandMediaListRequestDto.toDto(
+            updateBrandMediaListRequestVo));
+        return new BaseResponse<>();
     }
 
 }

@@ -10,4 +10,6 @@ public interface BrandMediaListService {
 
     List<AllBrandMediaListsResponseDto> getAllBrandMediaLists(String brandCode);
 
+    void updateBrandMediaList(BrandMediaListRequestDto brandMediaListRequestDto);
+
 }
