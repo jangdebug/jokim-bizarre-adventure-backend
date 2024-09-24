@@ -105,7 +105,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                                 product.discountPrice,
                                 product.standardPrice)
                         ).as("discountRate"),
-                    product.brandCode.as("brandName")
+                    brand.englishName.as("brandName")
                 ))
             .from(product)
             .leftJoin(brand).on(brand.brandCode.eq(product.brandCode))
@@ -172,10 +172,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                             Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
                                 product.discountPrice,
                                 product.standardPrice)
-                        ).as("discountRate")
-//                    product.brandName.as("brandName")
+                        ).as("discountRate"),
+                    brand.englishName.as("brandName")
                 ))
             .from(product)
+            .leftJoin(brand).on(brand.brandCode.eq(product.brandCode))
             .orderBy(Expressions.numberTemplate(Integer.class, "((1 - ({0}/{1}))*100)",
                 product.discountPrice,
                 product.standardPrice).desc())
