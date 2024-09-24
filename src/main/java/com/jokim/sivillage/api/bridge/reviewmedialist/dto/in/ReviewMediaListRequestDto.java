@@ -1,7 +1,7 @@
-package com.jokim.sivillage.api.bridge.reviewmedialist.dto;
+package com.jokim.sivillage.api.bridge.reviewmedialist.dto.in;
 
 import com.jokim.sivillage.api.bridge.reviewmedialist.domain.ReviewMediaList;
-import com.jokim.sivillage.api.bridge.reviewmedialist.vo.AddReviewMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.reviewmedialist.vo.in.AddReviewMediaListRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 

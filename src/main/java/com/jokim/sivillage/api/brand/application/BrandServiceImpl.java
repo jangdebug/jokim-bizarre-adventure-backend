@@ -4,13 +4,14 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GEN
 import static com.jokim.sivillage.common.entity.BaseResponseStatus.NOT_EXIST_BRAND;
 
 import com.jokim.sivillage.api.brand.domain.Brand;
-import com.jokim.sivillage.api.brand.dto.BrandRequestDto;
-import com.jokim.sivillage.api.brand.dto.BrandResponseDto;
+import com.jokim.sivillage.api.brand.dto.in.BrandRequestDto;
+import com.jokim.sivillage.api.brand.dto.out.BrandResponseDetailDto;
+import com.jokim.sivillage.api.brand.dto.out.BrandSummaryResponseDto;
 import com.jokim.sivillage.api.brand.infrastructure.BrandRepository;
-import com.jokim.sivillage.api.bridge.brandmedialist.domain.BrandMediaList;
-import com.jokim.sivillage.api.bridge.brandmedialist.infrastructure.BrandMediaListRepository;
+import com.jokim.sivillage.api.bridge.brandmedialist.infrastructure.BrandMediaListRepositoryCustom;
 import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.utils.CodeGenerator;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ import java.util.List;
 public class BrandServiceImpl implements BrandService {
 
     private final BrandRepository brandRepository;
-    private final BrandMediaListRepository brandMediaListRepository;
+    private final BrandMediaListRepositoryCustom brandMediaListRepositoryCustom;
 
     private static final int MAX_CODE_TRIES = 5;
 
@@ -36,20 +37,20 @@ public class BrandServiceImpl implements BrandService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<BrandResponseDto> getAllBrands() {
+    public List<BrandResponseDetailDto> getAllBrands() {
 
         return brandRepository.findAllByOrderByEnglishInitial().stream()
-                .map(BrandResponseDto::toDto).toList();
+                .map(BrandResponseDetailDto::toDto).toList();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public BrandResponseDto getBrandSummary(String brandCode) {
-        String logoMediaCode = brandMediaListRepository.findByBrandCodeAndIsLogo(brandCode, true)
-                .map(BrandMediaList::getMediaCode).orElse(null);
+    public BrandSummaryResponseDto getBrandSummary(String brandCode, Boolean isLogoRequired) {
+        String mediaUrl = (Optional.ofNullable(isLogoRequired).orElse(false)) ?
+            brandMediaListRepositoryCustom.getBrandLogoUrl(brandCode) : null;
 
-        return BrandResponseDto.toDto(
-                brandRepository.findByBrandCode(brandCode).orElse(new Brand()), logoMediaCode);
+        return BrandSummaryResponseDto.toDto(brandRepository.findByBrandCode(brandCode)
+            .orElse(new Brand()), mediaUrl);
     }
 
     @Transactional

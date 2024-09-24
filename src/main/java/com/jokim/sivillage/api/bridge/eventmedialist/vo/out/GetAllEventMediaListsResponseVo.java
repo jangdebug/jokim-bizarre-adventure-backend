@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GetEventMediaListResponseVo {
+public class GetAllEventMediaListsResponseVo {
 
     private String mediaCode;
+    private String mediaUrl;
+    private String mediaType;
     private Boolean isThumbnail;
 
 }

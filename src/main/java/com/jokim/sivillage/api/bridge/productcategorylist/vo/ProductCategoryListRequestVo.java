@@ -3,7 +3,7 @@ package com.jokim.sivillage.api.bridge.productcategorylist.vo;
 import lombok.Getter;
 
 @Getter
-public class AddProductCategoryListRequestVo {
+public class ProductCategoryListRequestVo {  // add or update request
 
     private String productCode;
     private String mainCategoryCode;

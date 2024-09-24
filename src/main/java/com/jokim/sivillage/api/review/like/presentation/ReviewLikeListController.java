@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Review Like")
+@Tag(name = "Review-Like")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/review/like")

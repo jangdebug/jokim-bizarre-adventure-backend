@@ -14,7 +14,6 @@ public class UpdateMediaRequestVo {
     @JsonProperty("mediaName")
     private String name;
 
-    @JsonProperty("mediaType")
-    private String type;
+    private String mediaType;
 
 }

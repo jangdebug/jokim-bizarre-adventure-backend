@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.brand.dto;
+package com.jokim.sivillage.api.brand.dto.in;
 
 import com.jokim.sivillage.api.brand.domain.Brand;
 import com.jokim.sivillage.api.brand.vo.in.AddBrandRequestVo;

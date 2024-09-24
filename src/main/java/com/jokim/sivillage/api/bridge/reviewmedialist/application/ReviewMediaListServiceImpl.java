@@ -1,8 +1,9 @@
 package com.jokim.sivillage.api.bridge.reviewmedialist.application;
 
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.ReviewMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.ReviewMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.in.ReviewMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.reviewmedialist.infrastructure.ReviewMediaListRepository;
+import com.jokim.sivillage.api.bridge.reviewmedialist.infrastructure.ReviewMediaListRepositoryCustom;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewMediaListServiceImpl implements ReviewMediaListService {
 
     private final ReviewMediaListRepository reviewMediaListRepository;
+    private final ReviewMediaListRepositoryCustom reviewMediaListRepositoryCustom;
 
     @Transactional
     @Override
@@ -23,9 +25,8 @@ public class ReviewMediaListServiceImpl implements ReviewMediaListService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ReviewMediaListResponseDto> getReviewMediaList(String reviewCode) {
-        return reviewMediaListRepository.findByReviewCodeOrderById(reviewCode)
-            .stream().map(ReviewMediaListResponseDto::toDto).toList();
+    public List<AllReviewMediaListsResponseDto> getAllReviewMediaLists(String reviewCode) {
+        return reviewMediaListRepositoryCustom.getAllReviewMediaLists(reviewCode);
     }
 
 }

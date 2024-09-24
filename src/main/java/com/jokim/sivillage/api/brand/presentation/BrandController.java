@@ -1,12 +1,12 @@
 package com.jokim.sivillage.api.brand.presentation;
 
 import com.jokim.sivillage.api.brand.application.BrandService;
-import com.jokim.sivillage.api.brand.dto.BrandRequestDto;
-import com.jokim.sivillage.api.brand.dto.BrandResponseDto;
+import com.jokim.sivillage.api.brand.dto.in.BrandRequestDto;
+import com.jokim.sivillage.api.brand.dto.out.BrandResponseDetailDto;
 import com.jokim.sivillage.api.brand.vo.in.AddBrandRequestVo;
 import com.jokim.sivillage.api.brand.vo.in.UpdateBrandRequestVo;
-import com.jokim.sivillage.api.brand.vo.out.BrandDetailResponseVo;
-import com.jokim.sivillage.api.brand.vo.out.BrandSummaryResponseVo;
+import com.jokim.sivillage.api.brand.vo.out.GetBrandDetailResponseVo;
+import com.jokim.sivillage.api.brand.vo.out.GetBrandSummaryResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,17 +33,20 @@ public class BrandController {
 
     @Operation(summary = "Brand 전체 조회 API")
     @GetMapping
-    public BaseResponse<List<BrandDetailResponseVo>> getAllBrands() {
+    public BaseResponse<List<GetBrandDetailResponseVo>> getAllBrands() {
 
         return new BaseResponse<>(brandService.getAllBrands().stream()
-                .map(BrandResponseDto::toDetailVo).toList());
+            .map(BrandResponseDetailDto::toVo).toList());
     }
 
-    @Operation(summary = "Brand summary 조회 API")
+    @Operation(summary = "Brand Summary 조회 API", description =
+        "Logo media URL 포함하여 조회 **(isLogoRequired 없으면 조인 피하여 성능 개선)**")
     @GetMapping("/{brandCode}")
-    public BaseResponse<BrandSummaryResponseVo> getBrandSummary(@PathVariable String brandCode) {
+    public BaseResponse<GetBrandSummaryResponseVo> getBrandSummary(
+        @PathVariable String brandCode,
+        @RequestParam(value = "isLogoRequired", required = false) Boolean isLogoRequired) {
 
-        return new BaseResponse<>(brandService.getBrandSummary(brandCode).toSummaryVo());
+        return new BaseResponse<>(brandService.getBrandSummary(brandCode, isLogoRequired).toVo());
     }
 
     @Operation(summary = "Brand 정보 수정 API")

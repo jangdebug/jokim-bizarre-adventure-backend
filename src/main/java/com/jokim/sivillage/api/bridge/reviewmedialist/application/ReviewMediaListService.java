@@ -1,14 +1,13 @@
 package com.jokim.sivillage.api.bridge.reviewmedialist.application;
 
-import com.jokim.sivillage.api.bridge.reviewmedialist.domain.ReviewMediaList;
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.ReviewMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.ReviewMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.in.ReviewMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListsResponseDto;
 import java.util.List;
 
 public interface ReviewMediaListService {
 
     void addReviewMediaList(ReviewMediaListRequestDto reviewMediaListRequestDto);
 
-    List<ReviewMediaListResponseDto> getReviewMediaList(String reviewCode);
+    List<AllReviewMediaListsResponseDto> getAllReviewMediaLists(String reviewCode);
 
 }

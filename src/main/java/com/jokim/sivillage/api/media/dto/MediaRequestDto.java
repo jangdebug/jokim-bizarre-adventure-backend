@@ -17,13 +17,13 @@ public class MediaRequestDto {
     private String mediaCode;
     private String url;
     private String name;
-    private String type;
+    private String mediaType;
 
     public static MediaRequestDto toDto(AddMediaRequestVo addMediaRequestVo) {
         return MediaRequestDto.builder()
                 .url(addMediaRequestVo.getUrl())
                 .name(addMediaRequestVo.getName())
-                .type(addMediaRequestVo.getType())
+                .mediaType(addMediaRequestVo.getMediaType())
                 .build();
     }
 
@@ -32,7 +32,7 @@ public class MediaRequestDto {
                 .mediaCode(updateMediaRequestVo.getMediaCode())
                 .url(updateMediaRequestVo.getUrl())
                 .name(updateMediaRequestVo.getName())
-                .type(updateMediaRequestVo.getType())
+                .mediaType(updateMediaRequestVo.getMediaType())
                 .build();
     }
 
@@ -42,7 +42,7 @@ public class MediaRequestDto {
                     .mediaCode(mediaCode)
                     .url(url)
                     .name(name)
-                    .type(MediaType.valueOf(type.toUpperCase()))  // enum type
+                    .mediaType(MediaType.valueOf(mediaType.toUpperCase()))  // enum type
                     .build();
         } catch(RuntimeException e) {
             throw new BaseException(INVALID_MEDIA_TYPE);
@@ -57,7 +57,7 @@ public class MediaRequestDto {
                     .mediaCode(mediaCode)
                     .url(url)
                     .name(name)
-                    .type(MediaType.valueOf(type.toUpperCase()))  // enum type
+                    .mediaType(MediaType.valueOf(mediaType.toUpperCase()))  // enum type
                     .build();
         } catch(RuntimeException e) {
             throw new BaseException(INVALID_MEDIA_TYPE);

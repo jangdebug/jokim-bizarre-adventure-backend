@@ -1,13 +1,15 @@
 package com.jokim.sivillage.api.bridge.brandmedialist.application;
 
-import com.jokim.sivillage.api.bridge.brandmedialist.dto.BrandMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.brandmedialist.dto.BrandMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.brandmedialist.dto.in.BrandMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.brandmedialist.dto.out.AllBrandMediaListsResponseDto;
 import java.util.List;
 
 public interface BrandMediaListService {
 
     void addBrandMediaList(BrandMediaListRequestDto brandMediaListRequestDto);
 
-    List<BrandMediaListResponseDto> getBrandMediaList(String brandCode);
+    List<AllBrandMediaListsResponseDto> getAllBrandMediaLists(String brandCode);
+
+    void updateBrandMediaList(BrandMediaListRequestDto brandMediaListRequestDto);
 
 }
