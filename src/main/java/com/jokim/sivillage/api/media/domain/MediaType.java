@@ -1,5 +1,6 @@
 package com.jokim.sivillage.api.media.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

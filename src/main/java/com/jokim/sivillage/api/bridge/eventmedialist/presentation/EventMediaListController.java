@@ -1,11 +1,12 @@
 package com.jokim.sivillage.api.bridge.eventmedialist.presentation;
 
 import com.jokim.sivillage.api.bridge.eventmedialist.application.EventMediaListService;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.eventmedialist.dto.EventMediaListResponseDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.in.EventMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.eventmedialist.dto.out.AllEventMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.eventmedialist.vo.in.AddEventMediaListRequestVo;
 import com.jokim.sivillage.api.bridge.eventmedialist.vo.in.UpdateEventMediaListRequestVo;
-import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetEventMediaListResponseVo;
+import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetAllEventMediaListsResponseVo;
+import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetThumbnailEventMediaListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Bridge")
+@Tag(name = "Event-Media")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/event-media")
@@ -37,14 +38,22 @@ public class EventMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Event-Media-List 조회 API")
+    @Operation(summary = "Event-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
     @GetMapping("/{eventCode}")
-    public BaseResponse<List<GetEventMediaListResponseVo>> getEventMediaList(
+    public BaseResponse<List<GetAllEventMediaListsResponseVo>> getAllEventMediaLists(
         @PathVariable String eventCode) {
 
         return new BaseResponse<>(
-            eventMediaListService.getEventMediaList(eventCode)
-                .stream().map(EventMediaListResponseDto::toVo).toList());
+            eventMediaListService.getAllEventMediaLists(eventCode)
+                .stream().map(AllEventMediaListsResponseDto::toVo).toList());
+    }
+
+    @Operation(summary = "Event-Media-List 썸네일 조회 API")
+    @GetMapping("/thumbnail/{eventCode}")
+    public BaseResponse<GetThumbnailEventMediaListResponseVo> getThumbnailByEventCode(
+        @PathVariable String eventCode) {
+
+        return new BaseResponse<>(eventMediaListService.getThumbnailByEventCode(eventCode).toVo());
     }
 
     @Operation(summary = "Event-Media-List 썸네일 수정 API")

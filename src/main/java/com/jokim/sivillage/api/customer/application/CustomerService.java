@@ -12,6 +12,7 @@ import com.jokim.sivillage.api.customer.dto.in.CustomerSizeRequestDto;
 import com.jokim.sivillage.api.customer.dto.in.UpdateInfoRequestDto;
 import com.jokim.sivillage.api.customer.dto.in.UpdatePasswordRequestDto;
 
+import com.jokim.sivillage.api.customer.dto.out.SizeResponseDto;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,10 @@ public interface CustomerService {
     //void createCustomerSize(CustomerSizeRequestDto customerSizeRequestDto);
 
     //void updateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto);
+
+    SizeResponseDto getCustomerSize(String accessToken);
+
+    AddressResponseDto getAddressDetail(String addressCode);
 
     void saveOrUpdateCustomerSize(CustomerSizeRequestDto customerSizeRequestDto);
 
