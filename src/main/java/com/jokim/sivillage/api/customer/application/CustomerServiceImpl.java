@@ -21,6 +21,7 @@ import com.jokim.sivillage.common.redis.TokenRedis;
 import com.jokim.sivillage.common.redis.TokenRedisRepository;
 import jakarta.transaction.Transactional;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -335,7 +336,7 @@ public class CustomerServiceImpl implements CustomerService {
         // 주소 목록이 비어있지 않다면
         if (!addresses.isEmpty()) {
             // 주소 목록을 순회하며 AddressResponseDto로 변환
-            return addresses.stream().map(address -> {
+            List<AddressResponseDto> addressResponseDtos = addresses.stream().map(address -> {
                 // 각 주소의 addressCode를 통해 기본 배송지 여부 확인
                 Boolean isDefault = customerAddressDefaultListRepository
                     .findByAddressCode(address.getAddressCode())
@@ -345,6 +346,11 @@ public class CustomerServiceImpl implements CustomerService {
                 // Address와 isDefault 값을 사용해 AddressResponseDto로 변환
                 return AddressResponseDto.toDto(address, isDefault);
             }).toList();
+
+            // 기본 배송지가 있는 주소를 앞에 배치하여 정렬
+            return addressResponseDtos.stream()
+                .sorted(Comparator.comparing(AddressResponseDto::getIsDefault).reversed())
+                .toList();
         }
         // 주소가 없을 경우 빈 리스트 반환
         return List.of();
