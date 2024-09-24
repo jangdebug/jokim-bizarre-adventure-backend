@@ -10,6 +10,7 @@ import com.jokim.sivillage.common.utils.CursorPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Product-Category")
@@ -49,6 +50,30 @@ public class ProductCategoryListController {
 
         return new BaseResponse<>(CursorPage.toCursorPage(cursorPage,
             cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList()));
+    }
+
+    @Operation(summary = "Option에 따른 Product-Category-List 조회 API", description = "Get Product-Category-List By Option")
+    @GetMapping("/options")
+    public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCodesByOptions(
+        @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,
+        @RequestParam(value = "secondaryCategoryCode", required = false) String secondaryCategoryCode,
+        @RequestParam(value = "tertiaryCategoryCode", required = false) String tertiaryCategoryCode,
+        @RequestParam(value = "quaternaryCategoryCode", required = false) String quaternaryCategoryCode,
+        @RequestParam(value = "lastId", required = false) Long lastId,
+        @RequestParam(value = "pageSize", required = false) Integer pageSize,
+        @RequestParam(value = "pageNo", required = false) Integer pageNo,
+        @RequestParam(value = "sizeId", required = false) Long sizeId,
+        @RequestParam(value = "colorId", required = false) Long colorId,
+        @RequestParam(value = "etcId", required = false) Long etcId
+    ) {
+        CursorPage<ProductCategoryListResponseDto> cursor = productCategoryListService.getProductCodesByOptions(
+            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+            lastId, pageSize, pageNo, sizeId, colorId, etcId);
+
+        return new BaseResponse<>(
+            CursorPage.toCursorPage(cursor,
+                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList())
+        );
     }
 
     @Operation(summary = "Product-Category-List 판매 상태 수정 API", description =

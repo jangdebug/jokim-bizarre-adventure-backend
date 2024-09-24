@@ -88,7 +88,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    // category별 product => 작성 중 정지
     @Override
     public ProductListResponseDto getProductListByProductCode(
         String productCode) {

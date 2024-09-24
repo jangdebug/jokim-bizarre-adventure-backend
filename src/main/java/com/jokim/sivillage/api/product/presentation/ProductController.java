@@ -45,24 +45,6 @@ public class ProductController {
         return new BaseResponse<>(response);
     }
 
-    // 상품 이미지 데이터 보기
-    // media 부분에 구현되어 있어서 보류
-//    @Operation(summary = "상품 데이터 보기(이미지관련)", description = "상품코드로 이미지 관련 데이터를 조회한다.")
-//    @GetMapping("/product-image/{productCode}")
-//    public BaseResponse<List<ProductImageResponseVo>> getProductImage(
-//        @PathVariable(required = false) String productCode) {
-//        if (productCode == null) {
-//            return new BaseResponse<>();
-//        }
-//        List<ProductImageResponseDto> productImageResponseDtoList = productService.getProductImageByProductCode(
-//            productCode);
-//        log.info("productImageResponseDtoList in ProductController {}",
-//            Optional.ofNullable(productImageResponseDtoList).orElse(Collections.emptyList()));
-//
-//        return new BaseResponse<>(Optional.ofNullable(productImageResponseDtoList)
-//            .map(list -> list.stream().map(ProductImageResponseDto::toVo).toList()).orElse(null));
-//    }
-
     // 상품 데이터 입력
     @PostMapping("/products")
     @Operation(summary = "상품 데이터 저장", description = "상품 데이터를 저장한다.")
@@ -121,11 +103,8 @@ public class ProductController {
     @GetMapping("/main/random-product")
     public BaseResponse<List<ProductListResponseVo>> getRandomProduct(
         @RequestParam(name = "count", required = false) Integer count) {
-        if (count == null) {
-            count = 5;
-        }
         List<ProductListResponseDto> productListResponseDtos = productService.getRandomProducts(
-            count);
+            count == null ? 5 : count);
         List<ProductListResponseVo> productListResponseVos = productListResponseDtos.stream()
             .map(ProductListResponseDto::toResponseVo).toList();
         return new BaseResponse<>(productListResponseVos);
@@ -136,11 +115,8 @@ public class ProductController {
     @GetMapping("/main/most-discount-rate/{count}")
     public BaseResponse<List<ProductListResponseVo>> getMostDiscountProduct(
         @RequestParam(name = "count", required = false) Integer count) {
-        if (count == null) {
-            count = 5;
-        }
         List<ProductListResponseDto> productListResponseDtos = productService.getMostDiscountProduct(
-            count);
+            count == null ? 5 : count);
         List<ProductListResponseVo> productListResponseVos = productListResponseDtos.stream()
             .map(ProductListResponseDto::toResponseVo).toList();
         return new BaseResponse<>(productListResponseVos);

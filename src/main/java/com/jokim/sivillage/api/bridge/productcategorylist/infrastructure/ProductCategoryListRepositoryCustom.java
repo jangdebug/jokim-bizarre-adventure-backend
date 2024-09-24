@@ -14,12 +14,12 @@ public interface ProductCategoryListRepositoryCustom {
             Long lastId, Integer pageSize, Integer pageNo
     );
 
-    List<Long> findByProductCodeAndCategoryCodes(ProductCategoryListRequestDto requestDto);
-
     CursorPage<String> getProductCodesByOptions(
         String mainCategoryCode, String secondaryCategoryCode,
         String tertiaryCategoryCode, String quaternaryCategoryCode,
         Long lastId, Integer pageSize, Integer pageNo,
         Long sizeId, Long colorId, Long etcId);
+
+    List<Long> findByProductCodeAndCategoryCodes(ProductCategoryListRequestDto requestDto);
 
 }
