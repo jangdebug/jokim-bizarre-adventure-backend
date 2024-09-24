@@ -226,7 +226,7 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
 
         if (customerSize == null) {
-            return null;
+            return new SizeResponseDto();
         }
 
         return SizeResponseDto.toDto(customerSize);

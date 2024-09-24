@@ -30,8 +30,10 @@ import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.websocket.server.PathParam;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -171,11 +173,6 @@ public class CustomerController {
 
         // 고객의 사이즈를 가져옴
         SizeResponseDto sizeResponsDto = customerService.getCustomerSize(accessToken);
-
-        // 만약 null인 경우
-        if (sizeResponsDto == null) {
-            return new BaseResponse<>(BaseResponseStatus.NO_EXIST_SIZE);  // BaseResponseStatus에 적절한 메시지를 정의해야 함.
-        }
 
         return new BaseResponse<>(sizeResponsDto.toVo());
     }
