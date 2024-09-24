@@ -20,19 +20,11 @@ public class CustomerAddressDefaultListDto {
     private Boolean isDefault;
 
 
-    public static CustomerAddressDefaultList toFirstEntity(String uuid, String addressCode){
+    public static CustomerAddressDefaultList toEntity(String uuid, Boolean isDefault, String addressCode){
         return CustomerAddressDefaultList.builder()
             .uuid(uuid)
             .addressCode(addressCode)
-            .isDefault(true)
-            .build();
-    }
-
-    public static CustomerAddressDefaultList toEntity(String uuid, String addressCode){
-        return CustomerAddressDefaultList.builder()
-            .uuid(uuid)
-            .addressCode(addressCode)
-            .isDefault(false)
+            .isDefault(isDefault)
             .build();
     }
 
@@ -40,6 +32,15 @@ public class CustomerAddressDefaultListDto {
         return CustomerAddressDefaultListDto.builder()
             .accessToken(accessToken)
             .addressCode(addressCode)
+            .build();
+    }
+
+    public static CustomerAddressDefaultListDto toDto(String uuid,String accessToken, String addressCode, Boolean isDefault){
+        return CustomerAddressDefaultListDto.builder()
+            .uuid(uuid)
+            .addressCode(addressCode)
+            .accessToken(accessToken)
+            .isDefault(isDefault)
             .build();
     }
 

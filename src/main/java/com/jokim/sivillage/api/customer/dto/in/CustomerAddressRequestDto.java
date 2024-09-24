@@ -23,6 +23,7 @@ public class CustomerAddressRequestDto {
     private String zipCode;
     private String addressRoad;
     private String addressJibeon;
+    private Boolean isDefault;
     private String addressDetail;
     private Boolean deliveryPolicy;
 
@@ -36,6 +37,7 @@ public class CustomerAddressRequestDto {
             .zipCode(customerAddressRequestVo.getZipCode())
             .addressRoad(customerAddressRequestVo.getAddressRoad())
             .addressJibeon(customerAddressRequestVo.getAddressJibeon())
+            .isDefault(customerAddressRequestVo.getIsDefault()) //디폴트 추가
             .addressDetail(customerAddressRequestVo.getAddressDetail())
             .deliveryPolicy(customerAddressRequestVo.getDeliveryPolicy())
             .build();
@@ -58,9 +60,10 @@ public class CustomerAddressRequestDto {
             .build();
     }
 
-    public static CustomerAddressRequestDto toUpdateDto(
+    public static CustomerAddressRequestDto toUpdateDto(String accessToken,
         CustomerAddressUpdateVo customerAddressUpdateVo){
         return CustomerAddressRequestDto.builder()
+            .accessToken(accessToken)
             .addressCode(customerAddressUpdateVo.getAddressCode())
             .addressName(customerAddressUpdateVo.getAddressName())
             .recipient(customerAddressUpdateVo.getRecipient())
@@ -69,6 +72,7 @@ public class CustomerAddressRequestDto {
             .zipCode(customerAddressUpdateVo.getZipCode())
             .addressRoad(customerAddressUpdateVo.getAddressRoad())
             .addressJibeon(customerAddressUpdateVo.getAddressJibeon())
+            .isDefault(customerAddressUpdateVo.getIsDefault())
             .addressDetail(customerAddressUpdateVo.getAddressDetail())
             .deliveryPolicy(customerAddressUpdateVo.getDeliveryPolicy())
             .build();

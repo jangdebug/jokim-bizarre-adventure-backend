@@ -33,4 +33,7 @@ public class CustomerSize {
     @Column(nullable = false, length = 10)
     private String footSize;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean agreement;
+
 }

@@ -8,6 +8,7 @@ import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
 import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.dto.out.AddressResponseDto;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
+import com.jokim.sivillage.api.customer.dto.out.SizeResponseDto;
 import com.jokim.sivillage.api.customer.vo.DuplicateEmailVo;
 import com.jokim.sivillage.api.customer.vo.RefreshTokenResponseVo;
 import com.jokim.sivillage.api.customer.vo.in.*;
@@ -19,6 +20,7 @@ import com.jokim.sivillage.api.customer.dto.in.UpdatePasswordRequestDto;
 import com.jokim.sivillage.api.customer.vo.in.CustomerSizeRequestVo;
 import com.jokim.sivillage.api.customer.vo.in.UpdateInfoRequestVo;
 import com.jokim.sivillage.api.customer.vo.in.UpdatePasswordRequestVo;
+import com.jokim.sivillage.api.customer.vo.out.SizeResponsVo;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
@@ -28,8 +30,10 @@ import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.websocket.server.PathParam;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -145,7 +149,7 @@ public class CustomerController {
 
     }
 
-    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 API 입니다.", tags = {"MyPage"})
+    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 생성 API 입니다.", tags = {"MyPage"})
     @PostMapping("/mypage/size")
     public BaseResponse<Void> createCustomerSize(
             @RequestHeader("Authorization") String authorizationHeader,
@@ -157,6 +161,20 @@ public class CustomerController {
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 
+    }
+
+    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 Get API 입니다.", tags = {"MyPage"})
+    @GetMapping("/mypage/size")
+    public BaseResponse<SizeResponsVo> GetCustomerSize(
+        @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+
+        // 고객의 사이즈를 가져옴
+        SizeResponseDto sizeResponsDto = customerService.getCustomerSize(accessToken);
+
+        return new BaseResponse<>(sizeResponsDto.toVo());
     }
 
     @Operation(summary = "Delivery API", description = "사용자 배송지 조회 API 입니다.", tags = {"MyPage"})
@@ -177,6 +195,15 @@ public class CustomerController {
 
         // 결과를 ResponseEntity로 반환
         return new BaseResponse<>(addressResponseVos);
+    }
+
+    @Operation(summary = "Delivery API", description = "사용자 배송지 상세조회 API 입니다.", tags = {"MyPage"})
+    @GetMapping("/mypage/delivery-info/{addressCode}")
+    public BaseResponse<AddressResponseVo> getAddressDetail(
+        @RequestHeader("Authorization") String authorizationHeader,
+        @PathVariable("addressCode") String addressCode
+    ) {
+        return new BaseResponse<>(customerService.getAddressDetail(addressCode).toVo());
     }
 
     @Operation(summary = "Delevery API", description = "사용자 배송지 생성 API 입니다.", tags = {"MyPage"})
@@ -213,7 +240,8 @@ public class CustomerController {
         @RequestHeader("Authorization") String authorizationHeader,
         @RequestBody CustomerAddressUpdateVo customerAddressUpdateVo
     ) {
-        customerService.updateAddress(CustomerAddressRequestDto.toUpdateDto(customerAddressUpdateVo));
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.updateAddress(CustomerAddressRequestDto.toUpdateDto(accessToken, customerAddressUpdateVo));
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
 

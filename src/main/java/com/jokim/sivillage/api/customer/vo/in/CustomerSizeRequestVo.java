@@ -10,5 +10,6 @@ public class CustomerSizeRequestVo {
     private String topSize;
     private String bottomSize;
     private String footSize;
+    private Boolean agreement;
 
 }
