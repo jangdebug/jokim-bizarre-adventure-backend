@@ -15,26 +15,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findById(Long id);
 
     Optional<Product> findByProductCode(String productCode);
-//    @Query("SELECT p FROM Product p, ProductOption po JOIN p.options po WHERE po.size.id = :sizeValue AND po.color.id = :colorValue AND po.etc.id = :etcValue")
-//    List<Product> findBySizeAndColorAndEtc(@Param("sizeValue") Long sizeValue,
-//        @Param("colorValue") Long colorValue, @Param("etcValue") Long etcValue);
 
     @Query("SELECT p FROM Product p ORDER BY RAND() LIMIT :count")
-    List<Product> findRandomProducts(@Param("count") Integer count);
+    List<Product> getRandomProducts(@Param("count") Integer count);
 
-//    List<Product> findProductByHit();
-
-//    List<Product> findProductByNewProduct();
-
-//    List<Product> findProductByReview();
-//
-//    List<Product> findProductBySalesVolume();
-//
-//    List<Product> findProductByDiscountRate();
-//
-//    List<Product> findProductByHighPrice();
-//
-//    List<Product> findProductByWish();
 
 
 }

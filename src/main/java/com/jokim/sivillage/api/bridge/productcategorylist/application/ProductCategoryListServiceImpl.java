@@ -46,6 +46,23 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
             cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList());
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public CursorPage<ProductCategoryListResponseDto> getProductCodesByOptions(
+        String mainCategoryCode, String secondaryCategoryCode,
+        String tertiaryCategoryCode, String quaternaryCategoryCode,
+        Long lastId, Integer pageSize, Integer pageNo,
+        Long sizeId, Long colorId, Long etcId) {
+
+        CursorPage<String> cursor = productCategoryListRepositoryCustom.getProductCodesByOptions(
+            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+            lastId, pageSize, pageNo, sizeId, colorId, etcId);
+
+        return new CursorPage<>(
+            cursor.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList(),
+            cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo());
+    }
+
     @Transactional
     @Override
     public void updateProductCategoryList(ProductCategoryListRequestDto productCategoryListRequestDto) {

@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ProductService {
 
+
     ProductResponseDto getProductByProductCode(String productCode);
 
     void saveProduct(ProductRequestDto productRequestDto);
@@ -16,10 +17,15 @@ public interface ProductService {
 
     void deleteProduct(String productCode);
 
-//    List<ProductResponseDto> getFilteredProducts(Long sizeId, Long colorId, Long etcId);
 
     List<ProductListResponseDto> getRandomProducts(Integer count);
-//    List<ProductListResponseVo> getProductsByCategory(Long categoryId);
+
+
+    ProductListResponseDto getProductListByProductCode(
+        String productCodeList);
+
+    List<ProductListResponseDto> getMostDiscountProduct(Integer count);
+
 }
 
 
