@@ -13,14 +13,8 @@ public interface ProductRepositoryCustom {
 
     List<ProductListResponseDto> getRandomProducts(Integer count);
 
-    // media 부분에 구현되어 있어서 보류
-//    List<ProductImageResponseDto> getProductImagesByProductCode(String productCode);
 
     ProductListResponseDto getProductListByProductCode(String productCode);
-
-    // product-category에 구현되어 있음
-//    List<ProductListResponseDto> getProductListByOptions(Long sizeId,
-//        Long colorId, Long etcId);
 
     List<ProductListResponseDto> getMostDiscountProduct(Integer count);
 }

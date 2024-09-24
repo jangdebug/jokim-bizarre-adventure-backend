@@ -65,27 +65,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         // 피드백 후 진행
         return List.of();
     }
-    
-    // media 부분에 구현되어 있어서 보류
-//    @Override
-//    public List<ProductImageResponseDto> getProductImagesByProductCode(String productCode) {
-//        List<ProductImageResponseDto> productResponseDtoList = jpaQueryFactory
-//            .select(
-//                Projections.fields(ProductImageResponseDto.class,
-//                    media.url.as("imageUrl")
-//                ))
-//            .from(media)
-//            .leftJoin(productMediaList).on(media.mediaCode.eq(productMediaList.mediaCode))
-//            .where(productMediaList.productCode.eq(productCode),
-//                media.type.eq(MediaType.valueOf("IMAGE"))
-//            )  // image 들만 반환
-//            .orderBy(media.id.desc())   // 순서 일정하게 보장
-//            .fetch();
-//
-//        log.info("productResponseDtoList in ProductRepoImpl {}", productResponseDtoList.toString());
-//
-//        return productResponseDtoList;
-//    }
+
 
     @Override
     public ProductListResponseDto getProductListByProductCode(String productCode) {
