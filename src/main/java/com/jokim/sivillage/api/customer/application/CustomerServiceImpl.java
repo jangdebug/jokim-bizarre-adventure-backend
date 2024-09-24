@@ -8,6 +8,7 @@ import com.jokim.sivillage.api.customer.dto.RefreshTokenResponseDto;
 import com.jokim.sivillage.api.customer.dto.in.*;
 import com.jokim.sivillage.api.customer.dto.out.AddressResponseDto;
 import com.jokim.sivillage.api.customer.dto.out.SignInResponseDto;
+import com.jokim.sivillage.api.customer.dto.out.SizeResponseDto;
 import com.jokim.sivillage.api.customer.entity.AuthUserDetail;
 import com.jokim.sivillage.api.customer.infrastructure.*;
 import com.jokim.sivillage.api.customer.dto.in.CustomerSizeRequestDto;
@@ -219,6 +220,18 @@ public class CustomerServiceImpl implements CustomerService {
         customerAddressRepository.deleteByAddressCode(addressCode);
     }
 
+    @Override
+    public SizeResponseDto getCustomerSize(String accessToken) {
+        // JWT를 통해 유저 UUID를 검증하고 가져옴
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(accessToken);
+        CustomerSize customerSize = customerSizeRepository.findByUuid(uuid).orElse(null);
+
+        if (customerSize == null) {
+            customerSize =customerSizeRepository.save(SizeResponseDto.toDefaultEntity(uuid));
+        }
+
+        return SizeResponseDto.toDto(customerSize);
+    }
 
 
     @Override

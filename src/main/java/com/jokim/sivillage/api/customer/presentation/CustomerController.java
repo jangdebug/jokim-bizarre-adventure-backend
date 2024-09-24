@@ -19,6 +19,7 @@ import com.jokim.sivillage.api.customer.dto.in.UpdatePasswordRequestDto;
 import com.jokim.sivillage.api.customer.vo.in.CustomerSizeRequestVo;
 import com.jokim.sivillage.api.customer.vo.in.UpdateInfoRequestVo;
 import com.jokim.sivillage.api.customer.vo.in.UpdatePasswordRequestVo;
+import com.jokim.sivillage.api.customer.vo.out.SizeResponsVo;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
@@ -145,7 +146,7 @@ public class CustomerController {
 
     }
 
-    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 API 입니다.", tags = {"MyPage"})
+    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 생성 API 입니다.", tags = {"MyPage"})
     @PostMapping("/mypage/size")
     public BaseResponse<Void> createCustomerSize(
             @RequestHeader("Authorization") String authorizationHeader,
@@ -156,6 +157,19 @@ public class CustomerController {
         customerService.saveOrUpdateCustomerSize(CustomerSizeRequestDto.toDto(accessToken, customerSizeRequestVo));
 
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
+    }
+
+    @Operation(summary = "Beauty/Size API", description = "사용자 뷰티/사이즈 Get API 입니다.", tags = {"MyPage"})
+    @GetMapping("/mypage/size")
+    public BaseResponse<SizeResponsVo> GetCustomerSize(
+        @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        // Authorization 헤더에서 accessToken 추출
+        String accessToken = authorizationHeader.replace("Bearer ", "");
+        customerService.getCustomerSize(accessToken);
+
+        return new BaseResponse<>(customerService.getCustomerSize(accessToken).toVo());
 
     }
 
