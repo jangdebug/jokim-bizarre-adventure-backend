@@ -37,23 +37,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-//    @Override
-//    public void createReview(ReviewRequestDto reviewRequestDto) {
-//        // 여기 uuid 가져오는거 수정 필요할수도 예외처리가 안됨
-//        String uuid = "1";
-//        if (uuid == null) {
-//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-//        }
-//        try {
-//            reviewRepository.save(reviewRequestDto.toEntity(uuid));
-//        } catch (Exception e) {
-//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-//        }
-//
-//    }
-
-
-    //todo 이미지 보내는거 만들어둬야함
     @Override
     public ReviewSummaryResponseDto getReviewSummary(String productCode) {
         ProductStarAverage starAverage = productStarAverageRepository.findByProductCode(productCode);
@@ -64,7 +47,6 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewSummaryResponseDto.of(starAverage.getStarPoint(), evaluationSummaries);
     }
 
-    //todo 이미지 보내는거 만들어둬야함
     @Override
     public Page<ReviewResponseDto> getReview(String productCode, Pageable pageable) {
         // Review와 EvaluationItemValue를 조인하여 isBest 값을 함께 가져오기
@@ -83,9 +65,10 @@ public class ReviewServiceImpl implements ReviewService {
             .map(value -> ReviewResponseDto.Evaluation.builder()
                 .name(value.getEvaluationItemName().getName()) // 평가 항목 이름 가져오기
                 .value(value.getValue()) // 평가 항목 값 가져오기
-                .isBest(value.getIsBest())
+                .isBest(value.getIsBest()) // isBest 처리
                 .build())
             .toList();
     }
 
 }
+

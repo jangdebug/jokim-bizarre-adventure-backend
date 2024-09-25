@@ -22,6 +22,9 @@ public class ProductStatistic {
     private Long evaluationItemNameId;
 
     @Column(nullable = false)
+    private Long evaluationItemValueId;
+
+    @Column(nullable = false)
     private Integer evaluationItemNameRate;
 
 }
