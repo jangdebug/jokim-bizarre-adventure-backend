@@ -140,7 +140,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         // 아래 로직이 defaultAddress 저장하는 로직임
         //create를 통해 들어온 어드레스가 처음 생성한 어드레스라면 create에서 모두 처리
-        if (customerAddressRequestDto.getIsDefault() && customerAddressDefaultList.isEmpty()) {
+        if (customerAddressDefaultList.isEmpty()) {
             customerAddressDefaultListRepository.save(
                 CustomerAddressDefaultListDto.toEntity(uuid, true,
                     savedAddress.getAddressCode()));
