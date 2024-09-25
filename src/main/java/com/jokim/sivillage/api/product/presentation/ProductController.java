@@ -38,7 +38,6 @@ public class ProductController {
     @Operation(summary = "상품 데이터 보기(상품관련)", description = "상품코드로 상품 관련 데이터를 조회한다.")
     @GetMapping("/products/{productCode}")
     public BaseResponse<ProductResponseVo> getProduct(@PathVariable String productCode) {
-        log.info("productCoded : {}", productCode);
         ProductResponseDto productResponseDto = productService.getProductByProductCode(productCode);
         ProductResponseVo response = Optional.ofNullable(productResponseDto)
             .map(ProductResponseDto::toResponseVo).orElse(null);
@@ -49,9 +48,6 @@ public class ProductController {
     @PostMapping("/products")
     @Operation(summary = "상품 데이터 저장", description = "상품 데이터를 저장한다.")
     public BaseResponse<Void> saveProduct(@RequestBody ProductRequestVo productRequestVo) {
-        log.info("productRequestVo : {} in saveProduct", productRequestVo.toString());
-        ProductRequestDto productRequestDto = ProductRequestDto.toDto(productRequestVo);
-        log.info("productRequestDto : in ProductController {}", productRequestDto.toString());
         productService.saveProduct(ProductRequestDto.toDto(productRequestVo));
         return new BaseResponse<>();
     }
@@ -60,19 +56,15 @@ public class ProductController {
     @Operation(summary = "상품 데이터 업데이트", description = "상품코드로 상품 데이터를 수정한다.")
     @PutMapping("/products")
     public BaseResponse<Void> updateProduct(@RequestBody ProductRequestVo productRequestVo) {
-        log.info("productRequestVo : {}", productRequestVo.toString());
-        ProductRequestDto productRequestDto = ProductRequestDto.toDto(productRequestVo);
-        productService.updateProduct(productRequestDto);
+        productService.updateProduct(ProductRequestDto.toDto(productRequestVo));
         return new BaseResponse<>();
     }
 
     @Operation(summary = "상품 데이터 삭제", description = "상품코드로 상품 데이터를 삭제한다.")
     @DeleteMapping("/products/{productCode}")
     public BaseResponse<Void> deleteProduct(@PathVariable String productCode) {
-        log.info("productCode : {}", productCode);
         productService.deleteProduct(productCode);
         return new BaseResponse<>();
-
     }
 
 
@@ -89,7 +81,7 @@ public class ProductController {
 
         ProductListResponseDto productListResponseDto = productService.getProductListByProductCode(
             productCode);
-
+        // 잘못 찾았을 시
         if (productListResponseDto == null) {
             return new BaseResponse<>();
         }

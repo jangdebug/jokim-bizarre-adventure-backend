@@ -11,9 +11,6 @@ public interface ProductRepositoryCustom {
 
     ProductResponseDto findProductDtoByProductCode(String productCode);
 
-    List<ProductListResponseDto> getRandomProducts(Integer count);
-
-
     ProductListResponseDto getProductListByProductCode(String productCode);
 
     List<ProductListResponseDto> getMostDiscountProduct(Integer count);

@@ -7,18 +7,16 @@ import com.jokim.sivillage.api.bridge.productcategorylist.domain.QProductCategor
 import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
 import com.jokim.sivillage.common.utils.CursorPage;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.ArrayList;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
+@Slf4j
 public class ProductCategoryListRepositoryImpl implements ProductCategoryListRepositoryCustom {
 
     private static final int DEFAULT_PAGE_SIZE = 20;
@@ -71,6 +69,8 @@ public class ProductCategoryListRepositoryImpl implements ProductCategoryListRep
             .offset(offset)
             .limit(curPageSize + 1)
             .fetch();
+
+        log.info("content: {}", content);
 
         // 다음 페이지 커서 처리 및 hasNext 여부 판단
         Long nextCursor = null;
