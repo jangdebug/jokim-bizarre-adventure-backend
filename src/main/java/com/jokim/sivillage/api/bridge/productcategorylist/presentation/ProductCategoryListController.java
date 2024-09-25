@@ -39,8 +39,8 @@ public class ProductCategoryListController {
             @PathVariable String categoryCode,
             @RequestParam(value = "lastId", required = false) Long lastId,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @RequestParam(value = "pageNo", required = false) Integer pageNo
-    ) {
+            @RequestParam(value = "pageNo", required = false) Integer pageNo) {
+
         CursorPage<ProductCategoryListResponseDto> cursorPage = productCategoryListService.
             getProductCategoryListByCategories(categoryCode, lastId, pageSize, pageNo);
 
@@ -48,7 +48,7 @@ public class ProductCategoryListController {
             cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList()));
     }
 
-    // 로직 수정 필요
+    // TODO: 로직 수정 필요
 //    @Operation(summary = "Option에 따른 Product-Category-List 조회 API", description = "Get Product-Category-List By Option")
 //    @GetMapping("/options")
 //    public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCodesByOptions(

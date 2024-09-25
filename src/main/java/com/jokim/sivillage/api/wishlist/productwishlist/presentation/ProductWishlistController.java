@@ -35,13 +35,16 @@ public class ProductWishlistController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "상품 Wishlist 전체 조회 API")
+    @Operation(summary = "상품 Wishlist 전체 조회 API", description =
+        "recentMonths로 최근 N 개월 동안 찜한 것들만 필터링")
     @GetMapping
     public BaseResponse<List<GetAllProductWishlistResponseVo>> getAllProductWishlists(
-            @RequestHeader("Authorization") String authorizationHeader) {
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestParam(value = "recentMonths", required = false) Integer recentMonths) {
 
-        return new BaseResponse<>(productWishlistService.getAllProductWishlists(extractToken(authorizationHeader))
-                .stream().map(ProductWishlistResponseDto::toVoForProductCode).toList());
+        return new BaseResponse<>(productWishlistService.getAllProductWishlists(
+            extractToken(authorizationHeader), recentMonths).stream()
+            .map(ProductWishlistResponseDto::toVoForProductCode).toList());
     }
 
     @Operation(summary = "상품 Wishlist 상태 조회 API")
