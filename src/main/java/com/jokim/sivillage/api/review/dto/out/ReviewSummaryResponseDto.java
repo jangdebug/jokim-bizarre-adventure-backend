@@ -1,6 +1,5 @@
 package com.jokim.sivillage.api.review.dto.out;
 
-import com.jokim.sivillage.api.review.domain.ProductStatistic;
 import com.jokim.sivillage.api.review.domain.QEvaluationItemName;
 import com.jokim.sivillage.api.review.domain.QProductStatistic;
 import com.jokim.sivillage.api.review.vo.out.ReviewSummaryResponseVo;

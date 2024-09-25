@@ -1,6 +1,5 @@
 package com.jokim.sivillage.api.review.vo.out;
 
-import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto.EvaluationSummary;
 import lombok.*;
 

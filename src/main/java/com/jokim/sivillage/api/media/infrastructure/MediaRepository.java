@@ -14,6 +14,4 @@ public interface MediaRepository extends JpaRepository<Media, Long> {
 
     void deleteByMediaCode(String mediaCode);
 
-    List<Media> findByMediaCodeIn(List<String> mediaCodes);
-
 }

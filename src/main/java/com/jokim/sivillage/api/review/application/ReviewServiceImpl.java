@@ -1,12 +1,8 @@
 package com.jokim.sivillage.api.review.application;
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-// 필요한 Q타입 import
 import com.jokim.sivillage.api.bridge.reviewmedialist.infrastructure.ReviewMediaListRepository;
-import com.jokim.sivillage.api.media.domain.Media;
-import com.jokim.sivillage.api.media.infrastructure.MediaRepository;
 import com.jokim.sivillage.api.review.domain.*;
 import com.jokim.sivillage.api.review.dto.in.ReviewRequestDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;

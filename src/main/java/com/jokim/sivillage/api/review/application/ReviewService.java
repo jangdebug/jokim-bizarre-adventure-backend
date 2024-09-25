@@ -4,7 +4,6 @@ import com.jokim.sivillage.api.review.dto.in.ReviewRequestDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto;
 
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

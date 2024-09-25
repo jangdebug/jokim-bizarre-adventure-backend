@@ -2,7 +2,6 @@ package com.jokim.sivillage.api.review.vo.out;
 
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto.Evaluation;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
