@@ -102,12 +102,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {
         return productRepositoryCustom.getMostDiscountProduct(count);
     }
-
-    //    @Override
-//    public List<DailyHotProductResponseDto> getDailyHotProducts() {
-//
-//        return List.of();
-//    }
+    
 
 //    @Override
 //    public List<ProductResponseDto> getRandomProducts(Integer count) {
