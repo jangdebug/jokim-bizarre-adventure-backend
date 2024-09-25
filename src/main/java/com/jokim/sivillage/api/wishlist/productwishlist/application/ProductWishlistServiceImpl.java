@@ -4,6 +4,7 @@ import com.jokim.sivillage.api.wishlist.productwishlist.domain.ProductWishlist;
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistRequestDto;
 import com.jokim.sivillage.api.wishlist.productwishlist.dto.ProductWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.productwishlist.infrastructure.ProductWishlistRepository;
+import com.jokim.sivillage.api.wishlist.productwishlist.infrastructure.ProductWishlistRepositoryCustom;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ProductWishlistServiceImpl implements ProductWishlistService {
 
     private final ProductWishlistRepository productWishlistRepository;
+    private final ProductWishlistRepositoryCustom productWishlistRepositoryCustom;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -31,10 +33,10 @@ public class ProductWishlistServiceImpl implements ProductWishlistService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ProductWishlistResponseDto> getAllProductWishlists(String accessToken) {
+    public List<ProductWishlistResponseDto> getAllProductWishlists(String accessToken, Integer recentMonths) {
 
-        return productWishlistRepository.findByUuidAndIsCheckedOrderByUpdatedAtDesc(
-                jwtTokenProvider.validateAndGetUserUuid(accessToken), true)
+        return productWishlistRepositoryCustom.getAllProductWishlists(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), recentMonths)
                 .stream().map(ProductWishlistResponseDto::toDto).toList();
     }
 

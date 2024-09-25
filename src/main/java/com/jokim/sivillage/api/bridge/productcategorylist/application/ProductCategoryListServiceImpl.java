@@ -34,13 +34,10 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
     @Transactional(readOnly = true)
     @Override
     public CursorPage<ProductCategoryListResponseDto> getProductCategoryListByCategories(
-        String mainCategoryCode, String secondaryCategoryCode,
-        String tertiaryCategoryCode, String quaternaryCategoryCode,
-        Long lastId, Integer pageSize, Integer pageNo) {
+        String categoryCode, Long lastId, Integer pageSize, Integer pageNo) {
 
         CursorPage<String> cursorPage = productCategoryListRepositoryCustom.getProductCategoryListByCategories(
-            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
-            lastId, pageSize, pageNo);
+            categoryCode, lastId, pageSize, pageNo);
 
         return CursorPage.toCursorPage(cursorPage,
             cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList());

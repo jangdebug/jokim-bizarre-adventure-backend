@@ -9,7 +9,7 @@ public interface EventWishlistService {
 
     void addEventWishlist(EventWishlistRequestDto eventWishlistRequestDto);
 
-    List<EventWishlistResponseDto> getAllEventWishlists(String accessToken);
+    List<EventWishlistResponseDto> getAllEventWishlists(String accessToken, Integer recentMonths);
     EventWishlistResponseDto getEventWishlistState(String accessToken, String eventCode);
 
     void deleteEventWishlist(EventWishlistRequestDto eventWishlistRequestDto);

@@ -10,6 +10,4 @@ public interface ProductWishlistRepository extends JpaRepository<ProductWishlist
 
     Optional<ProductWishlist> findByUuidAndProductCode(String uuid, String productCode);
 
-    List<ProductWishlist> findByUuidAndIsCheckedOrderByUpdatedAtDesc(String uuid, Boolean isChecked);
-
 }
