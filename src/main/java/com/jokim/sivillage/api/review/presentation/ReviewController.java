@@ -3,19 +3,21 @@ package com.jokim.sivillage.api.review.presentation;
 import com.jokim.sivillage.api.review.application.ReviewService;
 import com.jokim.sivillage.api.review.dto.in.ReviewRequestDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
-import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto;
 import com.jokim.sivillage.api.review.vo.in.ReviewRequestVo;
 import com.jokim.sivillage.api.review.vo.out.ReviewResponseVo;
 import com.jokim.sivillage.api.review.vo.out.ReviewSummaryResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -32,14 +34,22 @@ public class ReviewController {
     }
 
     @Operation(summary = "Review API", description = "Review API 입니다.", tags = {"Review"})
-    @GetMapping("/reviews/product/{productCode}")
-    public BaseResponse<List<ReviewResponseVo>> getReview(@PathVariable String productCode) {
-        List<ReviewResponseDto> reviewDtos = reviewService.getReview(productCode);
+    @GetMapping("/reviews/product/{productCode}/{page}/{size}")
+    public BaseResponse<Page<ReviewResponseVo>> getReview(
+        @PathVariable String productCode,
+        @PathVariable Integer page,
+        @PathVariable Integer size
+    ) {
+        if (size == null || size == 0) {
+            size = 10; // 기본값으로 설정할 값
+        }
+        Pageable pageable = PageRequest.of(page, size);
 
-        // DTO를 VO로 변환
-        List<ReviewResponseVo> reviewVos = reviewDtos.stream()
-            .map(ReviewResponseDto::toVo) // DTO에서 VO로 변환
-            .toList();
+        // isBest로 정렬된 리뷰 리스트를 가져옴
+        Page<ReviewResponseDto> reviewDtos = reviewService.getReview(productCode, pageable);
+
+        // DTO를 VO로 변환하여 Page로 반환
+        Page<ReviewResponseVo> reviewVos = reviewDtos.map(ReviewResponseDto::toVo);
 
         return new BaseResponse<>(reviewVos);
     }

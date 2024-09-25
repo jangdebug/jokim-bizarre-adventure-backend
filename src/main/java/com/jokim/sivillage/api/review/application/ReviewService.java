@@ -5,9 +5,11 @@ import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewService {
     void createReview(ReviewRequestDto reviewRequestDto);
-    List<ReviewResponseDto> getReview(String productCode);
+    Page<ReviewResponseDto> getReview(String productCode, Pageable pageable);
     ReviewSummaryResponseDto getReviewSummary(String productCode);
 }
