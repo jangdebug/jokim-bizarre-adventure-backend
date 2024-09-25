@@ -4,6 +4,7 @@ import com.jokim.sivillage.api.wishlist.eventwishlist.domain.EventWishlist;
 import com.jokim.sivillage.api.wishlist.eventwishlist.dto.EventWishlistRequestDto;
 import com.jokim.sivillage.api.wishlist.eventwishlist.dto.EventWishlistResponseDto;
 import com.jokim.sivillage.api.wishlist.eventwishlist.infrastructure.EventWishlistRepository;
+import com.jokim.sivillage.api.wishlist.eventwishlist.infrastructure.EventWishlistRepositoryCustom;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -17,6 +18,7 @@ import java.util.List;
 public class EventWishlistServiceImpl implements EventWishlistService {
 
     private final EventWishlistRepository eventWishlistRepository;
+    private final EventWishlistRepositoryCustom eventWishlistRepositoryCustom;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
@@ -32,10 +34,10 @@ public class EventWishlistServiceImpl implements EventWishlistService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<EventWishlistResponseDto> getAllEventWishlists(String accessToken) {
+    public List<EventWishlistResponseDto> getAllEventWishlists(String accessToken, Integer recentMonths) {
 
-        return eventWishlistRepository.findByUuidAndIsCheckedOrderByUpdatedAtDesc(
-                jwtTokenProvider.validateAndGetUserUuid(accessToken), true)
+        return eventWishlistRepositoryCustom.getAllEventWishlists(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), recentMonths)
                 .stream().map(EventWishlistResponseDto::toDto).toList();
     }
 
