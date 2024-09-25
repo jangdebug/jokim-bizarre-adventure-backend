@@ -5,5 +5,4 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductStatisticRepository extends JpaRepository<ProductStatistic, Long> {
-    List<ProductStatistic> findByProductCode(String productCode);
 }

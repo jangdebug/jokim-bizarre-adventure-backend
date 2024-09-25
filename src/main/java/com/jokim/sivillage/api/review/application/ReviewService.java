@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ReviewService {
-    void createReview(ReviewRequestDto reviewRequestDto);
+//    void createReview(ReviewRequestDto reviewRequestDto);
     Page<ReviewResponseDto> getReview(String productCode, Pageable pageable);
     ReviewSummaryResponseDto getReviewSummary(String productCode);
 }

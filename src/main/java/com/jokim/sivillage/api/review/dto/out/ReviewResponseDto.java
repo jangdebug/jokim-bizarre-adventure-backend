@@ -21,7 +21,7 @@ public class ReviewResponseDto {
     private Double starPoint;
     private String type;
     private Boolean isBest;
-    private String customerEmail;
+    private String parsedEmail;
     private LocalDateTime modifyDate;
     private Integer likeCount;
     private String productOption;
@@ -42,16 +42,15 @@ public class ReviewResponseDto {
 
     public static ReviewResponseDto fromReview(
         Review review,
-        List<Evaluation> evaluations,
-        Boolean isBest
+        List<Evaluation> evaluations
     ) {
         return ReviewResponseDto.builder()
             .productCode(review.getProductCode())
             .reviewCode(review.getReviewCode())
             .starPoint(review.getStarPoint())
             .type(review.getType())
-            .isBest(isBest)
-            .customerEmail(review.getCustomerEmail())
+            .isBest(false)
+            .parsedEmail(review.getParsedEmail())
             .modifyDate(review.getUpdatedAt())
             .likeCount(0)
             .productOption("default")
@@ -66,8 +65,8 @@ public class ReviewResponseDto {
             .reviewCode(reviewCode)
             .starPoint(starPoint)
             .type(type)
-            .isBest(isBest)
-            .customerEmail(customerEmail)
+            .isBest(false)
+            .parsedEmail(parsedEmail)
             .modifyDate(modifyDate)
             .likeCount(0)
             .productOption("default")

@@ -20,7 +20,7 @@ public class ReviewResponseVo {
     private Double starPoint;
     private String type;
     private Boolean isBest;
-    private String customerEmail;
+    private String parsedEmail;
     private LocalDateTime modifyDate;
     private Integer likeCount;
     private String productOption;

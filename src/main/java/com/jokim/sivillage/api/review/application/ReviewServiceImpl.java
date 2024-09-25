@@ -37,20 +37,20 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Override
-    public void createReview(ReviewRequestDto reviewRequestDto) {
-        // 여기 uuid 가져오는거 수정 필요할수도 예외처리가 안됨
-        String uuid = "1";
-        if (uuid == null) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
-        try {
-            reviewRepository.save(reviewRequestDto.toEntity(uuid));
-        } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
+//    @Override
+//    public void createReview(ReviewRequestDto reviewRequestDto) {
+//        // 여기 uuid 가져오는거 수정 필요할수도 예외처리가 안됨
+//        String uuid = "1";
+//        if (uuid == null) {
+//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        try {
+//            reviewRepository.save(reviewRequestDto.toEntity(uuid));
+//        } catch (Exception e) {
+//            throw new BaseException(BaseResponseStatus.INTERNAL_SERVER_ERROR);
+//        }
+//
+//    }
 
     
     //todo 이미지 보내는거 만들어둬야함
@@ -68,20 +68,14 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Page<ReviewResponseDto> getReview(String productCode, Pageable pageable) {
         // Review와 EvaluationItemValue를 조인하여 isBest 값을 함께 가져오기
-        Page<Review> reviews = reviewRepository.findByProductCodeOrderByIsBest(productCode, pageable);
+        Page<Review> reviews = reviewRepository.findByProductCode(productCode, pageable);
 
-        return reviews.map(review -> {
-            // 해당 리뷰에 대한 평가 항목 가져오기
-            List<ReviewResponseDto.Evaluation> evaluations = getEvaluations(review.getReviewCode());
-
-            // EvaluationItemValue 테이블에서 isBest 값을 가져오기
-            Boolean isBest = evaluationItemValueRepository.findByReviewCode(review.getReviewCode())
-                .stream()
-                .anyMatch(EvaluationItemValue::getIsBest);  // isBest가 true인 평가 항목이 있는지 확인
-
-            // isBest 값을 포함하여 ReviewResponseDto로 변환
-            return ReviewResponseDto.fromReview(review, evaluations, isBest);
-        });
+        // Page 객체를 변환할 때는 map() 메서드를 사용하는 것이 효율적
+        return reviews.map(review -> ReviewResponseDto.fromReview(
+                review,
+                getEvaluations(review.getReviewCode()) // 각 리뷰 코드에 맞는 평가 항목 가져오기
+            )
+        );
     }
 
     public List<ReviewResponseDto.Evaluation> getEvaluations(String reviewCode) {

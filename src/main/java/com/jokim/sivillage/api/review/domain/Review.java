@@ -37,5 +37,5 @@ public class Review extends BaseEntity {
     private Boolean state;
 
     @Column(nullable = false, length = 10)
-    private String customerEmail;
+    private String parsedEmail;
 }

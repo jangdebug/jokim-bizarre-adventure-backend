@@ -17,7 +17,4 @@ public class ProductEvaluationManage {
 
     @Column(nullable = false, length = 36)
     private String productCode;
-
-    @OneToOne
-    private EvaluationItemName evaluationItemName;
 }
