@@ -7,15 +7,11 @@ import com.jokim.sivillage.api.bridge.productcategorylist.domain.QProductCategor
 import com.jokim.sivillage.api.bridge.productcategorylist.dto.ProductCategoryListRequestDto;
 import com.jokim.sivillage.common.utils.CursorPage;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.ArrayList;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository

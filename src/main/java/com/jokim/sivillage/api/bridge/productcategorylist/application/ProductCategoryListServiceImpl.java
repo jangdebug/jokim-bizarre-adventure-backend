@@ -54,13 +54,12 @@ public class ProductCategoryListServiceImpl implements ProductCategoryListServic
         Long lastId, Integer pageSize, Integer pageNo,
         Long sizeId, Long colorId, Long etcId) {
 
-        CursorPage<String> cursor = productCategoryListRepositoryCustom.getProductCodesByOptions(
+        CursorPage<String> cursorPage = productCategoryListRepositoryCustom.getProductCodesByOptions(
             mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
             lastId, pageSize, pageNo, sizeId, colorId, etcId);
 
-        return new CursorPage<>(
-            cursor.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList(),
-            cursor.getNextCursor(), cursor.getHasNext(), cursor.getPageSize(), cursor.getPageNo());
+        return CursorPage.toCursorPage(cursorPage,
+            cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toDto).toList());
     }
 
     @Transactional

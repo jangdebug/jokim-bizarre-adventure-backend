@@ -18,7 +18,6 @@ public class ProductListResponseDto {
 
     private String productCode;
     private String productName;
-    private String imageUrl;
     private Double price;
     private Integer discountRate;
     private String brandCode;
@@ -28,7 +27,6 @@ public class ProductListResponseDto {
         return ProductListResponseVo.builder()
             .productCode(productCode)
             .productName(productName)
-            .imageUrl(imageUrl)
             .price(price)
             .discountRate(discountRate)
             .brandCode(brandCode)
