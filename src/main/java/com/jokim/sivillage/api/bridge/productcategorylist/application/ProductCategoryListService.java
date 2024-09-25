@@ -9,15 +9,14 @@ public interface ProductCategoryListService {
     void addProductByCategories(ProductCategoryListRequestDto productCategoryListRequestDto);
 
     CursorPage<ProductCategoryListResponseDto> getProductCategoryListByCategories(
-        String mainCategoryCode, String secondaryCategoryCode, String tertiaryCategoryCode,
-        String quaternaryCategoryCode,
-        Long lastId, Integer pageSize, Integer pageNo);
-
-    void updateProductCategoryList(ProductCategoryListRequestDto productCategoryListRequestDto);
+        String categoryCode, Long lastId, Integer pageSize, Integer pageNo);
 
     CursorPage<ProductCategoryListResponseDto> getProductCodesByOptions(
         String mainCategoryCode, String secondaryCategoryCode,
         String tertiaryCategoryCode, String quaternaryCategoryCode,
         Long lastId, Integer pageSize, Integer pageNo,
         Long sizeId, Long colorId, Long etcId);
+
+    void updateProductCategoryList(ProductCategoryListRequestDto productCategoryListRequestDto);
+
 }

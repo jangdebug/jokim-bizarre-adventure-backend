@@ -34,47 +34,44 @@ public class ProductCategoryListController {
     }
 
     @Operation(summary = "Product-Category-List 조회 API", description = "카테고리별 상품 조회")
-    @GetMapping
+    @GetMapping("/{categoryCode}")
     public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCategoryList(
-            @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,
-            @RequestParam(value = "secondaryCategoryCode", required = false) String secondaryCategoryCode,
-            @RequestParam(value = "tertiaryCategoryCode", required = false) String tertiaryCategoryCode,
-            @RequestParam(value = "quaternaryCategoryCode", required = false) String quaternaryCategoryCode,
+            @PathVariable String categoryCode,
             @RequestParam(value = "lastId", required = false) Long lastId,
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestParam(value = "pageNo", required = false) Integer pageNo
     ) {
         CursorPage<ProductCategoryListResponseDto> cursorPage = productCategoryListService.
-            getProductCategoryListByCategories(mainCategoryCode, secondaryCategoryCode,
-                tertiaryCategoryCode, quaternaryCategoryCode, lastId, pageSize, pageNo);
+            getProductCategoryListByCategories(categoryCode, lastId, pageSize, pageNo);
 
         return new BaseResponse<>(CursorPage.toCursorPage(cursorPage,
             cursorPage.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList()));
     }
 
-    @Operation(summary = "Option에 따른 Product-Category-List 조회 API", description = "Get Product-Category-List By Option")
-    @GetMapping("/options")
-    public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCodesByOptions(
-        @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,
-        @RequestParam(value = "secondaryCategoryCode", required = false) String secondaryCategoryCode,
-        @RequestParam(value = "tertiaryCategoryCode", required = false) String tertiaryCategoryCode,
-        @RequestParam(value = "quaternaryCategoryCode", required = false) String quaternaryCategoryCode,
-        @RequestParam(value = "lastId", required = false) Long lastId,
-        @RequestParam(value = "pageSize", required = false) Integer pageSize,
-        @RequestParam(value = "pageNo", required = false) Integer pageNo,
-        @RequestParam(value = "sizeId", required = false) Long sizeId,
-        @RequestParam(value = "colorId", required = false) Long colorId,
-        @RequestParam(value = "etcId", required = false) Long etcId
-    ) {
-        CursorPage<ProductCategoryListResponseDto> cursor = productCategoryListService.getProductCodesByOptions(
-            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
-            lastId, pageSize, pageNo, sizeId, colorId, etcId);
-
-        return new BaseResponse<>(
-            CursorPage.toCursorPage(cursor,
-                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList())
-        );
-    }
+    // 로직 수정 필요
+//    @Operation(summary = "Option에 따른 Product-Category-List 조회 API", description = "Get Product-Category-List By Option")
+//    @GetMapping("/options")
+//    public BaseResponse<CursorPage<GetProductCategoryListResponseVo>> getProductCodesByOptions(
+//        @RequestParam(value = "mainCategoryCode", required = false) String mainCategoryCode,
+//        @RequestParam(value = "secondaryCategoryCode", required = false) String secondaryCategoryCode,
+//        @RequestParam(value = "tertiaryCategoryCode", required = false) String tertiaryCategoryCode,
+//        @RequestParam(value = "quaternaryCategoryCode", required = false) String quaternaryCategoryCode,
+//        @RequestParam(value = "lastId", required = false) Long lastId,
+//        @RequestParam(value = "pageSize", required = false) Integer pageSize,
+//        @RequestParam(value = "pageNo", required = false) Integer pageNo,
+//        @RequestParam(value = "sizeId", required = false) Long sizeId,
+//        @RequestParam(value = "colorId", required = false) Long colorId,
+//        @RequestParam(value = "etcId", required = false) Long etcId
+//    ) {
+//        CursorPage<ProductCategoryListResponseDto> cursor = productCategoryListService.getProductCodesByOptions(
+//            mainCategoryCode, secondaryCategoryCode, tertiaryCategoryCode, quaternaryCategoryCode,
+//            lastId, pageSize, pageNo, sizeId, colorId, etcId);
+//
+//        return new BaseResponse<>(
+//            CursorPage.toCursorPage(cursor,
+//                cursor.getContent().stream().map(ProductCategoryListResponseDto::toVo).toList())
+//        );
+//    }
 
     @Operation(summary = "Product-Category-List 판매 상태 수정 API", description =
         "productCode & categoryCodes 조건 모두 같은 경우 찾아서 Update")
