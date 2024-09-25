@@ -20,7 +20,6 @@ public class ReviewResponseDto {
     private String reviewCode;
     private Double starPoint;
     private String type;
-    private Boolean isBest;
     private String parsedEmail;
     private LocalDateTime modifyDate;
     private Integer likeCount;
@@ -38,6 +37,7 @@ public class ReviewResponseDto {
     public static class Evaluation {
         private String name; // 평가 항목 이름
         private String value; // 평가 항목 값
+        private Boolean isBest;
     }
 
     public static ReviewResponseDto fromReview(
@@ -49,7 +49,6 @@ public class ReviewResponseDto {
             .reviewCode(review.getReviewCode())
             .starPoint(review.getStarPoint())
             .type(review.getType())
-            .isBest(false)
             .parsedEmail(review.getParsedEmail())
             .modifyDate(review.getUpdatedAt())
             .likeCount(0)
@@ -65,7 +64,6 @@ public class ReviewResponseDto {
             .reviewCode(reviewCode)
             .starPoint(starPoint)
             .type(type)
-            .isBest(false)
             .parsedEmail(parsedEmail)
             .modifyDate(modifyDate)
             .likeCount(0)

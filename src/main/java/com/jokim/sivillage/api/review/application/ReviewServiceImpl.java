@@ -52,7 +52,7 @@ public class ReviewServiceImpl implements ReviewService {
 //
 //    }
 
-    
+
     //todo 이미지 보내는거 만들어둬야함
     @Override
     public ReviewSummaryResponseDto getReviewSummary(String productCode) {
@@ -83,6 +83,7 @@ public class ReviewServiceImpl implements ReviewService {
             .map(value -> ReviewResponseDto.Evaluation.builder()
                 .name(value.getEvaluationItemName().getName()) // 평가 항목 이름 가져오기
                 .value(value.getValue()) // 평가 항목 값 가져오기
+                .isBest(value.getIsBest())
                 .build())
             .toList();
     }

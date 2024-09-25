@@ -19,7 +19,6 @@ public class ReviewResponseVo {
     private String reviewCode;
     private Double starPoint;
     private String type;
-    private Boolean isBest;
     private String parsedEmail;
     private LocalDateTime modifyDate;
     private Integer likeCount;
