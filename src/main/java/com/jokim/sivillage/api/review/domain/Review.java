@@ -40,6 +40,6 @@ public class Review extends BaseEntity {
     @Column(nullable = false, length = 10)
     private String parsedEmail;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 50)
     private String optionInfo;
 }

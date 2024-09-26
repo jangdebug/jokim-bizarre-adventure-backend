@@ -23,7 +23,7 @@ public class ProductStarAverage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 36)
+    @Column(nullable = false, length = 36, unique = true)
     private String productCode;
 
     @Column(nullable = false)
