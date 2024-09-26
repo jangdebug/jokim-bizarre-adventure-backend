@@ -1,10 +1,8 @@
 package com.jokim.sivillage.api.review.application;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import com.jokim.sivillage.api.bridge.reviewmedialist.infrastructure.ReviewMediaListRepository;
+import com.jokim.sivillage.api.batch.domain.ReviewStatistic;
+import com.jokim.sivillage.api.batch.infrastructure.ReviewStatisticRepository;
 import com.jokim.sivillage.api.review.domain.*;
-import com.jokim.sivillage.api.review.dto.in.ReviewRequestDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto;
 import com.jokim.sivillage.api.review.infrastructure.*;
@@ -31,11 +29,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final ProductEvaluationManageRepository productEvaluationManageRepository;
     private final EvaluationItemNameRepository evaluationItemNameRepository;
     private final EvaluationItemValueRepository evaluationItemValueRepository;
-    private final ReviewMediaListRepository reviewMediaListRepository;
     private final ProductStatisticRepository productStatisticRepository;
     private final ProductStarAverageRepository productStarAverageRepository;
-    private final JPAQueryFactory jpaQueryFactory;
-
+    private final ReviewStatisticRepository reviewStatisticRepository;
     private final ReviewRepository reviewRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -75,15 +71,20 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public Page<ReviewResponseDto> getReview(String productCode, Pageable pageable) {
-        // Review와 EvaluationItemValue를 조인하여 isBest 값을 함께 가져오기
+        // productCode에 해당하는 Review를 페이징 처리하여 가져옴
         Page<Review> reviews = reviewRepository.findByProductCode(productCode, pageable);
 
-        // Page 객체를 변환할 때는 map() 메서드를 사용하는 것이 효율적
-        return reviews.map(review -> ReviewResponseDto.fromReview(
-                review,
-                getEvaluations(review.getReviewCode()) // 각 리뷰 코드에 맞는 평가 항목 가져오기
-            )
-        );
+        // Page 객체의 map() 메서드를 사용하여 Review를 ReviewResponseDto로 변환
+        return reviews.map(review -> {
+            // 각 리뷰에 대한 통계 정보 가져오기
+            ReviewStatistic reviewStatistics = reviewStatisticRepository.findByReviewCode(review.getReviewCode());
+
+            // 각 리뷰에 대한 평가 항목 리스트 가져오기
+            List<ReviewResponseDto.Evaluation> evaluations = getEvaluations(review.getReviewCode());
+
+            // ReviewResponseDto를 생성하여 반환
+            return ReviewResponseDto.fromReview(review, reviewStatistics, evaluations);
+        });
     }
 
     public List<ReviewResponseDto.Evaluation> getEvaluations(String reviewCode) {

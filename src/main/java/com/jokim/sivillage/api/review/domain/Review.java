@@ -24,6 +24,7 @@ public class Review extends BaseEntity {
     @Column(nullable = false,length = 36)
     private String reviewCode;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private ReviewType reviewType;
 
@@ -38,4 +39,7 @@ public class Review extends BaseEntity {
 
     @Column(nullable = false, length = 10)
     private String parsedEmail;
+
+    @Column(nullable = false, length = 30)
+    private String optionInfo;
 }

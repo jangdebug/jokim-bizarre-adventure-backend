@@ -22,8 +22,8 @@ public class ReviewResponseVo {
     private ReviewType reviewType;
     private String parsedEmail;
     private LocalDateTime modifyDate;
-    private Integer likeCount;
-    private String productOption;
+    private Long likeCount;
+    private String optionInfo;
     private String content;
     // 리스트 형태의 필드 추가
     private List<Evaluation> evaluation; // 평가 정보를 담는 리스트
