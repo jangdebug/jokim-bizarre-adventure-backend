@@ -11,8 +11,10 @@ import com.jokim.sivillage.api.review.infrastructure.*;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
 import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
+import jakarta.transaction.Transactional;
 import java.util.List;
 
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -37,17 +39,40 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Transactional
     @Override
     public ReviewSummaryResponseDto getReviewSummary(String productCode) {
+        // 1. ProductStatistic 리스트를 productCode로 조회
+        List<ProductStatistic> productStatistics = productStatisticRepository.findByProductCode(productCode);
+
+        // 2. 각각의 ProductStatistic에서 nameId, valueId를 이용해 EvaluationItemName과 EvaluationItemValue 정보 조회
+        List<ReviewSummaryResponseDto.EvaluationSummary> evaluationSummaries = productStatistics.stream()
+            .map(productStatistic -> {
+                // EvaluationItemName에서 name 가져오기
+                EvaluationItemName evaluationItemName = evaluationItemNameRepository.findById(productStatistic.getEvaluationItemNameId())
+                    .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_REVIEWSTATISTIC_NAME));
+
+                // EvaluationItemValue에서 value 가져오기
+                EvaluationItemValue evaluationItemValue = evaluationItemValueRepository.findById(productStatistic.getEvaluationItemValueId())
+                    .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_REVIEWSTATISTIC_VALUE));
+
+                // 3. 각각의 name, value, rate 정보를 EvaluationSummary 객체로 변환
+                return ReviewSummaryResponseDto.EvaluationSummary.builder()
+                    .name(evaluationItemName.getName())
+                    .value(evaluationItemValue.getValue())
+                    .rate(productStatistic.getEvaluationItemNameRate())
+                    .build();
+            })
+            .collect(Collectors.toList());
+
+        // 4. ProductStarAverage에서 별점 평균 조회
         ProductStarAverage starAverage = productStarAverageRepository.findByProductCode(productCode);
 
-        List<ReviewSummaryResponseDto.EvaluationSummary> evaluationSummaries =
-            ReviewSummaryResponseDto.fetchEvaluationSummaries(jpaQueryFactory, productCode);
-
+        // 5. ReviewSummaryResponseDto 객체 생성 후 반환
         return ReviewSummaryResponseDto.of(starAverage.getStarPoint(), evaluationSummaries);
     }
 
-
+    @Transactional
     @Override
     public Page<ReviewResponseDto> getReview(String productCode, Pageable pageable) {
         // Review와 EvaluationItemValue를 조인하여 isBest 값을 함께 가져오기

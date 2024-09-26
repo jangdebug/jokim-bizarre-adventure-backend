@@ -26,26 +26,6 @@ public class ReviewSummaryResponseDto {
             .build();
     }
 
-    // 조인 메서드 수정: EvaluationItemValue와 조인하여 value 값 가져오기
-    public static List<EvaluationSummary> fetchEvaluationSummaries(
-        JPAQueryFactory queryFactory,
-        String productCode) {
-        QProductStatistic productStatistic = QProductStatistic.productStatistic;
-        QEvaluationItemName evaluationItemName = QEvaluationItemName.evaluationItemName;
-        QEvaluationItemValue evaluationItemValue = QEvaluationItemValue.evaluationItemValue;
-
-        return queryFactory
-            .select(Projections.fields(EvaluationSummary.class,
-                evaluationItemName.name,
-                productStatistic.evaluationItemNameRate.as("rate"),
-                evaluationItemValue.value)) // value 값 추가
-            .from(productStatistic)
-            .join(evaluationItemName).on(productStatistic.evaluationItemNameId.eq(evaluationItemName.id))
-            .join(evaluationItemValue).on(productStatistic.evaluationItemValueId.eq(evaluationItemValue.id)) // evaluationItemValue와 조인
-            .where(productStatistic.productCode.eq(productCode))
-            .fetch();
-    }
-
     public ReviewSummaryResponseVo toVo() {
         return ReviewSummaryResponseVo.builder()
             .starAverage(starAverage)
