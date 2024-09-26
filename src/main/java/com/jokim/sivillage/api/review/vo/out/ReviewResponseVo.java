@@ -1,5 +1,6 @@
 package com.jokim.sivillage.api.review.vo.out;
 
+import com.jokim.sivillage.api.review.domain.ReviewType;
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto.Evaluation;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +19,7 @@ public class ReviewResponseVo {
     private String productCode;
     private String reviewCode;
     private Double starPoint;
-    private String type;
+    private ReviewType reviewType;
     private String parsedEmail;
     private LocalDateTime modifyDate;
     private Integer likeCount;

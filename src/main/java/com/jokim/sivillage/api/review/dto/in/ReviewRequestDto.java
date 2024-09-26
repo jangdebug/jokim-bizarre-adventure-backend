@@ -1,6 +1,7 @@
 package com.jokim.sivillage.api.review.dto.in;
 
 import com.jokim.sivillage.api.review.domain.Review;
+import com.jokim.sivillage.api.review.domain.ReviewType;
 import com.jokim.sivillage.api.review.vo.in.ReviewRequestVo;
 import lombok.*;
 
@@ -15,19 +16,17 @@ public class ReviewRequestDto {
     private String productCode;
     private String uuid;
     private String reviewCode;
-    private String type;
+    private ReviewType reviewType;
     private String content;
     private Double starPoint;
     private Boolean state;
-    private String url;
 
     public static ReviewRequestDto toDto(ReviewRequestVo reviewRequestVo){
         return ReviewRequestDto.builder()
                 .productCode(reviewRequestVo.getProductCode())
-                .type(reviewRequestVo.getType())
+                .reviewType(reviewRequestVo.getReviewType())
                 .content(reviewRequestVo.getContent())
                 .starPoint(reviewRequestVo.getStarPoint())
-                .url(reviewRequestVo.getUrl())
                 .build();
     }
 
@@ -37,7 +36,7 @@ public class ReviewRequestDto {
                 .productCode(productCode)
                 .uuid(uuid)
                 .reviewCode(UUID.randomUUID().toString())
-                .type(type)
+                .reviewType(reviewType)
                 .content(content)
                 .starPoint(starPoint)
                 .state(true)

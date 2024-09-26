@@ -47,6 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewSummaryResponseDto.of(starAverage.getStarPoint(), evaluationSummaries);
     }
 
+
     @Override
     public Page<ReviewResponseDto> getReview(String productCode, Pageable pageable) {
         // Review와 EvaluationItemValue를 조인하여 isBest 값을 함께 가져오기

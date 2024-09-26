@@ -65,6 +65,3 @@ public class ReviewSummaryResponseDto {
         private Integer rate; // 평가 항목의 비율
     }
 }
-
-
-

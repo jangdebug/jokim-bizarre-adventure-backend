@@ -24,14 +24,6 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-//    @Operation(summary = "Review API", description = "Review API 입니다.", tags = {"Review"})
-//    @PostMapping("/review")
-//    public BaseResponse<Void> createReview(
-//            @RequestBody ReviewRequestVo reviewRequestVo) {
-//        reviewService.createReview(ReviewRequestDto.toDto(reviewRequestVo));
-//        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
-//    }
-
     @Operation(summary = "Review API", description = "Review API 입니다.", tags = {"Review"})
     @GetMapping("/reviews/product/{productCode}/{page}/{size}")
     public BaseResponse<Page<ReviewResponseVo>> getReview(

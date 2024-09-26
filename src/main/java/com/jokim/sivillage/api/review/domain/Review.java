@@ -25,7 +25,7 @@ public class Review extends BaseEntity {
     private String reviewCode;
 
     @Column(nullable = false, length = 10)
-    private String type;
+    private ReviewType reviewType;
 
     @Column(columnDefinition = "TEXT")
     private String content;

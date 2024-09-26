@@ -1,6 +1,7 @@
 package com.jokim.sivillage.api.review.dto.out;
 
 import com.jokim.sivillage.api.review.domain.Review;
+import com.jokim.sivillage.api.review.domain.ReviewType;
 import com.jokim.sivillage.api.review.vo.out.ReviewResponseVo;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ReviewResponseDto {
     private String productCode;
     private String reviewCode;
     private Double starPoint;
-    private String type;
+    private ReviewType reviewType;
     private String parsedEmail;
     private LocalDateTime modifyDate;
     private Integer likeCount;
@@ -48,7 +49,7 @@ public class ReviewResponseDto {
             .productCode(review.getProductCode())
             .reviewCode(review.getReviewCode())
             .starPoint(review.getStarPoint())
-            .type(review.getType())
+            .reviewType(review.getReviewType())
             .parsedEmail(review.getParsedEmail())
             .modifyDate(review.getUpdatedAt())
             .likeCount(0)
@@ -63,7 +64,7 @@ public class ReviewResponseDto {
             .productCode(productCode)
             .reviewCode(reviewCode)
             .starPoint(starPoint)
-            .type(type)
+            .reviewType(reviewType)
             .parsedEmail(parsedEmail)
             .modifyDate(modifyDate)
             .likeCount(0)
