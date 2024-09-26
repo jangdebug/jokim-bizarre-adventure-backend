@@ -1,98 +1,122 @@
 package com.jokim.sivillage.api.product.application;
 
 
-import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
-import com.jokim.sivillage.api.product.dto.out.DailyHotProductResponseDto;
+import com.jokim.sivillage.api.brand.infrastructure.BrandRepository;
+import com.jokim.sivillage.api.hashtag.infrastructure.ProductHashtagRepository;
 import com.jokim.sivillage.api.product.domain.Product;
+import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
+import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.jokim.sivillage.api.product.infrastructure.ProductRepositoryCustom;
+import com.jokim.sivillage.common.entity.BaseResponseStatus;
+import com.jokim.sivillage.common.exception.BaseException;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.ui.Model;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductServiceImpl implements ProductService {
+    //dto.onSearchChangeBrandName();
 
     private final ProductRepository productRepository;
+    private final BrandRepository brandRepository;
+    private final ProductHashtagRepository productHashtagRepository;
+    private final ProductRepositoryCustom productRepositoryCustom;
+
 
     @Override
-    public ProductResponseDto getProductById(long id) {
+    public ProductResponseDto getProductByProductCode(String productCode) {
 
-        Product product = productRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + id));
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(product, ProductResponseDto.class);
+        ProductResponseDto productResponseDto = productRepositoryCustom.findProductDtoByProductCode(
+            productCode);
+
+        return productResponseDto;
+
     }
 
+    @Transactional
     @Override
     public void saveProduct(ProductRequestDto productRequestDto) {
+
+        String productCode = productRequestDto.getProductCode();
+        if (productRepository.findByProductCode(productCode).isPresent()) {
+            throw new BaseException(BaseResponseStatus.ALREADY_EXIST_PRODUCT_CODE);
+        }
 
         productRepository.save(productRequestDto.toEntity());
     }
 
     @Override
     @Transactional
-    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDto) {
-        Product product = productRepository.findById(id).get();
-        ModelMapper modelMapper = new ModelMapper();
+    public void updateProduct(ProductRequestDto productRequestDto) {
+        Product product = productRepository.findByProductCode(productRequestDto.getProductCode())
+            .orElseThrow(
+                () -> new IllegalArgumentException("해당 상품이 존재하지 않습니다.")
+            );
 
-        modelMapper.map(productRequestDto, product);
-
-        productRepository.save(product);
-
-        return null;
+        productRepository.save(productRequestDto.toEntity(product.getId()));
     }
+
+    @Transactional
+    @Override
+    public void deleteProduct(String productCode) {
+        Product product = productRepository.findByProductCode(productCode).orElseThrow(
+            () -> new IllegalArgumentException("해당 상품이 존재하지 않습니다.")
+        );
+        productRepository.deleteById(product.getId());
+    }
+
+
+
+
+    @Override
+    public List<ProductListResponseDto> getRandomProducts(Integer count) {
+        List<Product> productList = productRepository.getRandomProducts(count);
+        // 랜덤으로 productCode 5개 얻기
+        List<String> productCodeList = productList.stream().map(product -> product.getProductCode())
+            .toList();
+        List<ProductListResponseDto> productListResponseDtoList = productCodeList.stream()
+            .map(productcode -> productRepositoryCustom.getProductListByProductCode(productcode))
+            .toList();
+        return productListResponseDtoList;
+
+
+    }
+
+    @Override
+    public ProductListResponseDto getProductListByProductCode(
+        String productCode) {
+
+        return productRepositoryCustom.getProductListByProductCode(productCode);
+
+    }
+
+
+
+    @Override
+    public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {
+        return productRepositoryCustom.getMostDiscountProduct(count);
+    }
+    
 
 //    @Override
-//    public void deleteProduct(long id) {
-//        Product product = productRepository.findById(id).get();
-//
-//
+//    public List<ProductResponseDto> getRandomProducts(Integer count) {
+//        List<Product> products = productRepository.findRandomProducts(count);
+//        ModelMapper modelMapper = new ModelMapper();
+//        List<ProductResponseDto> productResponseDtos = products.stream()
+//            .map(product -> modelMapper.map(product, ProductResponseDto.class))
+//            .collect(Collectors.toList());
+//        return productResponseDtos;
 //    }
-
-    @Override
-    public List<DailyHotProductResponseDto> getDailyHotProducts() {
-
-        return List.of();
-    }
-
-    @Override
-    public List<ProductResponseDto> getFilteredProducts(Long sizeId, Long colorId, Long etcId) {
-        log.info("before productRepository");
-        List<Product> products = productRepository.findBySizeAndColorAndEtc(sizeId, colorId, etcId);
-        log.info("List<Product> products[0] {}", products.get(0).toString());
-        ModelMapper modelMapper = new ModelMapper();
-        List<ProductResponseDto> productResponseDtos = products.stream()
-            .map(product -> modelMapper.map(product, ProductResponseDto.class))
-            .collect(Collectors.toList());
-
-        log.info("productResponseDtos {}", productResponseDtos);
-
-        return productResponseDtos;
-    }
-
-    @Override
-    public List<ProductResponseDto> getRandomProducts(Integer count) {
-        List<Product> products = productRepository.findRandomProducts(count);
-        ModelMapper modelMapper = new ModelMapper();
-        List<ProductResponseDto> productResponseDtos = products.stream()
-            .map(product -> modelMapper.map(product, ProductResponseDto.class))
-            .collect(Collectors.toList());
-        return productResponseDtos;
-    }
-
-    @Override
-    public List<ProductResponseDto> getProductsBySortType(String sortType) {
-
-        return List.of();
-    }
+//
+//    @Override
+//    public List<ProductResponseDto> getProductsBySortType(String sortType) {
+//
+//        return List.of();
+//    }
 }

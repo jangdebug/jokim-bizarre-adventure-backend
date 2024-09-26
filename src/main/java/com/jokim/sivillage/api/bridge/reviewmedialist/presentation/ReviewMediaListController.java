@@ -1,10 +1,10 @@
 package com.jokim.sivillage.api.bridge.reviewmedialist.presentation;
 
 import com.jokim.sivillage.api.bridge.reviewmedialist.application.ReviewMediaListService;
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.ReviewMediaListRequestDto;
-import com.jokim.sivillage.api.bridge.reviewmedialist.dto.ReviewMediaListResponseDto;
-import com.jokim.sivillage.api.bridge.reviewmedialist.vo.AddReviewMediaListRequestVo;
-import com.jokim.sivillage.api.bridge.reviewmedialist.vo.GetReviewMediaListResponseVo;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.in.ReviewMediaListRequestDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListsResponseDto;
+import com.jokim.sivillage.api.bridge.reviewmedialist.vo.in.AddReviewMediaListRequestVo;
+import com.jokim.sivillage.api.bridge.reviewmedialist.vo.out.GetAllReviewMediaListsResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Bridge")
+@Tag(name = "Review-Media")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/review-media")
@@ -35,14 +35,13 @@ public class ReviewMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Review-Media-List 조회 API")
+    @Operation(summary = "Review-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
     @GetMapping("/{reviewCode}")
-    public BaseResponse<List<GetReviewMediaListResponseVo>> getReviewMediaList(
+    public BaseResponse<List<GetAllReviewMediaListsResponseVo>> getAllReviewMediaLists(
         @PathVariable String reviewCode) {
 
-        return new BaseResponse<>(
-            reviewMediaListService.getReviewMediaList(reviewCode).stream()
-                .map(ReviewMediaListResponseDto::toVo).toList());
+        return new BaseResponse<>(reviewMediaListService.getAllReviewMediaLists(reviewCode)
+            .stream().map(AllReviewMediaListsResponseDto::toVo).toList());
     }
 
 }

@@ -22,6 +22,7 @@ public enum BaseResponseStatus {
     NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 403, "접근 권한이 없습니다"),
     DISABLED_USER(HttpStatus.FORBIDDEN, false, 404, "비활성화된 계정입니다. 계정을 복구하시겠습니까?"),
     FAILED_TO_RESTORE(HttpStatus.INTERNAL_SERVER_ERROR, false, 405, "계정 복구에 실패했습니다. 관리자에게 문의해주세요."),
+    FAILED_CREATE_AUTHORITY(HttpStatus.FORBIDDEN, false, 406, "접근 권한 생성에 실패했습니다"),
 
     /**
      * 900: 기타 에러
@@ -49,23 +50,35 @@ public enum BaseResponseStatus {
     SAME_NICKNAME(HttpStatus.CONFLICT, false, 2011, "현재 사용중인 닉네임입니다."),
     INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2012, "이메일을 다시 확인해주세요."),
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2013, "이미 사용중인 이메일입니다."),
+    NO_EXIST_SIZE(HttpStatus.NOT_FOUND, false, 2018, "사용자 사이즈 정보가 존재하지 않습니다."),
 
     // Media
     NOT_EXIST_MEDIA(HttpStatus.NOT_FOUND, false, 2101, "존재하지 않는 미디어입니다."),
-    ALREADY_EXIST_THUMBNAIL(HttpStatus.BAD_REQUEST, false, 2102, "썸네일이 이미 존재하는 상품입니다."),
+    ALREADY_EXIST_THUMBNAIL(HttpStatus.BAD_REQUEST, false, 2102, "썸네일이 이미 존재하는 컨텐츠입니다."),
+    ALREADY_EXIST_LOGO(HttpStatus.BAD_REQUEST, false, 2103, "로고가 이미 존재하는 컨텐츠입니다."),
     FAILED_TO_GENERATE_MEDIA_CODE(HttpStatus.CONFLICT, false, 2104, "고유한 미디어 코드를 생성하는 데 실패했습니다."),
     INVALID_MEDIA_TYPE(HttpStatus.BAD_REQUEST, false, 2107, "미디어 타입을 다시 확인해주세요."),
 
+    // Brand
+    NOT_EXIST_BRAND(HttpStatus.NOT_FOUND, false, 2201, "존재하지 않는 브랜드입니다."),
+    FAILED_TO_GENERATE_BRAND_CODE(HttpStatus.CONFLICT, false, 2204, "고유한 브랜드 코드를 생성하는 데 실패했습니다."),
 
     // Category
     NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, false, 2401, "존재하지 않는 카테고리입니다."),
     ALREADY_EXIST_CATEGORY_NAME(HttpStatus.BAD_REQUEST, false, 2402, "이미 존재하는 카테고리명입니다."),
     NOT_EXIST_PARENT_CATEGORY(HttpStatus.BAD_REQUEST, false, 2403, "존재하지 않는 상위 카테고리입니다."),
-    FAILED_TO_GENERATE_CATEGORY_CODE(HttpStatus.CONFLICT, false, 2404, "고유한 카테고리 코드를 생성하는 데 실패했습니다."),
+    FAILED_TO_GENERATE_CATEGORY_CODE(HttpStatus.CONFLICT, false, 2404,
+        "고유한 카테고리 코드를 생성하는 데 실패했습니다."),
     FAILED_TO_UPDATE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2405, "부모 카테고리를 업데이트 할 수 없습니다."),
     FAILED_TO_DELETE_CATEGORY(HttpStatus.BAD_REQUEST, false, 2406, "하위 카테고리가 있어서 삭제할 수 없습니다."),
 
+    // Product-Category
+    NOT_EXIST_IN_PRODUCT_CATEGORY(HttpStatus.NOT_FOUND, false, 2409,
+        "Product-Category-List 테이블에 존재하지 않는 상품입니다."),
 
+    // Address
+    NOT_DELETE_DEFAULTADDRESS(HttpStatus.BAD_REQUEST, false, 2410, "기본배송지는 삭제할 수 없습니다."),
+    NOT_FOUND_ADDRESS(HttpStatus.BAD_REQUEST, false, 2411, "배송지를 찾을 수 없습니다."),
     // Interest
     NO_EXIST_INTEREST(HttpStatus.NOT_FOUND, false, 2501, "존재하지 않는 관심사입니다."),
 
@@ -79,6 +92,7 @@ public enum BaseResponseStatus {
     NO_EXIST_REVIEW(HttpStatus.NOT_FOUND, false, 3003, "리뷰가 존재하지 않습니다."),
     NO_EXIST_REVIEWSTATISTIC_NAME(HttpStatus.NOT_FOUND, false, 3004, "리뷰 평가항목이 존재하지 않습니다."),
     NO_EXIST_REVIEWSTATISTIC_VALUE(HttpStatus.NOT_FOUND, false, 3005, "리뷰 평가항목에 대한 값이 존재하지 않습니다."),
+    ALREADY_EXIST_PRODUCT_CODE(HttpStatus.NOT_FOUND, false, 3007, "이미 존재하는 상품코드입니다."),
 
     /**
      * 4000: comment service error

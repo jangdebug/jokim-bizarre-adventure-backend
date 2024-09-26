@@ -13,19 +13,6 @@ public class ProductOption {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-//    @OneToMany(mappedBy = "size")
-//    private List<Size> size;
-//
-//    @OneToMany(mappedBy = "color")
-//    private List<Color> color;
-//
-//    @OneToMany(mappedBy = "etc")
-//    private List<Etc> etc;
-
-    @ManyToOne
     @JoinColumn(name = "size_id")
     private Size size;
 
@@ -33,9 +20,18 @@ public class ProductOption {
     @JoinColumn(name = "color_id")
     private Color color;
 
-
     @ManyToOne
     @JoinColumn(name = "etc_id")
     private Etc etc;
+
+    @Column(nullable = false, length = 36)
+    private String productCode;
+
+    @Column(nullable = false, length = 36)
+    private String productOptionCode;
+
+    @Column(nullable = false)
+    private Integer stock;
+
 
 }

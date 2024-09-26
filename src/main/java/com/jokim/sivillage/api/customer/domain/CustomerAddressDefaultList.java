@@ -20,4 +20,7 @@ public class CustomerAddressDefaultList {
 
     @Column(nullable = false, length = 36)
     private String addressCode;
+
+    @Column(nullable = false)
+    private Boolean isDefault;
 }

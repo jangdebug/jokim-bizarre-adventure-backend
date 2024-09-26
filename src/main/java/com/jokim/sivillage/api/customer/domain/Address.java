@@ -15,6 +15,9 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 36)
+    private String uuid;
+
     @Column(nullable = false,length = 36)
     private String addressCode;
 
@@ -24,6 +27,9 @@ public class Address {
     @Column(length = 50)
     private String recipient;
 
+    @Column(length = 10)
+    private String dispCellNo;
+
     @Column(length = 20)
     private String phone;
 
@@ -31,11 +37,14 @@ public class Address {
     private String zipCode;
 
     @Column(nullable = false,length = 255)
-    private String address;
+    private String addressRoad;
+
+    @Column(nullable = false,length = 255)
+    private String addressJibeon;
 
     @Column(length = 255)
     private String addressDetail;
 
-    @Column(length = 100)
-    private String message;
+    @Column(nullable = false)
+    private Boolean deliveryPolicy;
 }
