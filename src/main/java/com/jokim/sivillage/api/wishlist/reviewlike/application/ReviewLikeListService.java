@@ -1,7 +1,7 @@
-package com.jokim.sivillage.api.review.like.application;
+package com.jokim.sivillage.api.wishlist.reviewlike.application;
 
-import com.jokim.sivillage.api.review.like.dto.ReviewLikeListRequestDto;
-import com.jokim.sivillage.api.review.like.dto.ReviewLikeListResponseDto;
+import com.jokim.sivillage.api.wishlist.reviewlike.dto.ReviewLikeListRequestDto;
+import com.jokim.sivillage.api.wishlist.reviewlike.dto.ReviewLikeListResponseDto;
 
 public interface ReviewLikeListService {
 

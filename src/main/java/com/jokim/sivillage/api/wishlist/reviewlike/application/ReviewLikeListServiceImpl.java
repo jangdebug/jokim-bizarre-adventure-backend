@@ -1,9 +1,9 @@
-package com.jokim.sivillage.api.review.like.application;
+package com.jokim.sivillage.api.wishlist.reviewlike.application;
 
-import com.jokim.sivillage.api.review.like.domain.ReviewLikeList;
-import com.jokim.sivillage.api.review.like.dto.ReviewLikeListRequestDto;
-import com.jokim.sivillage.api.review.like.dto.ReviewLikeListResponseDto;
-import com.jokim.sivillage.api.review.like.infrastructure.ReviewLikeListRepository;
+import com.jokim.sivillage.api.wishlist.reviewlike.infrastructure.ReviewLikeListRepository;
+import com.jokim.sivillage.api.wishlist.reviewlike.domain.ReviewLikeList;
+import com.jokim.sivillage.api.wishlist.reviewlike.dto.ReviewLikeListRequestDto;
+import com.jokim.sivillage.api.wishlist.reviewlike.dto.ReviewLikeListResponseDto;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,9 +30,8 @@ public class ReviewLikeListServiceImpl implements ReviewLikeListService {
     @Transactional(readOnly = true)
     @Override
     public ReviewLikeListResponseDto getReviewLikeListState(String accessToken, String reviewCode) {
-        Boolean isChecked = reviewLikeListRepository.findByUuidAndReviewCode(
-            jwtTokenProvider.validateAndGetUserUuid(accessToken), reviewCode)
-            .map(ReviewLikeList::getIsChecked).orElse(false);
+        boolean isChecked = reviewLikeListRepository.existsByUuidAndReviewCodeAndIsChecked(
+            jwtTokenProvider.validateAndGetUserUuid(accessToken), reviewCode, true);
 
         return ReviewLikeListResponseDto.toDto(isChecked);
     }

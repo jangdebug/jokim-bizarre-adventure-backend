@@ -42,9 +42,8 @@ public class BrandWishlistServiceImpl implements BrandWishlistService {
     @Override
     public BrandWishlistResponseDto getBrandWishlistState(String accessToken, String brandCode) {
 
-        Boolean isChecked = brandWishlistRepository.findByUuidAndBrandCode(
-                jwtTokenProvider.validateAndGetUserUuid(accessToken), brandCode)
-                .map(BrandWishlist::getIsChecked).orElse(false);
+        boolean isChecked = brandWishlistRepository.existsByUuidAndBrandCodeAndIsChecked(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), brandCode, true);
 
         return BrandWishlistResponseDto.toDto(isChecked);
     }

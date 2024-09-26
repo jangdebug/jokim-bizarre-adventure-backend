@@ -9,4 +9,6 @@ public interface EventWishlistRepository extends JpaRepository<EventWishlist, Lo
 
     Optional<EventWishlist> findByUuidAndEventCode(String uuid, String eventCode);
 
+    boolean existsByUuidAndEventCodeAndIsChecked(String uuid, String eventCode, Boolean isChecked);
+
 }

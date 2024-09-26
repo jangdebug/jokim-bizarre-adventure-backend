@@ -1,6 +1,6 @@
-package com.jokim.sivillage.api.review.like.dto;
+package com.jokim.sivillage.api.wishlist.reviewlike.dto;
 
-import com.jokim.sivillage.api.review.like.vo.GetReviewLikeListResponseVo;
+import com.jokim.sivillage.api.wishlist.reviewlike.vo.GetReviewLikeListResponseVo;
 import lombok.Builder;
 
 @Builder

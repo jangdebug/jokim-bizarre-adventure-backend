@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.review.like.domain;
+package com.jokim.sivillage.api.wishlist.reviewlike.domain;
 
 import com.jokim.sivillage.common.entity.BaseEntity;
 import jakarta.persistence.Column;

@@ -1,11 +1,11 @@
-package com.jokim.sivillage.api.review.like.presentation;
+package com.jokim.sivillage.api.wishlist.reviewlike.presentation;
 
 import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
 
-import com.jokim.sivillage.api.review.like.application.ReviewLikeListService;
-import com.jokim.sivillage.api.review.like.dto.ReviewLikeListRequestDto;
-import com.jokim.sivillage.api.review.like.vo.AddReviewLikeListRequestVo;
-import com.jokim.sivillage.api.review.like.vo.GetReviewLikeListResponseVo;
+import com.jokim.sivillage.api.wishlist.reviewlike.application.ReviewLikeListService;
+import com.jokim.sivillage.api.wishlist.reviewlike.dto.ReviewLikeListRequestDto;
+import com.jokim.sivillage.api.wishlist.reviewlike.vo.AddReviewLikeListRequestVo;
+import com.jokim.sivillage.api.wishlist.reviewlike.vo.GetReviewLikeListResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

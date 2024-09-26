@@ -23,8 +23,7 @@ public class ProductWishlistRepositoryImpl implements ProductWishlistRepositoryC
         LocalDateTime currentDate = LocalDateTime.now();
         BooleanBuilder builder = new BooleanBuilder();
 
-        Optional.ofNullable(uuid)
-            .ifPresent(id -> builder.and(productWishlist.uuid.eq(id)));
+        builder.and(productWishlist.uuid.eq(uuid));
 
         // 최근 몇 달 필터링
         Optional.ofNullable(recentMonths).ifPresent(
