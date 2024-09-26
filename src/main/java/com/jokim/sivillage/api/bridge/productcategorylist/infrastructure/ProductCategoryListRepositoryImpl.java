@@ -31,17 +31,11 @@ public class ProductCategoryListRepositoryImpl implements ProductCategoryListRep
         BooleanBuilder builder = new BooleanBuilder();
 
         // 카테고리별 필터 적용
-        Optional.ofNullable(categoryCode)
-            .ifPresent(code -> builder.or(productCategoryList.mainCategoryCode.eq(code)));
-
-        Optional.ofNullable(categoryCode)
-            .ifPresent(code -> builder.or(productCategoryList.secondaryCategoryCode.eq(code)));
-
-        Optional.ofNullable(categoryCode)
-            .ifPresent(code -> builder.or(productCategoryList.tertiaryCategoryCode.eq(code)));
-
-        Optional.ofNullable(categoryCode)
-            .ifPresent(code -> builder.or(productCategoryList.quaternaryCategoryCode.eq(code)));
+        Optional.ofNullable(categoryCode).ifPresent(code ->
+            builder.or(productCategoryList.mainCategoryCode.eq(code))
+                .or(productCategoryList.secondaryCategoryCode.eq(code))
+                .or(productCategoryList.tertiaryCategoryCode.eq(code))
+                .or(productCategoryList.quaternaryCategoryCode.eq(code)));
 
         // 판매 중인가
         builder.and(productCategoryList.isOnSale.eq(true));
