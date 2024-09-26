@@ -7,6 +7,7 @@ import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ThumbnailProductM
 import com.jokim.sivillage.api.bridge.productmedialist.infrastructure.ProductMediaListRepository;
 import com.jokim.sivillage.api.bridge.productmedialist.infrastructure.ProductMediaListRepositoryCustom;
 import com.jokim.sivillage.common.exception.BaseException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +44,7 @@ public class ProductMediaListServiceImpl implements ProductMediaListService {
     @Transactional(readOnly = true)
     @Override
     public ThumbnailProductMediaListResponseDto getThumbnailByProductCode(String productCode) {
-        return productMediaListRepositoryCustom.getThumbnailByProductCode(productCode);
+        return productMediaListRepositoryCustom.getThumbnailByProductCode(productCode).orElse(new ThumbnailProductMediaListResponseDto());
     }
 
     @Transactional

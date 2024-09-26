@@ -3,6 +3,7 @@ package com.jokim.sivillage.api.bridge.productmedialist.presentation;
 import com.jokim.sivillage.api.bridge.productmedialist.application.ProductMediaListService;
 import com.jokim.sivillage.api.bridge.productmedialist.dto.in.ProductMediaListRequestDto;
 import com.jokim.sivillage.api.bridge.productmedialist.dto.out.AllProductMediaListsResponseDto;
+import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ThumbnailProductMediaListResponseDto;
 import com.jokim.sivillage.api.bridge.productmedialist.vo.in.AddProductMediaListRequestVo;
 import com.jokim.sivillage.api.bridge.productmedialist.vo.in.UpdateProductMediaListRequestVo;
 import com.jokim.sivillage.api.bridge.productmedialist.vo.out.GetAllProductMediaListsResponseVo;
