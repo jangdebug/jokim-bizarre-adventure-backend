@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.review.domain;
+package com.jokim.sivillage.api.batch.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,16 +17,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductStarAverage {
+public class ReviewStatistic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 36, unique = true)
-    private String productCode;
+    @Column(nullable = false, length = 36)
+    private String reviewCode;
 
     @Column(nullable = false)
-    private Double starPoint;
+    private Long likeCount;
+
+    @Column(nullable = false)
+    private Long reportCount;
+
 
 }
