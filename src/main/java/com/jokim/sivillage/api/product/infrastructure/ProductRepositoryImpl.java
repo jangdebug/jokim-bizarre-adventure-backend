@@ -2,9 +2,14 @@ package com.jokim.sivillage.api.product.infrastructure;
 
 
 import static com.jokim.sivillage.api.product.domain.QProduct.product;
+import static com.jokim.sivillage.api.product.domain.QProductOption.productOption;
+import static com.jokim.sivillage.api.product.domain.option.QColor.color;
+import static com.jokim.sivillage.api.product.domain.option.QEtc.etc;
+import static com.jokim.sivillage.api.product.domain.option.QSize.size;
 
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
+import com.jokim.sivillage.api.product.dto.out.option.ProductOptionResponseDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -114,6 +119,40 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .fetch();
 
         return productListResponseDtoList;
+    }
+
+    @Override
+    public ProductOptionResponseDto getProductOptionListByProductCode(String productCode) {
+        // Size 목록 조회
+        List<String> sizes = jpaQueryFactory
+            .selectDistinct(size.value)  // productOption.size.value로 distinct 값을 선택
+            .from(productOption)
+            .leftJoin(size).on(productOption.size.id.eq(size.id))  // productOption의 size와 size를 조인
+            .where(productOption.productCode.eq(productCode))  // productCode 조건
+            .fetch();
+
+        List<String> colors = jpaQueryFactory
+            .selectDistinct(color.value)
+            .from(productOption)
+            .leftJoin(color).on(productOption.color.id.eq(color.id))
+            .where(productOption.productCode.eq(productCode))
+            .fetch();
+
+        List<String> etcs = jpaQueryFactory
+            .selectDistinct(etc.value)
+            .from(productOption)
+            .leftJoin(etc).on(productOption.etc.id.eq(etc.id))
+            .where(productOption.productCode.eq(productCode))
+            .fetch();
+
+
+
+        return ProductOptionResponseDto.builder()
+            .sizeList(sizes)
+            .colorList(colors)
+            .etcList(etcs)
+            .build();
+
     }
 
 }

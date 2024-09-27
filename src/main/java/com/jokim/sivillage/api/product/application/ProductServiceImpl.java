@@ -7,6 +7,7 @@ import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
+import com.jokim.sivillage.api.product.dto.out.option.ProductOptionResponseDto;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepository;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepositoryCustom;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
@@ -102,7 +103,11 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {
         return productRepositoryCustom.getMostDiscountProduct(count);
     }
-    
+
+    @Override
+    public ProductOptionResponseDto getProductOptionByProductCode(String productCode){
+        return productRepositoryCustom.getProductOptionListByProductCode(productCode);
+    }
 
 //    @Override
 //    public List<ProductResponseDto> getRandomProducts(Integer count) {

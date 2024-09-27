@@ -3,6 +3,7 @@ package com.jokim.sivillage.api.product.application;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
+import com.jokim.sivillage.api.product.dto.out.option.ProductOptionResponseDto;
 import java.util.List;
 
 
@@ -26,6 +27,7 @@ public interface ProductService {
 
     List<ProductListResponseDto> getMostDiscountProduct(Integer count);
 
+    ProductOptionResponseDto getProductOptionByProductCode(String productCode);
 }
 
 
