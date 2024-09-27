@@ -8,11 +8,13 @@ import lombok.Builder;
 public class BrandSummaryResponseDto {
 
     private String englishName;
+    private String koreanName;
     private String mediaUrl;
 
     public static BrandSummaryResponseDto toDto(Brand brand, String mediaUrl) {
         return BrandSummaryResponseDto.builder()
             .englishName(brand.getEnglishName())
+            .koreanName(brand.getKoreanName())
             .mediaUrl(mediaUrl)
             .build();
     }
@@ -20,6 +22,7 @@ public class BrandSummaryResponseDto {
     public GetBrandSummaryResponseVo toVo() {
         return GetBrandSummaryResponseVo.builder()
             .englishName(englishName)
+            .koreanName(koreanName)
             .mediaUrl(mediaUrl)
             .build();
     }
