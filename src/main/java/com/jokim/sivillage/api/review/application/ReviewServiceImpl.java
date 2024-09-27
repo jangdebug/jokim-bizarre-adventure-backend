@@ -3,6 +3,7 @@ package com.jokim.sivillage.api.review.application;
 import com.jokim.sivillage.api.batch.domain.ReviewStatistic;
 import com.jokim.sivillage.api.batch.infrastructure.ReviewStatisticRepository;
 import com.jokim.sivillage.api.review.domain.*;
+import com.jokim.sivillage.api.review.dto.out.CustomerReviewDetailDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewResponseDto;
 import com.jokim.sivillage.api.review.dto.out.ReviewSummaryResponseDto;
 import com.jokim.sivillage.api.review.infrastructure.*;
@@ -74,10 +75,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Integer getCustomerReviewCount(String uuid) {
+    public Integer getCustomerReviewCount(String accessToken) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(accessToken);
         return reviewRepository.countByUuid(uuid);
     }
 
+    @Override
+    public List<CustomerReviewDetailDto> getCustomerReviewDetail(String accessToken) {
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(accessToken);
+
+        return reviewRepository.findByUuid(uuid).stream().map(CustomerReviewDetailDto::toDto).toList();
+    }
 
 
     @Transactional
