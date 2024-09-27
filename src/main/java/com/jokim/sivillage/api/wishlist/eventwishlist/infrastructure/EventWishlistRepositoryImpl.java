@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EventWishlistRepositoryImpl implements EventWishlistRepositoryCustom {
 
-    private final JPAQueryFactory queryFactory;
     private final QEventWishlist eventWishlist = QEventWishlist.eventWishlist;
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -24,8 +23,7 @@ public class EventWishlistRepositoryImpl implements EventWishlistRepositoryCusto
         LocalDateTime currentDate = LocalDateTime.now();
         BooleanBuilder builder = new BooleanBuilder();
 
-        Optional.ofNullable(uuid)
-            .ifPresent(id -> builder.and(eventWishlist.uuid.eq(id)));
+        builder.and(eventWishlist.uuid.eq(uuid));
 
         // 최근 몇 달 필터링
         Optional.ofNullable(recentMonths).ifPresent(

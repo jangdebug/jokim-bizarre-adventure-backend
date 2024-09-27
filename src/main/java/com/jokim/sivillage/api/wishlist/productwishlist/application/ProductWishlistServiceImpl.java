@@ -44,9 +44,8 @@ public class ProductWishlistServiceImpl implements ProductWishlistService {
     @Override
     public ProductWishlistResponseDto getProductWishlistState(String accessToken, String productCode) {
 
-        Boolean isChecked = productWishlistRepository.findByUuidAndProductCode(
-                jwtTokenProvider.validateAndGetUserUuid(accessToken), productCode)
-                .map(ProductWishlist::getIsChecked).orElse(false);
+        boolean isChecked = productWishlistRepository.existsByUuidAndProductCodeAndIsChecked(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), productCode, true);
 
         return ProductWishlistResponseDto.toDto(isChecked);
     }

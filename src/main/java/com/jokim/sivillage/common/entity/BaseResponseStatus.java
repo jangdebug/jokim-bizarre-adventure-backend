@@ -63,6 +63,9 @@ public enum BaseResponseStatus {
     NOT_EXIST_BRAND(HttpStatus.NOT_FOUND, false, 2201, "존재하지 않는 브랜드입니다."),
     FAILED_TO_GENERATE_BRAND_CODE(HttpStatus.CONFLICT, false, 2204, "고유한 브랜드 코드를 생성하는 데 실패했습니다."),
 
+    // Basket
+    FAILED_TO_GENERATE_BASKET_CODE(HttpStatus.BAD_REQUEST, false, 2304, "고유한 장바구니 코드를 생성하는 데 실패했습니다."),
+
     // Category
     NOT_EXIST_CATEGORY(HttpStatus.NOT_FOUND, false, 2401, "존재하지 않는 카테고리입니다."),
     ALREADY_EXIST_CATEGORY_NAME(HttpStatus.BAD_REQUEST, false, 2402, "이미 존재하는 카테고리명입니다."),
@@ -89,7 +92,10 @@ public enum BaseResponseStatus {
     // Shorts
     NO_EXIST_PRODUCT(HttpStatus.NOT_FOUND, false, 3001, "존재하지 않는 상품입니다"),
     NO_EXIST_OPTION(HttpStatus.NOT_FOUND, false, 3002, "존재하지 않는 옵션입니다"),
-    ALREADY_EXIST_PRODUCT_CODE(HttpStatus.NOT_FOUND, false, 3003, "이미 존재하는 상품코드입니다."),
+    NO_EXIST_REVIEW(HttpStatus.NOT_FOUND, false, 3003, "리뷰가 존재하지 않습니다."),
+    NO_EXIST_REVIEWSTATISTIC_NAME(HttpStatus.NOT_FOUND, false, 3004, "리뷰 평가항목이 존재하지 않습니다."),
+    NO_EXIST_REVIEWSTATISTIC_VALUE(HttpStatus.NOT_FOUND, false, 3005, "리뷰 평가항목에 대한 값이 존재하지 않습니다."),
+    ALREADY_EXIST_PRODUCT_CODE(HttpStatus.NOT_FOUND, false, 3007, "이미 존재하는 상품코드입니다."),
 
     /**
      * 4000: comment service error

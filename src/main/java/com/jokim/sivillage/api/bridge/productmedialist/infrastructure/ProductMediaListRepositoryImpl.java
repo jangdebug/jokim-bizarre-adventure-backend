@@ -10,6 +10,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -37,20 +38,20 @@ public class ProductMediaListRepositoryImpl implements ProductMediaListRepositor
     }
 
     @Override
-    public ThumbnailProductMediaListResponseDto getThumbnailByProductCode(String productCode) {
+    public Optional<ThumbnailProductMediaListResponseDto> getThumbnailByProductCode(String productCode) {
 
         BooleanExpression condition = Expressions.allOf(
             productMediaList.productCode.eq(productCode),
             productMediaList.isThumbnail.eq(true));
 
-        return jpaQueryFactory.select(new QThumbnailProductMediaListResponseDto(
-            media.mediaCode,
-            media.url,
-            media.mediaType.stringValue()))
+        return Optional.ofNullable(jpaQueryFactory.select(new QThumbnailProductMediaListResponseDto(
+                media.mediaCode,
+                media.url,
+                media.mediaType.stringValue()))
             .from(productMediaList)
             .rightJoin(media).on(productMediaList.mediaCode.eq(media.mediaCode))
             .where(condition)
-            .fetchOne();
+            .fetchOne());
 
     }
 

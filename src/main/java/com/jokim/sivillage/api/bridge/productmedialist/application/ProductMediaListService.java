@@ -5,6 +5,7 @@ import com.jokim.sivillage.api.bridge.productmedialist.dto.out.AllProductMediaLi
 
 import com.jokim.sivillage.api.bridge.productmedialist.dto.out.ThumbnailProductMediaListResponseDto;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductMediaListService {
 

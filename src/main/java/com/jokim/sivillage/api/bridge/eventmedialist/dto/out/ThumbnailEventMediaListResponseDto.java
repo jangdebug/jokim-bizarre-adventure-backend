@@ -2,12 +2,14 @@ package com.jokim.sivillage.api.bridge.eventmedialist.dto.out;
 
 import com.jokim.sivillage.api.bridge.eventmedialist.vo.out.GetThumbnailEventMediaListResponseVo;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class ThumbnailEventMediaListResponseDto {
 
-    private final String mediaCode;
-    private final String mediaUrl;
-    private final String mediaType;
+    private String mediaCode;
+    private String mediaUrl;
+    private String mediaType;
 
     @QueryProjection
     public ThumbnailEventMediaListResponseDto(String mediaCode, String mediaUrl, String mediaType) {
