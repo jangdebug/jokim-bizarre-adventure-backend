@@ -3,9 +3,6 @@ package com.jokim.sivillage.api.product.infrastructure;
 
 import static com.jokim.sivillage.api.product.domain.QProduct.product;
 import static com.jokim.sivillage.api.product.domain.QProductOption.productOption;
-import static com.jokim.sivillage.api.product.domain.option.QColor.color;
-import static com.jokim.sivillage.api.product.domain.option.QEtc.etc;
-import static com.jokim.sivillage.api.product.domain.option.QSize.size;
 
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
@@ -67,7 +64,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     @Override
     public ProductListResponseDto getProductListByProductCode(String productCode) {
 
-        ProductListResponseDto productListResponseDto = jpaQueryFactory
+        return jpaQueryFactory
             .select(
                 Projections.fields(
                     ProductListResponseDto.class,
@@ -87,15 +84,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .from(product)
             .where(product.productCode.eq(productCode))
             .fetchOne();
-
-        return productListResponseDto;
     }
 
 
     @Override
     public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {
 
-        List<ProductListResponseDto> productListResponseDtoList = jpaQueryFactory.select(
+        return jpaQueryFactory.select(
                 Projections.fields(
                     ProductListResponseDto.class,
                     product.productCode.as("productCode"),
@@ -117,41 +112,21 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 product.standardPrice).desc())
             .limit(count)
             .fetch();
-
-        return productListResponseDtoList;
     }
 
     @Override
-    public ProductOptionResponseDto getProductOptionListByProductCode(String productCode) {
-        // Size 목록 조회
-        List<String> sizes = jpaQueryFactory
-            .selectDistinct(size.value)  // productOption.size.value로 distinct 값을 선택
-            .from(productOption)
-            .leftJoin(size).on(productOption.size.id.eq(size.id))  // productOption의 size와 size를 조인
-            .where(productOption.productCode.eq(productCode))  // productCode 조건
-            .fetch();
+    public List<ProductOptionResponseDto> getProductOptionListByProductCode(String productCode) {
 
-        List<String> colors = jpaQueryFactory
-            .selectDistinct(color.value)
+        return jpaQueryFactory.select(
+            Projections.fields(
+                ProductOptionResponseDto.class,
+                productOption.size.value.as("sizeValue"),
+                productOption.color.value.as("colorValue"),
+                productOption.stock.as("stock")
+            ))
             .from(productOption)
-            .leftJoin(color).on(productOption.color.id.eq(color.id))
             .where(productOption.productCode.eq(productCode))
             .fetch();
-
-        List<String> etcs = jpaQueryFactory
-            .selectDistinct(etc.value)
-            .from(productOption)
-            .leftJoin(etc).on(productOption.etc.id.eq(etc.id))
-            .where(productOption.productCode.eq(productCode))
-            .fetch();
-
-
-
-        return ProductOptionResponseDto.builder()
-            .sizeList(sizes)
-            .colorList(colors)
-            .etcList(etcs)
-            .build();
 
     }
 

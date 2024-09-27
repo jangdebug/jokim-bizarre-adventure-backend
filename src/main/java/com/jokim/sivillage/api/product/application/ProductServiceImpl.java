@@ -94,10 +94,7 @@ public class ProductServiceImpl implements ProductService {
         String productCode) {
 
         return productRepositoryCustom.getProductListByProductCode(productCode);
-
     }
-
-
 
     @Override
     public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {
@@ -105,23 +102,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductOptionResponseDto getProductOptionByProductCode(String productCode){
-        return productRepositoryCustom.getProductOptionListByProductCode(productCode);
+    public List<ProductOptionResponseDto> getProductOptionByProductCode(String productCode){
+        List<ProductOptionResponseDto> productOptionResponseDtos = productRepositoryCustom.getProductOptionListByProductCode(productCode);
+        log.info("productOptionResponseDtos : {} in serviceImpl", productOptionResponseDtos);
+        return productOptionResponseDtos;
     }
 
-//    @Override
-//    public List<ProductResponseDto> getRandomProducts(Integer count) {
-//        List<Product> products = productRepository.findRandomProducts(count);
-//        ModelMapper modelMapper = new ModelMapper();
-//        List<ProductResponseDto> productResponseDtos = products.stream()
-//            .map(product -> modelMapper.map(product, ProductResponseDto.class))
-//            .collect(Collectors.toList());
-//        return productResponseDtos;
-//    }
-//
-//    @Override
-//    public List<ProductResponseDto> getProductsBySortType(String sortType) {
-//
-//        return List.of();
-//    }
 }

@@ -27,7 +27,7 @@ public interface ProductService {
 
     List<ProductListResponseDto> getMostDiscountProduct(Integer count);
 
-    ProductOptionResponseDto getProductOptionByProductCode(String productCode);
+    List<ProductOptionResponseDto> getProductOptionByProductCode(String productCode);
 }
 
 
