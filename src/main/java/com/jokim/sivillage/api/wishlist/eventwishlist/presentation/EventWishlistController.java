@@ -35,12 +35,15 @@ public class EventWishlistController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "이벤트 Wishlist 전체 조회 API")
+    @Operation(summary = "이벤트 Wishlist 전체 조회 API", description =
+        "recentMonths로 최근 N 개월 동안 찜한 것들만 필터링")
     @GetMapping
     public BaseResponse<List<GetAllEventWishlistResponseVo>> getAllEventWishlists(
-            @RequestHeader("Authorization") String authorizationHeader) {
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestParam(value = "recentMonths", required = false) Integer recentMonths) {
 
-        return new BaseResponse<>(eventWishlistService.getAllEventWishlists(extractToken(authorizationHeader))
+        return new BaseResponse<>(eventWishlistService.getAllEventWishlists(
+            extractToken(authorizationHeader), recentMonths)
                 .stream().map(EventWishlistResponseDto::toVoForEventCode).toList());
     }
 

@@ -9,7 +9,7 @@ public interface ProductWishlistService {
 
     void addProductWishlist(ProductWishlistRequestDto productWishlistRequestDto);
 
-    List<ProductWishlistResponseDto> getAllProductWishlists(String accessToken);
+    List<ProductWishlistResponseDto> getAllProductWishlists(String accessToken, Integer recentMonths);
     ProductWishlistResponseDto getProductWishlistState(String accessToken, String productCode);
 
     void deleteProductWishlist(ProductWishlistRequestDto productWishlistRequestDto);
