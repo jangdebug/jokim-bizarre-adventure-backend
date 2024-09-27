@@ -10,6 +10,8 @@ public interface BrandWishlistRepository extends JpaRepository<BrandWishlist, Lo
 
     Optional<BrandWishlist> findByUuidAndBrandCode(String uuid, String brandCode);
 
+    boolean existsByUuidAndBrandCodeAndIsChecked(String uuid, String brandCode, Boolean isChecked);
+
     List<BrandWishlist> findByUuidAndIsCheckedOrderByUpdatedAtDesc(String uuid, Boolean isChecked);
 
 }

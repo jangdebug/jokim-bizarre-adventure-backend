@@ -12,13 +12,9 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Optional<Product> findById(Long id);
-
     Optional<Product> findByProductCode(String productCode);
 
     @Query("SELECT p FROM Product p ORDER BY RAND() LIMIT :count")
     List<Product> getRandomProducts(@Param("count") Integer count);
-
-
 
 }

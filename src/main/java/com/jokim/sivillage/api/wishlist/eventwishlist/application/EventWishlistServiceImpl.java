@@ -45,9 +45,8 @@ public class EventWishlistServiceImpl implements EventWishlistService {
     @Override
     public EventWishlistResponseDto getEventWishlistState(String accessToken, String eventCode) {
 
-        Boolean isChecked = eventWishlistRepository.findByUuidAndEventCode(
-                jwtTokenProvider.validateAndGetUserUuid(accessToken), eventCode)
-                .map(EventWishlist::getIsChecked).orElse(false);
+        boolean isChecked = eventWishlistRepository.existsByUuidAndEventCodeAndIsChecked(
+                jwtTokenProvider.validateAndGetUserUuid(accessToken), eventCode, true);
 
         return EventWishlistResponseDto.toDto(isChecked);
     }

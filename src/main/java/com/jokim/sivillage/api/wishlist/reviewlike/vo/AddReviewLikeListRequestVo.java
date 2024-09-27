@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.review.like.vo;
+package com.jokim.sivillage.api.wishlist.reviewlike.vo;
 
 import lombok.Getter;
 

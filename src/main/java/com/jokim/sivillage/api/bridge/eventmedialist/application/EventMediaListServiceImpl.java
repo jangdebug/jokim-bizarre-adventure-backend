@@ -41,7 +41,8 @@ public class EventMediaListServiceImpl implements EventMediaListService {
 
     @Override
     public ThumbnailEventMediaListResponseDto getThumbnailByEventCode(String eventCode) {
-        return eventMediaListRepositoryCustom.getThumbnailByEventCode(eventCode);
+        return eventMediaListRepositoryCustom.getThumbnailByEventCode(eventCode)
+            .orElse(new ThumbnailEventMediaListResponseDto());
     }
 
     @Transactional

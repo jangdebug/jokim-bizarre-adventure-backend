@@ -8,8 +8,8 @@ import lombok.Getter;
 @Builder
 public class GetBrandSummaryResponseVo {
 
-    @JsonProperty("brandName")
     private String englishName;
+    private String koreanName;
 
     @JsonProperty("logoMediaUrl")
     private String mediaUrl;
