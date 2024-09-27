@@ -11,4 +11,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     Page<Review> findByProductCode(String productCode, Pageable pageable);
     @Query("SELECT COUNT(r) FROM Review r WHERE r.productCode = :productCode")
     Integer countByProductCode(@Param("productCode") String productCode);
+
+    @Query("SELECT COUNT(r) FROM Review r WHERE r.uuid = :uuid")
+    Integer countByUuid(@Param("uuid") String uuid);
 }

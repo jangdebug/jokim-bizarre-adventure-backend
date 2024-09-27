@@ -69,9 +69,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Integer getReviewCount(String productCode) {
+    public Integer getProductReviewCount(String productCode) {
         return reviewRepository.countByProductCode(productCode);
     }
+
+    @Override
+    public Integer getCustomerReviewCount(String uuid) {
+        return reviewRepository.countByUuid(uuid);
+    }
+
+
 
     @Transactional
     @Override

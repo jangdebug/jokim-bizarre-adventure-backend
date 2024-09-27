@@ -51,10 +51,17 @@ public class ReviewController {
         return new BaseResponse<>(reviewService.getReviewSummary(productCode).toVo());
     }
 
-    @Operation(summary = "ReviewSummary API", description = "Review 개수 API 입니다.", tags = {"Review"})
-    @GetMapping("/reviews/count/{productCode}")
-    public BaseResponse<Integer> getReviewCount(@PathVariable String productCode) {
+    @Operation(summary = "ReviewSummary API", description = "상품에 대한 Review 개수 API 입니다.", tags = {"Review"})
+    @GetMapping("/reviews/product-review-count/{productCode}")
+    public BaseResponse<Integer> getProductReviewCount(@PathVariable String productCode) {
 
-        return new BaseResponse<>(reviewService.getReviewCount(productCode));
+        return new BaseResponse<>(reviewService.getProductReviewCount(productCode));
+    }
+
+    @Operation(summary = "ReviewSummary API", description = "회원에 대한 Review 개수 API 입니다.", tags = {"Review"})
+    @GetMapping("/reviews/customer-review-count/{uuid}")
+    public BaseResponse<Integer> getCustomerReviewCount(@PathVariable String uuid) {
+
+        return new BaseResponse<>(reviewService.getCustomerReviewCount(uuid));
     }
 }
