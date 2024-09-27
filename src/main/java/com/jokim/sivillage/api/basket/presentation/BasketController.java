@@ -3,12 +3,17 @@ package com.jokim.sivillage.api.basket.presentation;
 import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
 
 import com.jokim.sivillage.api.basket.application.BasketService;
-import com.jokim.sivillage.api.basket.dto.BasketRequestDto;
+import com.jokim.sivillage.api.basket.dto.in.BasketRequestDto;
+import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.vo.in.AddToBasketRequestVo;
+import com.jokim.sivillage.api.basket.vo.out.GetAllBasketItemsResponseVo;
+import com.jokim.sivillage.api.basket.vo.out.GetBasketItemCountResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,7 +28,7 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @Operation(summary = "장바구니에 상품 담기")
+    @Operation(summary = "장바구니에 상품 담기 API")
     @PostMapping
     public BaseResponse<Void> addToBasket(
         @RequestHeader("Authorization") String authorizationHeader,
@@ -32,6 +37,24 @@ public class BasketController {
         basketService.addToBasket(BasketRequestDto.toDto(addToBasketRequestVo,
             extractToken(authorizationHeader)));
         return new BaseResponse<>();
+    }
+
+    @Operation(summary = "장바구니 상품 전체 조회 API")
+    @GetMapping
+    public BaseResponse<List<GetAllBasketItemsResponseVo>> getAllBasketItems(
+        @RequestHeader("Authorization") String authorizationHeader) {
+
+        return new BaseResponse<>(basketService.getAllBasketItems(extractToken(authorizationHeader))
+            .stream().map(AllBasketItemsResponseDto::toVo).toList());
+    }
+
+    @Operation(summary = "장바구니 상품 종류 개수 조회")
+    @GetMapping("/count")
+    public BaseResponse<GetBasketItemCountResponseVo> getBasketItemCount(
+        @RequestHeader("Authorization") String authorizationHeader) {
+
+        return new BaseResponse<>(basketService.getBasketItemCount(extractToken(
+            authorizationHeader)).toVo());
     }
 
 }

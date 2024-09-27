@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.basket.dto;
+package com.jokim.sivillage.api.basket.dto.in;
 
 import com.jokim.sivillage.api.basket.domain.Basket;
 import com.jokim.sivillage.api.basket.domain.BasketState;
