@@ -28,7 +28,7 @@ public class BestProductController {
 
     @Operation(summary = "Statistics API", description = "BestProduct API 입니다.", tags = {"Statistics"})
     @GetMapping("/best/popular-product")
-    public BaseResponse<List<BestProductResponseVo>> signUp() {
+    public BaseResponse<List<BestProductResponseVo>> getBestProduct() {
         return new BaseResponse<>(bestProductService.getBestProduct().stream().map(
             BestProductResponseDto::toVo).toList());
     }
