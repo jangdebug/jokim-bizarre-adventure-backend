@@ -1,5 +1,6 @@
 package com.jokim.sivillage.api.review.dto.out;
 
+import com.jokim.sivillage.api.batch.domain.ReviewStatistic;
 import com.jokim.sivillage.api.review.domain.Review;
 import com.jokim.sivillage.api.review.domain.ReviewType;
 import com.jokim.sivillage.api.review.vo.out.ReviewResponseVo;
@@ -23,8 +24,8 @@ public class ReviewResponseDto {
     private ReviewType reviewType;
     private String parsedEmail;
     private LocalDateTime modifyDate;
-    private Integer likeCount;
-    private String productOption;
+    private Long likeCount;
+    private String optionInfo;
     private String content;
 
     // 리스트 형태의 필드 추가
@@ -43,6 +44,7 @@ public class ReviewResponseDto {
 
     public static ReviewResponseDto fromReview(
         Review review,
+        ReviewStatistic reviewStatistic,
         List<Evaluation> evaluations
     ) {
         return ReviewResponseDto.builder()
@@ -52,8 +54,8 @@ public class ReviewResponseDto {
             .reviewType(review.getReviewType())
             .parsedEmail(review.getParsedEmail())
             .modifyDate(review.getUpdatedAt())
-            .likeCount(0)
-            .productOption("default")
+            .likeCount(reviewStatistic.getLikeCount())
+            .optionInfo(review.getOptionInfo())
             .content(review.getContent())
             .evaluation(evaluations)
             .build();
@@ -67,8 +69,8 @@ public class ReviewResponseDto {
             .reviewType(reviewType)
             .parsedEmail(parsedEmail)
             .modifyDate(modifyDate)
-            .likeCount(0)
-            .productOption("default")
+            .likeCount(likeCount)
+            .optionInfo(optionInfo)
             .content(content)
             .evaluation(evaluation)
             .build();

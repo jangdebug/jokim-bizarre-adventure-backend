@@ -9,6 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "product_statistic", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"productCode", "evaluationItemNameId"})
+})
 public class ProductStatistic {
 
     @Id
