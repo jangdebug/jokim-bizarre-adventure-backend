@@ -68,6 +68,11 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewSummaryResponseDto.of(starAverage.getStarPoint(), evaluationSummaries);
     }
 
+    @Override
+    public Integer getReviewCount(String productCode) {
+        return reviewRepository.countByProductCode(productCode);
+    }
+
     @Transactional
     @Override
     public Page<ReviewResponseDto> getReview(String productCode, Pageable pageable) {

@@ -9,4 +9,5 @@ import org.springframework.data.domain.Pageable;
 public interface ReviewService {
     Page<ReviewResponseDto> getReview(String productCode, Pageable pageable);
     ReviewSummaryResponseDto getReviewSummary(String productCode);
+    Integer getReviewCount(String productCode);
 }

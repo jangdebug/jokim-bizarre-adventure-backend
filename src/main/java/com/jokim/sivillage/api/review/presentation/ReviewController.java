@@ -50,4 +50,11 @@ public class ReviewController {
     public BaseResponse<ReviewSummaryResponseVo> getReviewSummary(@PathVariable String productCode) {
         return new BaseResponse<>(reviewService.getReviewSummary(productCode).toVo());
     }
+
+    @Operation(summary = "ReviewSummary API", description = "Review 개수 API 입니다.", tags = {"Review"})
+    @GetMapping("/reviews/count/{productCode}")
+    public BaseResponse<Integer> getReviewCount(@PathVariable String productCode) {
+
+        return new BaseResponse<>(reviewService.getReviewCount(productCode));
+    }
 }
