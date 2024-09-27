@@ -6,6 +6,7 @@ import com.jokim.sivillage.api.basket.domain.Basket;
 import com.jokim.sivillage.api.basket.dto.in.BasketRequestDto;
 import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.dto.out.BasketItemCountResponseDto;
+import com.jokim.sivillage.api.basket.dto.out.ExistsInBasketResponseDto;
 import com.jokim.sivillage.api.basket.infrastructure.BasketRepository;
 import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
@@ -38,6 +39,7 @@ public class BasketServiceImpl implements BasketService {
         basketRepository.save(basketRequestDto.toEntity(basket.getId(), uuid, basketCode, true, "ACTIVE"));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<AllBasketItemsResponseDto> getAllBasketItems(String accessToken) {
         return basketRepository.findByUuidAndIsChecked(
@@ -45,6 +47,7 @@ public class BasketServiceImpl implements BasketService {
             .stream().map(AllBasketItemsResponseDto::toDto).toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public BasketItemCountResponseDto getBasketItemCount(String accessToken) {
         return BasketItemCountResponseDto.toDto(basketRepository.countByUuidAndIsChecked(
@@ -52,6 +55,13 @@ public class BasketServiceImpl implements BasketService {
 
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public ExistsInBasketResponseDto existsInBasket(String accessToken, String productOptionCode) {
+        return ExistsInBasketResponseDto.toDto(basketRepository.
+            existsByUuidAndProductOptionCodeAndIsChecked(jwtTokenProvider
+                .validateAndGetUserUuid(accessToken), productOptionCode, true));
+    }
 
     private String generateUniqueBasketCode() {
         for(int i = 0; i < MAX_CODE_TRIES; i++) {

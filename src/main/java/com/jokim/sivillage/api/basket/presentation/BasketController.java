@@ -8,12 +8,14 @@ import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.vo.in.AddToBasketRequestVo;
 import com.jokim.sivillage.api.basket.vo.out.GetAllBasketItemsResponseVo;
 import com.jokim.sivillage.api.basket.vo.out.GetBasketItemCountResponseVo;
+import com.jokim.sivillage.api.basket.vo.out.GetExistsInBasketResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -48,13 +50,23 @@ public class BasketController {
             .stream().map(AllBasketItemsResponseDto::toVo).toList());
     }
 
-    @Operation(summary = "장바구니 상품 종류 개수 조회")
+    @Operation(summary = "장바구니 상품 리스트 개수 조회 API")
     @GetMapping("/count")
     public BaseResponse<GetBasketItemCountResponseVo> getBasketItemCount(
         @RequestHeader("Authorization") String authorizationHeader) {
 
         return new BaseResponse<>(basketService.getBasketItemCount(extractToken(
             authorizationHeader)).toVo());
+    }
+
+    @Operation(summary = "상품의 장바구니 존재 여부 조회 API")
+    @GetMapping("/{productOptionCode}")
+    public BaseResponse<GetExistsInBasketResponseVo> existsInBasket(
+        @RequestHeader("Authorization") String authorizationHeader,
+        @PathVariable String productOptionCode) {
+
+        return new BaseResponse<>(basketService.existsInBasket(extractToken(
+            authorizationHeader), productOptionCode).toVo());
     }
 
 }

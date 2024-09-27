@@ -11,8 +11,9 @@ public interface BasketRepository extends JpaRepository<Basket, Long> {
         String productOptionCode, Boolean isChecked);
 
     List<Basket> findByUuidAndIsChecked(String uuid, Boolean isChecked);
-
     int countByUuidAndIsChecked(String uuid, Boolean isChecked);
+    boolean existsByUuidAndProductOptionCodeAndIsChecked(String uuid, String productOptionCode,
+        Boolean isChecked);
 
     boolean existsByBasketCode(String basketCode);
 

@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid", "productOptionCode"})})
 @Entity
 public class Basket extends BaseEntity {
 
