@@ -16,6 +16,7 @@ import lombok.ToString;
 @Getter
 public class CustomerReviewDetailDto {
     private String productCode;
+    private String reviewCode;
     private String content;
     private LocalDateTime created_at;
 
@@ -23,6 +24,7 @@ public class CustomerReviewDetailDto {
     public static CustomerReviewDetailDto toDto(Review review){
         return CustomerReviewDetailDto.builder()
             .productCode(review.getProductCode())
+            .reviewCode(review.getReviewCode())
             .content(review.getContent())
             .created_at(review.getCreatedAt())
             .build();
@@ -33,6 +35,7 @@ public class CustomerReviewDetailDto {
             .productCode(productCode)
             .content(content)
             .created_at(created_at)
+            .reviewCode(reviewCode)
             .build();
     }
 }

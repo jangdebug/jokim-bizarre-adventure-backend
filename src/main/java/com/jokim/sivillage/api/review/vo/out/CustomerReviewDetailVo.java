@@ -16,5 +16,6 @@ public class CustomerReviewDetailVo {
     private String productCode;
     private String content;
     private LocalDateTime created_at;
+    private String reviewCode;
 
 }
