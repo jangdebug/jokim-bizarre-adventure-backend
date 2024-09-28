@@ -11,12 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductOptionResponseDto {
+    private String productOptionCode;
     private String sizeValue;
     private String colorValue;
     private Integer stock;
 
     public ProductOptionResponseVo toResponseVo() {
         return ProductOptionResponseVo.builder()
+            .productOptionCode(productOptionCode)
             .sizeValues(sizeValue)
             .colorValues(colorValue)
             .stock(stock)

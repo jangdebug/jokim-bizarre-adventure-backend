@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ProductOptionResponseVo {
+    private String productOptionCode;
     private String sizeValues;
     private String colorValues;
     private Integer stock;

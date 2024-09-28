@@ -120,6 +120,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         return jpaQueryFactory.select(
             Projections.fields(
                 ProductOptionResponseDto.class,
+                productOption.productOptionCode,
                 productOption.size.value.as("sizeValue"),
                 productOption.color.value.as("colorValue"),
                 productOption.stock.as("stock")
