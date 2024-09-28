@@ -1,9 +1,8 @@
 package com.jokim.sivillage.api.basket.application;
 
-import static com.jokim.sivillage.common.entity.BaseResponseStatus.FAILED_TO_GENERATE_BASKET_CODE;
-
 import com.jokim.sivillage.api.basket.domain.Basket;
-import com.jokim.sivillage.api.basket.dto.in.BasketRequestDto;
+import com.jokim.sivillage.api.basket.dto.in.AddBasketRequestDto;
+import com.jokim.sivillage.api.basket.dto.in.UpdateBasketRequestDto;
 import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.dto.out.BasketItemCountResponseDto;
 import com.jokim.sivillage.api.basket.dto.out.ExistsInBasketResponseDto;
@@ -17,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.jokim.sivillage.common.entity.BaseResponseStatus.*;
+
 @RequiredArgsConstructor
 @Service
 public class BasketServiceImpl implements BasketService {
@@ -28,15 +29,17 @@ public class BasketServiceImpl implements BasketService {
 
     @Transactional
     @Override
-    public void addToBasket(BasketRequestDto basketRequestDto) {
+    public void addToBasket(AddBasketRequestDto addBasketRequestDto) {
 
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(basketRequestDto.getAccessToken());
+        if(addBasketRequestDto.getQuantity() <= 0) throw new BaseException(INVALID_PRODUCT_QUANTITY);
+
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(addBasketRequestDto.getAccessToken());
         Basket basket = basketRepository.findByUuidAndProductOptionCodeAndIsChecked(uuid,
-            basketRequestDto.getProductOptionCode(), true).orElse(new Basket());
+            addBasketRequestDto.getProductOptionCode(), true).orElse(new Basket());
 
         String basketCode = Optional.ofNullable(basket.getBasketCode()).orElse(generateUniqueBasketCode());
 
-        basketRepository.save(basketRequestDto.toEntity(basket.getId(), uuid, basketCode, true, "ACTIVE"));
+        basketRepository.save(addBasketRequestDto.toEntity(basket.getId(), uuid, basketCode, true, "ACTIVE"));
     }
 
     @Transactional(readOnly = true)
@@ -61,6 +64,18 @@ public class BasketServiceImpl implements BasketService {
         return ExistsInBasketResponseDto.toDto(basketRepository.
             existsByUuidAndProductOptionCodeAndIsChecked(jwtTokenProvider
                 .validateAndGetUserUuid(accessToken), productOptionCode, true));
+    }
+
+    @Override
+    public void updateBasketItem(UpdateBasketRequestDto updateBasketRequestDto) {
+        if(updateBasketRequestDto.getQuantity() <= 0) throw new BaseException(INVALID_PRODUCT_QUANTITY);
+
+        String uuid = jwtTokenProvider.validateAndGetUserUuid(updateBasketRequestDto.getAccessToken());
+
+        basketRepository.save(updateBasketRequestDto.toEntity(
+                basketRepository.findByBasketCode(updateBasketRequestDto.getBasketCode())
+                        .orElseThrow(() -> new BaseException(NOT_EXIST_BASKET_ITEM))));
+
     }
 
     private String generateUniqueBasketCode() {

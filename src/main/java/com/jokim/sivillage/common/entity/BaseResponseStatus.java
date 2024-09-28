@@ -64,6 +64,8 @@ public enum BaseResponseStatus {
     FAILED_TO_GENERATE_BRAND_CODE(HttpStatus.CONFLICT, false, 2204, "고유한 브랜드 코드를 생성하는 데 실패했습니다."),
 
     // Basket
+    NOT_EXIST_BASKET_ITEM(HttpStatus.NOT_FOUND, false, 2301, "존재하지 않는 장바구니 품목입니다."),
+    INVALID_PRODUCT_QUANTITY(HttpStatus.BAD_REQUEST, false, 2303, "상품 수량이 유효하지 않습니다."),
     FAILED_TO_GENERATE_BASKET_CODE(HttpStatus.BAD_REQUEST, false, 2304, "고유한 장바구니 코드를 생성하는 데 실패했습니다."),
 
     // Category
