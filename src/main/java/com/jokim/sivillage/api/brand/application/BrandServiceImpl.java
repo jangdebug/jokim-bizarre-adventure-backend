@@ -39,7 +39,8 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<BrandResponseDetailDto> getAllBrands() {
 
-        return brandRepository.findAllByOrderByEnglishInitial().stream()
+        // koreanInitial == null: 페이지가 없는 brand
+        return brandRepository.findAllByKoreanNameIsNotNullOrderByEnglishInitial().stream()
                 .map(BrandResponseDetailDto::toDto).toList();
     }
 
