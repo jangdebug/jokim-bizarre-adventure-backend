@@ -7,4 +7,6 @@ public interface ReviewMediaListRepositoryCustom {
 
     List<AllReviewMediaListsResponseDto> getAllReviewMediaLists(String reviewCode);
 
+    List<AllReviewMediaListsResponseDto> getAllReviewMediaListsByProduct(String productCode);
+
 }

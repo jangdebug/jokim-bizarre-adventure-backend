@@ -35,13 +35,22 @@ public class ReviewMediaListController {
         return new BaseResponse<>();
     }
 
-    @Operation(summary = "Review-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
+    @Operation(summary = "개별 리뷰의 Review-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
     @GetMapping("/{reviewCode}")
     public BaseResponse<List<GetAllReviewMediaListsResponseVo>> getAllReviewMediaLists(
         @PathVariable String reviewCode) {
 
         return new BaseResponse<>(reviewMediaListService.getAllReviewMediaLists(reviewCode)
             .stream().map(AllReviewMediaListsResponseDto::toVo).toList());
+    }
+
+    @Operation(summary = "상품의 Review-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 오름차순 조회")
+    @GetMapping("/product/{productCode}")
+    public BaseResponse<List<GetAllReviewMediaListsResponseVo>> getAllReviewMediaListsByProduct(
+            @PathVariable String productCode) {
+
+        return new BaseResponse<>(reviewMediaListService.getAllReviewMediaListsByProduct(productCode)
+                .stream().map(AllReviewMediaListsResponseDto::toVo).toList());
     }
 
 }

@@ -29,4 +29,10 @@ public class ReviewMediaListServiceImpl implements ReviewMediaListService {
         return reviewMediaListRepositoryCustom.getAllReviewMediaLists(reviewCode);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<AllReviewMediaListsResponseDto> getAllReviewMediaListsByProduct(String productCode) {
+        return reviewMediaListRepositoryCustom.getAllReviewMediaListsByProduct(productCode);
+    }
+
 }

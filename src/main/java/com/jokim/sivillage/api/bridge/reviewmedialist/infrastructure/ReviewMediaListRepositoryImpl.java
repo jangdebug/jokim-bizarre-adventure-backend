@@ -4,6 +4,7 @@ import com.jokim.sivillage.api.bridge.reviewmedialist.domain.QReviewMediaList;
 import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.AllReviewMediaListsResponseDto;
 import com.jokim.sivillage.api.bridge.reviewmedialist.dto.out.QAllReviewMediaListsResponseDto;
 import com.jokim.sivillage.api.media.domain.QMedia;
+import com.jokim.sivillage.api.review.domain.QReview;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 public class ReviewMediaListRepositoryImpl implements ReviewMediaListRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final QReview review = QReview.review;
     private final QReviewMediaList reviewMediaList = QReviewMediaList.reviewMediaList;
     private final QMedia media = QMedia.media;
 
@@ -23,13 +25,30 @@ public class ReviewMediaListRepositoryImpl implements ReviewMediaListRepositoryC
         return jpaQueryFactory.select(new QAllReviewMediaListsResponseDto(
                 media.mediaCode,
                 media.url,
-                media.mediaType.stringValue()
-            ))
+                media.mediaType.stringValue()))
             .from(reviewMediaList)
             .rightJoin(media).on(reviewMediaList.mediaCode.eq(media.mediaCode))
             .where(reviewMediaList.reviewCode.eq(reviewCode))
             .orderBy(media.id.asc())
             .fetch();
+    }
+
+    @Override
+    public List<AllReviewMediaListsResponseDto> getAllReviewMediaListsByProduct(String productCode) {
+
+        List<String> reviewCodeList = jpaQueryFactory.select(review.reviewCode).from(review)
+                .where(review.productCode.eq(productCode))
+                .fetch();
+
+        return jpaQueryFactory.select(new QAllReviewMediaListsResponseDto(
+                media.mediaCode,
+                media.url,
+                media.mediaType.stringValue()))
+                .from(reviewMediaList)
+                .rightJoin(media).on(reviewMediaList.mediaCode.eq(media.mediaCode))
+                .where(reviewMediaList.reviewCode.in(reviewCodeList))
+                .orderBy(media.id.desc())
+                .fetch();
     }
 
 }

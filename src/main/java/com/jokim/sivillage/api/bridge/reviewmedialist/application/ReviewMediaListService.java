@@ -9,5 +9,6 @@ public interface ReviewMediaListService {
     void addReviewMediaList(ReviewMediaListRequestDto reviewMediaListRequestDto);
 
     List<AllReviewMediaListsResponseDto> getAllReviewMediaLists(String reviewCode);
+    List<AllReviewMediaListsResponseDto> getAllReviewMediaListsByProduct(String productCode);
 
 }
