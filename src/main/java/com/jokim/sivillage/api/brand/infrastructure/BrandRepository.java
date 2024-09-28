@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface BrandRepository extends JpaRepository<Brand, Long> {
 
-    List<Brand> findAllByOrderByEnglishInitial();
+    List<Brand> findAllByKoreanNameIsNotNullOrderByEnglishInitial();
 
     Optional<Brand> findByBrandCode(String brandCode);
 

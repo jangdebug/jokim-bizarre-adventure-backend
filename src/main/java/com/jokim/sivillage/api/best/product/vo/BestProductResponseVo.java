@@ -9,5 +9,10 @@ import lombok.Getter;
 public class BestProductResponseVo {
     private String productCode;
     private Integer rankValue;
+    private String productName;
+    private Double discountPrice;
+    private Integer discountRate;
+    private String brandCode;
+    private String englishName;
     private LocalDateTime updateAt;
 }

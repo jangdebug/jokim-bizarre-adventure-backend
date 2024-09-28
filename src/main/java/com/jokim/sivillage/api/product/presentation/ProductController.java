@@ -4,8 +4,10 @@ import com.jokim.sivillage.api.product.application.ProductService;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
+import com.jokim.sivillage.api.product.dto.out.option.ProductOptionResponseDto;
 import com.jokim.sivillage.api.product.vo.in.ProductRequestVo;
 import com.jokim.sivillage.api.product.vo.out.ProductListResponseVo;
+import com.jokim.sivillage.api.product.vo.out.ProductOptionResponseVo;
 import com.jokim.sivillage.api.product.vo.out.ProductResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -114,17 +116,16 @@ public class ProductController {
         return new BaseResponse<>(productListResponseVos);
     }
 
-    // 정렬된 상품 보기
-//    @GetMapping("/products/sort?sort-type={sortType}")
-//    public ResponseEntity<List<ProductResponseVo>> getProductBySortType(
-//        @RequestParam(name = "sort-type", required = false, defaultValue = "인기상품") String sortType) {
-//        log.info("sortType : {}", sortType);
-//        if (sortType.equals("인기상품")) {
-//            productService.getProductsBySortType(sortType);
-//        }
-//
-//        return ResponseEntity.ok(Collections.emptyList());
-//    }
+    // 상품 옵션 보기
+    @Operation(summary = "상품 옵션 리스트 보기", description = "상품에 해당하는 옵션을 반환한다.")
+    @GetMapping("/products-options/{productCode}")
+    public BaseResponse<List<ProductOptionResponseVo>> getProductsOptions(@PathVariable String productCode) {
+
+        return new BaseResponse<>(productService.getProductOptionByProductCode(productCode).stream().map(
+            ProductOptionResponseDto::toResponseVo).toList());
+
+    }
+
 
 
 }
