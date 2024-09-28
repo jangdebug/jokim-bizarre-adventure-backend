@@ -34,7 +34,7 @@ public class MeidaServiceImpl implements MediaService {
     @Override
     public MediaResponseDto getMedia(String mediaCode) {
         return MediaResponseDto.toDto(mediaRepository.findByMediaCode(mediaCode)
-            .orElse(new Media()));
+            .orElseThrow(() -> new BaseException(NOT_EXIST_MEDIA)));
     }
 
     @Transactional

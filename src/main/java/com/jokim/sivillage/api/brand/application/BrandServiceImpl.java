@@ -51,7 +51,7 @@ public class BrandServiceImpl implements BrandService {
             brandMediaListRepositoryCustom.getBrandLogoUrl(brandCode) : null;
 
         return BrandSummaryResponseDto.toDto(brandRepository.findByBrandCode(brandCode)
-            .orElse(new Brand()), mediaUrl);
+            .orElseThrow(() -> new BaseException(NOT_EXIST_BRAND)), mediaUrl);
     }
 
     @Transactional
