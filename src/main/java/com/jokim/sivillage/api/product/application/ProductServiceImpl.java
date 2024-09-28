@@ -7,6 +7,7 @@ import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.dto.in.ProductRequestDto;
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
+import com.jokim.sivillage.api.product.dto.out.option.ProductOptionResponseDto;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepository;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepositoryCustom;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
@@ -93,30 +94,18 @@ public class ProductServiceImpl implements ProductService {
         String productCode) {
 
         return productRepositoryCustom.getProductListByProductCode(productCode);
-
     }
-
-
 
     @Override
     public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {
         return productRepositoryCustom.getMostDiscountProduct(count);
     }
-    
 
-//    @Override
-//    public List<ProductResponseDto> getRandomProducts(Integer count) {
-//        List<Product> products = productRepository.findRandomProducts(count);
-//        ModelMapper modelMapper = new ModelMapper();
-//        List<ProductResponseDto> productResponseDtos = products.stream()
-//            .map(product -> modelMapper.map(product, ProductResponseDto.class))
-//            .collect(Collectors.toList());
-//        return productResponseDtos;
-//    }
-//
-//    @Override
-//    public List<ProductResponseDto> getProductsBySortType(String sortType) {
-//
-//        return List.of();
-//    }
+    @Override
+    public List<ProductOptionResponseDto> getProductOptionByProductCode(String productCode){
+        List<ProductOptionResponseDto> productOptionResponseDtos = productRepositoryCustom.getProductOptionListByProductCode(productCode);
+        log.info("productOptionResponseDtos : {} in serviceImpl", productOptionResponseDtos);
+        return productOptionResponseDtos;
+    }
+
 }

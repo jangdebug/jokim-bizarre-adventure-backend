@@ -2,9 +2,11 @@ package com.jokim.sivillage.api.product.infrastructure;
 
 
 import static com.jokim.sivillage.api.product.domain.QProduct.product;
+import static com.jokim.sivillage.api.product.domain.QProductOption.productOption;
 
 import com.jokim.sivillage.api.product.dto.out.ProductListResponseDto;
 import com.jokim.sivillage.api.product.dto.out.ProductResponseDto;
+import com.jokim.sivillage.api.product.dto.out.option.ProductOptionResponseDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -62,7 +64,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     @Override
     public ProductListResponseDto getProductListByProductCode(String productCode) {
 
-        ProductListResponseDto productListResponseDto = jpaQueryFactory
+        return jpaQueryFactory
             .select(
                 Projections.fields(
                     ProductListResponseDto.class,
@@ -82,15 +84,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             .from(product)
             .where(product.productCode.eq(productCode))
             .fetchOne();
-
-        return productListResponseDto;
     }
 
 
     @Override
     public List<ProductListResponseDto> getMostDiscountProduct(Integer count) {
 
-        List<ProductListResponseDto> productListResponseDtoList = jpaQueryFactory.select(
+        return jpaQueryFactory.select(
                 Projections.fields(
                     ProductListResponseDto.class,
                     product.productCode.as("productCode"),
@@ -112,8 +112,23 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 product.standardPrice).desc())
             .limit(count)
             .fetch();
+    }
 
-        return productListResponseDtoList;
+    @Override
+    public List<ProductOptionResponseDto> getProductOptionListByProductCode(String productCode) {
+
+        return jpaQueryFactory.select(
+            Projections.fields(
+                ProductOptionResponseDto.class,
+                productOption.productOptionCode,
+                productOption.size.value.as("sizeValue"),
+                productOption.color.value.as("colorValue"),
+                productOption.stock.as("stock")
+            ))
+            .from(productOption)
+            .where(productOption.productCode.eq(productCode))
+            .fetch();
+
     }
 
 }
