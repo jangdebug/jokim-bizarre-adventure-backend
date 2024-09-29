@@ -4,8 +4,10 @@ import com.jokim.sivillage.api.product.domain.option.Color;
 import com.jokim.sivillage.api.product.domain.option.Size;
 import com.jokim.sivillage.api.product.domain.option.Etc;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class ProductOption {
 
     @Id

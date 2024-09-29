@@ -10,10 +10,11 @@ import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.vo.in.AddToBasketRequestVo;
 import com.jokim.sivillage.api.basket.vo.in.DeleteBasketItemsRequestVo;
 import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemCheckRequestVo;
-import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemCountRequestVo;
+import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemQuantityRequestVo;
 import com.jokim.sivillage.api.basket.vo.out.GetAllBasketItemsResponseVo;
 import com.jokim.sivillage.api.basket.vo.out.GetBasketItemCountResponseVo;
 import com.jokim.sivillage.api.basket.vo.out.GetExistsInBasketResponseVo;
+import com.jokim.sivillage.api.basket.vo.out.GetProductOptionInfoResponseVo;
 import com.jokim.sivillage.common.entity.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,6 +59,14 @@ public class BasketController {
             authorizationHeader)).toVo());
     }
 
+    @Operation(summary = "상품 옵션 Info 조회 API")
+    @GetMapping("/option-info/{productOptionCode}")
+    public BaseResponse<GetProductOptionInfoResponseVo> getProductOptionInfo(
+            @PathVariable String productOptionCode) {
+
+        return new BaseResponse<>(basketService.getProductOptionInfo(productOptionCode).toVo());
+    }
+
     @Operation(summary = "상품의 장바구니 존재 여부 조회 API")
     @GetMapping("/{productOptionCode}")
     public BaseResponse<GetExistsInBasketResponseVo> existsInBasket(
@@ -70,12 +79,12 @@ public class BasketController {
 
     @Operation(summary = "장바구니 상품 수량 변경 API")
     @PutMapping("/quantity")
-    public BaseResponse<Void> updateBasketItemCount(
+    public BaseResponse<Void> updateBasketItemQuantity(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody UpdateBasketItemCountRequestVo updateBasketItemCountRequestVo) {
+            @RequestBody UpdateBasketItemQuantityRequestVo updateBasketItemQuantityRequestVo) {
 
-        basketService.updateBasketItemCount(UpdateBasketRequestDto.toDto(
-                extractToken(authorizationHeader), updateBasketItemCountRequestVo));
+        basketService.updateBasketItemQuantity(UpdateBasketRequestDto.toDto(
+                extractToken(authorizationHeader), updateBasketItemQuantityRequestVo));
         return new BaseResponse<>();
     }
 
