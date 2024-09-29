@@ -8,17 +8,17 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class BasketRequestDto {
+public class AddBasketRequestDto {
 
     private String accessToken;
     private String productCode;
     private String productOptionCode;
     private Short quantity;
 
-    public static BasketRequestDto toDto(AddToBasketRequestVo addToBasketRequestVo,
-        String accessToken) {
+    public static AddBasketRequestDto toDto(AddToBasketRequestVo addToBasketRequestVo,
+                                            String accessToken) {
 
-        return BasketRequestDto.builder()
+        return AddBasketRequestDto.builder()
             .accessToken(accessToken)
             .productCode(addToBasketRequestVo.getProductCode())
             .productOptionCode(addToBasketRequestVo.getProductOptionCode())
