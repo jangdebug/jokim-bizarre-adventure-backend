@@ -10,12 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Review-Media")
 @RequiredArgsConstructor
@@ -47,10 +42,11 @@ public class ReviewMediaListController {
     @Operation(summary = "상품의 Review-Media-List 전체 조회 API", description = "Media 테이블과 RightJoin 하여 Id 내림차순 조회")
     @GetMapping("/product/{productCode}")
     public BaseResponse<List<GetAllReviewMediaListsResponseVo>> getAllReviewMediaListsByProduct(
-            @PathVariable String productCode) {
+            @PathVariable String productCode,
+            @RequestParam(required = false) Integer fetchLimit) {
 
-        return new BaseResponse<>(reviewMediaListService.getAllReviewMediaListsByProduct(productCode)
-                .stream().map(AllReviewMediaListsResponseDto::toVo).toList());
+        return new BaseResponse<>(reviewMediaListService.getAllReviewMediaListsByProduct(productCode,
+                        fetchLimit).stream().map(AllReviewMediaListsResponseDto::toVo).toList());
     }
 
 }
