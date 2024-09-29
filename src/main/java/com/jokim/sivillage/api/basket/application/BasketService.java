@@ -16,7 +16,8 @@ public interface BasketService {
     BasketItemCountResponseDto getBasketItemCount(String accessToken);
     ExistsInBasketResponseDto existsInBasket(String accessToken, String productOptionCode);
 
-    void updateBasketItem(UpdateBasketRequestDto updateBasketRequestDto);
+    void updateBasketItemCount(UpdateBasketRequestDto updateBasketRequestDto);
+    void updateBasketItemCheck(UpdateBasketRequestDto updateBasketRequestDto);
 
     void deleteBasketItems(List<DeleteBasketItemRequestDto> deleteBasketItemRequestDtoList);
 

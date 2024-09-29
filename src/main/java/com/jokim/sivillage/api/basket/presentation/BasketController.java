@@ -9,7 +9,8 @@ import com.jokim.sivillage.api.basket.dto.in.UpdateBasketRequestDto;
 import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.vo.in.AddToBasketRequestVo;
 import com.jokim.sivillage.api.basket.vo.in.DeleteBasketItemsRequestVo;
-import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemRequestVo;
+import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemCheckRequestVo;
+import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemCountRequestVo;
 import com.jokim.sivillage.api.basket.vo.out.GetAllBasketItemsResponseVo;
 import com.jokim.sivillage.api.basket.vo.out.GetBasketItemCountResponseVo;
 import com.jokim.sivillage.api.basket.vo.out.GetExistsInBasketResponseVo;
@@ -68,13 +69,23 @@ public class BasketController {
     }
 
     @Operation(summary = "장바구니 상품 수량 변경 API")
-    @PutMapping
-    public BaseResponse<Void> updateBasketItem(
+    @PutMapping("/quantity")
+    public BaseResponse<Void> updateBasketItemCount(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody UpdateBasketItemRequestVo updateBasketItemRequestVo) {
+            @RequestBody UpdateBasketItemCountRequestVo updateBasketItemCountRequestVo) {
 
-        basketService.updateBasketItem(UpdateBasketRequestDto.toDto(
-                extractToken(authorizationHeader), updateBasketItemRequestVo));
+        basketService.updateBasketItemCount(UpdateBasketRequestDto.toDto(
+                extractToken(authorizationHeader), updateBasketItemCountRequestVo));
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "장바구니 상품 체크 상태 변경 API")
+    @PutMapping("/check")
+    public BaseResponse<Void> updateBasketItemCheck(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody UpdateBasketItemCheckRequestVo updateBasketItemCheckRequestVo) {
+
+        basketService.updateBasketItemCheck(UpdateBasketRequestDto.toDto(updateBasketItemCheckRequestVo));
         return new BaseResponse<>();
     }
 

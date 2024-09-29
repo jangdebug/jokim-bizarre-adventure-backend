@@ -3,7 +3,7 @@ package com.jokim.sivillage.api.basket.vo.in;
 import lombok.Getter;
 
 @Getter
-public class UpdateBasketItemRequestVo {
+public class UpdateBasketItemCountRequestVo {
 
     private String basketCode;
     private Short quantity;

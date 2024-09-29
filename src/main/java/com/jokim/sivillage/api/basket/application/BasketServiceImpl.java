@@ -70,12 +70,20 @@ public class BasketServiceImpl implements BasketService {
 
     @Transactional
     @Override
-    public void updateBasketItem(UpdateBasketRequestDto updateBasketRequestDto) {
+    public void updateBasketItemCount(UpdateBasketRequestDto updateBasketRequestDto) {
         if(updateBasketRequestDto.getQuantity() <= 0) throw new BaseException(INVALID_PRODUCT_QUANTITY);
 
-        basketRepository.save(updateBasketRequestDto.toEntity(
+        basketRepository.save(updateBasketRequestDto.toEntityForQuantity(
                 basketRepository.findByBasketCodeAndBasketState(updateBasketRequestDto.getBasketCode(),
                                 BasketState.ACTIVE).orElseThrow(() -> new BaseException(NOT_EXIST_BASKET_ITEM))));
+    }
+
+    @Transactional
+    @Override
+    public void updateBasketItemCheck(UpdateBasketRequestDto updateBasketRequestDto) {
+        basketRepository.save(updateBasketRequestDto.toEntityForCheck(
+                basketRepository.findByBasketCodeAndBasketState(updateBasketRequestDto.getBasketCode(),
+                        BasketState.ACTIVE).orElseThrow(() -> new BaseException(NOT_EXIST_BASKET_ITEM))));
     }
 
     @Transactional
