@@ -3,7 +3,7 @@ package com.jokim.sivillage.api.basket.dto.in;
 import com.jokim.sivillage.api.basket.domain.Basket;
 import com.jokim.sivillage.api.basket.domain.BasketState;
 import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemCheckRequestVo;
-import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemCountRequestVo;
+import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemQuantityRequestVo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,12 +16,12 @@ public class UpdateBasketRequestDto {
     private Boolean isChecked;
     private Short quantity;
 
-    public static UpdateBasketRequestDto toDto(String accessToken, UpdateBasketItemCountRequestVo updateBasketItemCountRequestVo) {
+    public static UpdateBasketRequestDto toDto(String accessToken, UpdateBasketItemQuantityRequestVo updateBasketItemQuantityRequestVo) {
 
             return UpdateBasketRequestDto.builder()
                     .accessToken(accessToken)
-                    .basketCode(updateBasketItemCountRequestVo.getBasketCode())
-                    .quantity(updateBasketItemCountRequestVo.getQuantity())
+                    .basketCode(updateBasketItemQuantityRequestVo.getBasketCode())
+                    .quantity(updateBasketItemQuantityRequestVo.getQuantity())
                     .build();
     }
 

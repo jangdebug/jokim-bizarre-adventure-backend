@@ -8,7 +8,10 @@ import com.jokim.sivillage.api.basket.dto.in.UpdateBasketRequestDto;
 import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.dto.out.BasketItemCountResponseDto;
 import com.jokim.sivillage.api.basket.dto.out.ExistsInBasketResponseDto;
+import com.jokim.sivillage.api.basket.dto.out.ProductOptionInfoResponseDto;
 import com.jokim.sivillage.api.basket.infrastructure.BasketRepository;
+import com.jokim.sivillage.api.basket.infrastructure.BasketRepositoryCustom;
+import com.jokim.sivillage.api.product.infrastructure.ProductOptionRepository;
 import com.jokim.sivillage.common.exception.BaseException;
 import com.jokim.sivillage.common.jwt.JwtTokenProvider;
 import com.jokim.sivillage.common.utils.CodeGenerator;
@@ -25,7 +28,10 @@ import static com.jokim.sivillage.common.entity.BaseResponseStatus.*;
 public class BasketServiceImpl implements BasketService {
 
     private final BasketRepository basketRepository;
+    private final BasketRepositoryCustom basketRepositoryCustom;
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final ProductOptionRepository productOptionRepository;
 
     private static final int MAX_CODE_TRIES = 5;
 
@@ -68,9 +74,16 @@ public class BasketServiceImpl implements BasketService {
                 .validateAndGetUserUuid(accessToken), productOptionCode, BasketState.ACTIVE));
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public ProductOptionInfoResponseDto getProductOptionInfo(String productOptionCode) {
+        return basketRepositoryCustom.getProductOptionInfo(productOptionRepository.findByProductOptionCode(
+                productOptionCode).orElseThrow(() -> new BaseException(NOT_EXIST_PRODUCT_OPTION)));
+    }
+
     @Transactional
     @Override
-    public void updateBasketItemCount(UpdateBasketRequestDto updateBasketRequestDto) {
+    public void updateBasketItemQuantity(UpdateBasketRequestDto updateBasketRequestDto) {
         if(updateBasketRequestDto.getQuantity() <= 0) throw new BaseException(INVALID_PRODUCT_QUANTITY);
 
         basketRepository.save(updateBasketRequestDto.toEntityForQuantity(
