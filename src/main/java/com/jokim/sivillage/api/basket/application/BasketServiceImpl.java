@@ -1,7 +1,9 @@
 package com.jokim.sivillage.api.basket.application;
 
 import com.jokim.sivillage.api.basket.domain.Basket;
+import com.jokim.sivillage.api.basket.domain.BasketState;
 import com.jokim.sivillage.api.basket.dto.in.AddBasketRequestDto;
+import com.jokim.sivillage.api.basket.dto.in.DeleteBasketItemRequestDto;
 import com.jokim.sivillage.api.basket.dto.in.UpdateBasketRequestDto;
 import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.dto.out.BasketItemCountResponseDto;
@@ -34,8 +36,8 @@ public class BasketServiceImpl implements BasketService {
         if(addBasketRequestDto.getQuantity() <= 0) throw new BaseException(INVALID_PRODUCT_QUANTITY);
 
         String uuid = jwtTokenProvider.validateAndGetUserUuid(addBasketRequestDto.getAccessToken());
-        Basket basket = basketRepository.findByUuidAndProductOptionCodeAndIsChecked(uuid,
-            addBasketRequestDto.getProductOptionCode(), true).orElse(new Basket());
+        Basket basket = basketRepository.findByUuidAndProductOptionCodeAndBasketState(uuid,
+            addBasketRequestDto.getProductOptionCode(), BasketState.ACTIVE).orElse(new Basket());
 
         String basketCode = Optional.ofNullable(basket.getBasketCode()).orElse(generateUniqueBasketCode());
 
@@ -45,16 +47,16 @@ public class BasketServiceImpl implements BasketService {
     @Transactional(readOnly = true)
     @Override
     public List<AllBasketItemsResponseDto> getAllBasketItems(String accessToken) {
-        return basketRepository.findByUuidAndIsChecked(
-            jwtTokenProvider.validateAndGetUserUuid(accessToken), true)
+        return basketRepository.findByUuidAndBasketState(
+            jwtTokenProvider.validateAndGetUserUuid(accessToken), BasketState.ACTIVE)
             .stream().map(AllBasketItemsResponseDto::toDto).toList();
     }
 
     @Transactional(readOnly = true)
     @Override
     public BasketItemCountResponseDto getBasketItemCount(String accessToken) {
-        return BasketItemCountResponseDto.toDto(basketRepository.countByUuidAndIsChecked(
-            jwtTokenProvider.validateAndGetUserUuid(accessToken), true));
+        return BasketItemCountResponseDto.toDto(basketRepository.countByUuidAndBasketState(
+            jwtTokenProvider.validateAndGetUserUuid(accessToken), BasketState.ACTIVE));
 
     }
 
@@ -62,20 +64,36 @@ public class BasketServiceImpl implements BasketService {
     @Override
     public ExistsInBasketResponseDto existsInBasket(String accessToken, String productOptionCode) {
         return ExistsInBasketResponseDto.toDto(basketRepository.
-            existsByUuidAndProductOptionCodeAndIsChecked(jwtTokenProvider
-                .validateAndGetUserUuid(accessToken), productOptionCode, true));
+            existsByUuidAndProductOptionCodeAndBasketState(jwtTokenProvider
+                .validateAndGetUserUuid(accessToken), productOptionCode, BasketState.ACTIVE));
     }
 
+    @Transactional
     @Override
     public void updateBasketItem(UpdateBasketRequestDto updateBasketRequestDto) {
         if(updateBasketRequestDto.getQuantity() <= 0) throw new BaseException(INVALID_PRODUCT_QUANTITY);
 
-        String uuid = jwtTokenProvider.validateAndGetUserUuid(updateBasketRequestDto.getAccessToken());
-
         basketRepository.save(updateBasketRequestDto.toEntity(
-                basketRepository.findByBasketCode(updateBasketRequestDto.getBasketCode())
-                        .orElseThrow(() -> new BaseException(NOT_EXIST_BASKET_ITEM))));
+                basketRepository.findByBasketCodeAndBasketState(updateBasketRequestDto.getBasketCode(),
+                                BasketState.ACTIVE).orElseThrow(() -> new BaseException(NOT_EXIST_BASKET_ITEM))));
+    }
 
+    @Transactional
+    @Override
+    public void deleteBasketItems(List<DeleteBasketItemRequestDto> deleteBasketItemRequestDtoList) {
+        List<Basket> basketItemList = basketRepository.findByBasketCodeInAndBasketState(
+                deleteBasketItemRequestDtoList.stream().map(
+                        DeleteBasketItemRequestDto::getBasketCode).toList(), BasketState.ACTIVE);
+
+        basketRepository.saveAll(basketItemList.stream().map(item -> {      // Soft Delete
+                    DeleteBasketItemRequestDto dto = deleteBasketItemRequestDtoList.stream()
+                            .filter(requestDto -> requestDto.getBasketCode().equals(item.getBasketCode()))
+                            .findFirst()
+                            .orElseThrow(() -> new BaseException(NOT_EXIST_BASKET_ITEM));
+
+                    return dto.toEntity(item);
+                }
+                ).toList());
     }
 
     private String generateUniqueBasketCode() {

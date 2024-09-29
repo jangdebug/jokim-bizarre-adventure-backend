@@ -4,9 +4,11 @@ import static com.jokim.sivillage.common.utils.TokenExtractor.extractToken;
 
 import com.jokim.sivillage.api.basket.application.BasketService;
 import com.jokim.sivillage.api.basket.dto.in.AddBasketRequestDto;
+import com.jokim.sivillage.api.basket.dto.in.DeleteBasketItemRequestDto;
 import com.jokim.sivillage.api.basket.dto.in.UpdateBasketRequestDto;
 import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.vo.in.AddToBasketRequestVo;
+import com.jokim.sivillage.api.basket.vo.in.DeleteBasketItemsRequestVo;
 import com.jokim.sivillage.api.basket.vo.in.UpdateBasketItemRequestVo;
 import com.jokim.sivillage.api.basket.vo.out.GetAllBasketItemsResponseVo;
 import com.jokim.sivillage.api.basket.vo.out.GetBasketItemCountResponseVo;
@@ -73,6 +75,16 @@ public class BasketController {
 
         basketService.updateBasketItem(UpdateBasketRequestDto.toDto(
                 extractToken(authorizationHeader), updateBasketItemRequestVo));
+        return new BaseResponse<>();
+    }
+
+    @Operation(summary = "장바구니 품목 삭제 API")
+    @DeleteMapping
+    public BaseResponse<Void> deleteBasketItems(@RequestHeader("Authorization") String authorizationHeader,
+             @RequestBody DeleteBasketItemsRequestVo deleteBasketItemsRequestVo) {
+
+        basketService.deleteBasketItems(deleteBasketItemsRequestVo.getBasketCodeList().stream().map(
+                DeleteBasketItemRequestDto::toDto).toList());
         return new BaseResponse<>();
     }
 

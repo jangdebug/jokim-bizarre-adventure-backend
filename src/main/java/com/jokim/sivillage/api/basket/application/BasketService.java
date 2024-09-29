@@ -1,6 +1,7 @@
 package com.jokim.sivillage.api.basket.application;
 
 import com.jokim.sivillage.api.basket.dto.in.AddBasketRequestDto;
+import com.jokim.sivillage.api.basket.dto.in.DeleteBasketItemRequestDto;
 import com.jokim.sivillage.api.basket.dto.in.UpdateBasketRequestDto;
 import com.jokim.sivillage.api.basket.dto.out.AllBasketItemsResponseDto;
 import com.jokim.sivillage.api.basket.dto.out.BasketItemCountResponseDto;
@@ -16,5 +17,7 @@ public interface BasketService {
     ExistsInBasketResponseDto existsInBasket(String accessToken, String productOptionCode);
 
     void updateBasketItem(UpdateBasketRequestDto updateBasketRequestDto);
+
+    void deleteBasketItems(List<DeleteBasketItemRequestDto> deleteBasketItemRequestDtoList);
 
 }
