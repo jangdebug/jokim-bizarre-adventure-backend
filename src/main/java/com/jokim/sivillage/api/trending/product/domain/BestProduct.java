@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.mostViewProduct.domain;
+package com.jokim.sivillage.api.trending.product.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MostViewProduct {
+public class BestProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

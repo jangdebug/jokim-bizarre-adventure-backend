@@ -1,9 +1,8 @@
-package com.jokim.sivillage.api.best.product.application;
+package com.jokim.sivillage.api.trending.product.application;
 
-import com.jokim.sivillage.api.best.product.domain.BestProduct;
-import com.jokim.sivillage.api.best.product.dto.BestProductResponseDto;
-import com.jokim.sivillage.api.best.product.infrastructure.BestProductRepository;
-import com.jokim.sivillage.api.best.product.vo.BestProductResponseVo;
+import com.jokim.sivillage.api.trending.product.domain.BestProduct;
+import com.jokim.sivillage.api.trending.product.dto.BestProductResponseDto;
+import com.jokim.sivillage.api.trending.product.infrastructure.BestProductRepository;
 import com.jokim.sivillage.api.brand.domain.Brand;
 import com.jokim.sivillage.api.brand.infrastructure.BrandRepository;
 import com.jokim.sivillage.api.product.domain.Product;

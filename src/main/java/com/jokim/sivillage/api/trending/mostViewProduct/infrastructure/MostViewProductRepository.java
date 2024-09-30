@@ -1,6 +1,6 @@
-package com.jokim.sivillage.api.mostViewProduct.infrastructure;
+package com.jokim.sivillage.api.trending.mostViewProduct.infrastructure;
 
-import com.jokim.sivillage.api.mostViewProduct.domain.MostViewProduct;
+import com.jokim.sivillage.api.trending.mostViewProduct.domain.MostViewProduct;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

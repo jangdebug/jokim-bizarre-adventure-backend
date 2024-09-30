@@ -1,10 +1,10 @@
-package com.jokim.sivillage.api.mostViewProduct.application;
+package com.jokim.sivillage.api.trending.mostViewProduct.application;
 
 import com.jokim.sivillage.api.brand.domain.Brand;
 import com.jokim.sivillage.api.brand.infrastructure.BrandRepository;
-import com.jokim.sivillage.api.mostViewProduct.domain.MostViewProduct;
-import com.jokim.sivillage.api.mostViewProduct.dto.MostViewProductDto;
-import com.jokim.sivillage.api.mostViewProduct.infrastructure.MostViewProductRepository;
+import com.jokim.sivillage.api.trending.mostViewProduct.domain.MostViewProduct;
+import com.jokim.sivillage.api.trending.mostViewProduct.dto.MostViewProductDto;
+import com.jokim.sivillage.api.trending.mostViewProduct.infrastructure.MostViewProductRepository;
 import com.jokim.sivillage.api.product.domain.Product;
 import com.jokim.sivillage.api.product.infrastructure.ProductRepository;
 import com.jokim.sivillage.common.entity.BaseResponseStatus;
