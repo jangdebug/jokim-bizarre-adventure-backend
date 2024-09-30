@@ -1,6 +1,6 @@
-package com.jokim.sivillage.api.best.product.infrastructure;
+package com.jokim.sivillage.api.trending.product.infrastructure;
 
-import com.jokim.sivillage.api.best.product.domain.BestProduct;
+import com.jokim.sivillage.api.trending.product.domain.BestProduct;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

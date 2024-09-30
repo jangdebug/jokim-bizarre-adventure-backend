@@ -1,4 +1,4 @@
-package com.jokim.sivillage.api.best.product.domain;
+package com.jokim.sivillage.api.trending.product.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,8 +1,8 @@
-package com.jokim.sivillage.api.best.product.dto;
+package com.jokim.sivillage.api.trending.mostViewProduct.dto;
 
-import com.jokim.sivillage.api.best.product.domain.BestProduct;
-import com.jokim.sivillage.api.best.product.vo.BestProductResponseVo;
 import com.jokim.sivillage.api.brand.domain.Brand;
+import com.jokim.sivillage.api.trending.mostViewProduct.domain.MostViewProduct;
+import com.jokim.sivillage.api.trending.mostViewProduct.vo.MostViewProductVo;
 import com.jokim.sivillage.api.product.domain.Product;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BestProductResponseDto {
+public class MostViewProductDto {
     private String productCode;
     private Integer rankValue;
     private String productName;
@@ -26,11 +26,12 @@ public class BestProductResponseDto {
     private String englishName;
     private LocalDateTime updateAt;
 
-    public static BestProductResponseDto toDto(BestProduct bestProduct, Product product, Brand brand, Integer discountRate) {
-        return BestProductResponseDto.builder()
-            .productCode(bestProduct.getProductCode())
-            .rankValue(bestProduct.getRankValue())
-            .updateAt(bestProduct.getUpdateAt())
+    public static MostViewProductDto toDto(
+        MostViewProduct mostViewProduct, Product product, Brand brand, Integer discountRate) {
+        return MostViewProductDto.builder()
+            .productCode(mostViewProduct.getProductCode())
+            .rankValue(mostViewProduct.getRankValue())
+            .updateAt(mostViewProduct.getUpdateAt())
             .productName(product.getProductName())
             .discountPrice(product.getDiscountPrice())
             .discountRate(discountRate)
@@ -39,8 +40,8 @@ public class BestProductResponseDto {
             .build();
     }
 
-    public BestProductResponseVo toVo(){
-        return BestProductResponseVo.builder()
+    public MostViewProductVo toVo(){
+        return MostViewProductVo.builder()
             .productCode(productCode)
             .rankValue(rankValue)
             .updateAt(updateAt)
